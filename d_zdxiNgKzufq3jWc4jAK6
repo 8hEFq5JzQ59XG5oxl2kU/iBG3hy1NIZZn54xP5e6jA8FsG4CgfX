@@ -1,0 +1,54 @@
+local plr = game:GetService("Players").LocalPlayer
+local Spoof 
+Spoof = hookmetamethod(game, "__index", function(self, ...)
+    if ... == "WalkSpeed" then
+    return 15
+    end
+    if ... == "JumpPower" then
+    return 50
+    end
+return Spoof(self, ...) 
+end)
+
+
+        -- UI Stuff
+        local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/Rain-Design/Unnamed/main/Library.lua'))()
+        Library.Theme = "Dark"
+        local Flags = Library.Flags
+    
+            if isMember == true then
+                title = "slowpihax | "..vVersion.." | Doors | Public";
+            elseif isPremium == true then
+                title = "slowpihax | "..vVersion.." | Doors | Premium";
+            elseif isDev == true then
+                title = "slowpihax | "..vVersion.." | Doors | Dev";
+            end
+    
+        local Window = Library:Window({
+        Text = title
+        })
+
+local Tab = Window:Tab({
+    Text = "Character"
+})
+
+local Section = Tab:Section({
+    Text = "Character"
+})
+
+Section:Slider({
+    Text = "Walkspeed",
+    Default = 15,
+    Minimum = 1,
+    Maximum = 100,
+    Callback = function(Value)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+
+        while true do
+            task.wait()
+        if game.Players.LocalPlayer.Character.Humanoid.WalkSpeed ~= Value then
+            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+        end
+    end
+    end
+})

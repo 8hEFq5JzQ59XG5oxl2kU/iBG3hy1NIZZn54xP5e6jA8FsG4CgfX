@@ -2,20 +2,14 @@
         local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/Rain-Design/Unnamed/main/Library.lua'))()
         Library.Theme = "Dark"
         local Flags = Library.Flags
-
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/GyaGN2l5KuEVM6APY4TZOY9sEqGApqlme76iJ1gkUGsaN"))()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/GyaGN2l5KuEVM6APY4TZOY9sEqGApqlme76iJ1gkUGsaN"))()
     
             if Key == nonPremiumKey then
-            title = "slowpihax | "..vVersion.." | "..supportedGame.." | Public";
+            title = "slowpihax | "..vVersion.." | nico's nextbots | Public";
             elseif Key == activePremiumKey then
-            title = "slowpihax | "..vVersion.." | "..supportedGame.." | Premium";
+            title = "slowpihax | "..vVersion.." | nico's nextbots | Premium";
             elseif Key == devDeveloperKey then
-            title = "slowpihax | "..vVersion.." | "..supportedGame.." | Dev";
+            title = "slowpihax | "..vVersion.." | nico's nextbots | Dev";
             end
-
-            setclipboard("https://discord.com/invite/JN6wgVrUAr")
-    
     
         local Window = Library:Window({
         Text = title
@@ -64,11 +58,7 @@ end)
         local Tab6 = Window:Tab({
             Text = "Credits"
         })
-
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/GyaGN2l5KuEVM6APY4TZOY9sEqGApqlme76iJ1gkUGsaN"))()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/GyaGN2l5KuEVM6APY4TZOY9sEqGApqlme76iJ1gkUGsaN"))()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/GyaGN2l5KuEVM6APY4TZOY9sEqGApqlme76iJ1gkUGsaN"))()
-    
+        
         -- Sections
     
         local Section = Tab:Section({
@@ -94,9 +84,7 @@ end)
         local Section6 = Tab6:Section({
             Text = "Credits"
         })
-
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/GyaGN2l5KuEVM6APY4TZOY9sEqGApqlme76iJ1gkUGsaN"))()
-
+        
         -- Sliders
     
         Section:Slider({
@@ -205,8 +193,6 @@ end)
         end
         })
 
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/GyaGN2l5KuEVM6APY4TZOY9sEqGApqlme76iJ1gkUGsaN"))()
-    
         Section:Button({
         Text = "Inf Jumps",
         Callback = function()
@@ -465,11 +451,7 @@ end)
 
             end
         })
-
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/GyaGN2l5KuEVM6APY4TZOY9sEqGApqlme76iJ1gkUGsaN"))()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/GyaGN2l5KuEVM6APY4TZOY9sEqGApqlme76iJ1gkUGsaN"))()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/GyaGN2l5KuEVM6APY4TZOY9sEqGApqlme76iJ1gkUGsaN"))()
-
+        
         Section2:Toggle({
             Text = "Power Box ESP",
             Callback = function(bool)

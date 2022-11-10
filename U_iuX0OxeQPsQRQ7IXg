@@ -1,15 +1,15 @@
-                    -- UI Stuff
-                    local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/Rain-Design/Unnamed/main/Library.lua'))()
-                    Library.Theme = "Dark"
-                    local Flags = Library.Flags
-                
-                    if Key == (nonPremiumKey) then
-                        title = "slowpihax | "..vVersion.." | Universal | Public";
-                        elseif Key == (activePremiumKey) then
-                        title = "slowpihax | "..vVersion.." | Universal | Premium";
-                        elseif Key == (devDeveloperKey) then
-                        title = "slowpihax | "..vVersion.." | Universal | Dev";
-                        end
+        -- UI Stuff
+        local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/Rain-Design/Unnamed/main/Library.lua'))()
+        Library.Theme = "Dark"
+        local Flags = Library.Flags
+    
+            if isMember == true then
+                title = "slowpihax | "..vVersion.." | Universal | Public";
+            elseif isPremium == true then
+                title = "slowpihax | "..vVersion.." | Universal | Premium";
+            elseif isDev == true then
+                title = "slowpihax | "..vVersion.." | Universal | Dev";
+            end
 
                         setclipboard("https://discord.com/invite/JN6wgVrUAr")
                 

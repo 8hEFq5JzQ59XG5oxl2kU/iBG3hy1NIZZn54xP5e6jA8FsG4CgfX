@@ -1,0 +1,993 @@
+        -- UI Stuff
+        local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/Rain-Design/Unnamed/main/Library.lua'))()
+        Library.Theme = "Dark"
+        local Flags = Library.Flags
+
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/GyaGN2l5KuEVM6APY4TZOY9sEqGApqlme76iJ1gkUGsaN"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/GyaGN2l5KuEVM6APY4TZOY9sEqGApqlme76iJ1gkUGsaN"))()
+    
+            if Key == nonPremiumKey then
+            title = "slowpihax | "..vVersion.." | "..supportedGame.." | Public";
+            elseif Key == activePremiumKey then
+            title = "slowpihax | "..vVersion.." | "..supportedGame.." | Premium";
+            elseif Key == devDeveloperKey then
+            title = "slowpihax | "..vVersion.." | "..supportedGame.." | Dev";
+            end
+
+            setclipboard("https://discord.com/invite/JN6wgVrUAr")
+    
+    
+        local Window = Library:Window({
+        Text = title
+        })
+        -- Values
+
+        getgenv().FlySpeed = 50
+        getgenv().Setup = true
+
+        local plr = game:GetService("Players").LocalPlayer
+        local Spoof 
+        Spoof = hookmetamethod(game, "__index", function(self, ...)
+            if ... == "WalkSpeed" then
+            return 22.5
+        end
+            if ... == "JumpPower" then
+            return 40
+        end
+   return Spoof(self, ...) 
+end)
+
+        local DisableWalkSpeed = false
+        
+        -- Tabs
+    
+        local Tab = Window:Tab({
+            Text = "Character"
+        })
+
+        local Tab2 = Window:Tab({
+            Text = "ESP"
+        })
+
+        local Tab3 = Window:Tab({
+            Text = "Autofarm"
+        })
+    
+        local Tab4 = Window:Tab({
+            Text = "Miscellaneous"
+        })
+    
+        local Tab5 = Window:Tab({
+            Text = "Games"
+        })
+    
+        local Tab6 = Window:Tab({
+            Text = "Credits"
+        })
+
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/GyaGN2l5KuEVM6APY4TZOY9sEqGApqlme76iJ1gkUGsaN"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/GyaGN2l5KuEVM6APY4TZOY9sEqGApqlme76iJ1gkUGsaN"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/GyaGN2l5KuEVM6APY4TZOY9sEqGApqlme76iJ1gkUGsaN"))()
+    
+        -- Sections
+    
+        local Section = Tab:Section({
+            Text = "Character"
+        })
+
+        local Section2 = Tab2:Section({
+            Text = "ESP"
+        })
+    
+        local Section3 = Tab3:Section({
+            Text = "Autofarm"
+        })
+    
+        local Section4 = Tab4:Section({
+            Text = "Miscellaneous"
+        })
+
+        local Section5 = Tab5:Section({
+            Text = "Games"
+        })
+
+        local Section6 = Tab6:Section({
+            Text = "Credits"
+        })
+
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/GyaGN2l5KuEVM6APY4TZOY9sEqGApqlme76iJ1gkUGsaN"))()
+
+        -- Sliders
+    
+        Section:Slider({
+            Text = "WalkSpeed (Bugged)",
+            Default = 10,
+            Minimum = 1,
+            Maximum = 500,
+            Callback = function(Value)
+                game.Players.LocalPlayer.Character.Humanoid.WalkSpeed =(Value)
+            end
+        })
+    
+        Section:Slider({
+            Text = "FlySpeed",
+            Default = (getgenv().FlySpeed),
+            Minimum = 1,
+            Maximum = 350,
+            Callback = function(Value)
+                getgenv().FlySpeed = (Value)
+            end
+        })
+    
+    
+        -- Section 1
+    
+    
+        Section:Button({
+        Text = "Fly (G)",
+        Callback = function()
+                spawn(function()
+                    loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/LegitH3x0R/Roblox-Scripts/main/AEBypassing/RootAnchor.lua"))()
+            
+                    local UIS = game:GetService("UserInputService")
+                    local OnRender = game:GetService("RunService").RenderStepped
+                    
+                    local Player = game:GetService("Players").LocalPlayer
+                    local Character = Player.Character or Player.CharacterAdded:Wait()
+                    
+                    local Camera = workspace.CurrentCamera
+                    local Root = Character:WaitForChild("HumanoidRootPart")
+                    local C1, C2, C3;
+                    local Nav = {Flying = false, Forward = false, Backward = false, Left = false, Right = false}
+                    C1 = UIS.InputBegan:Connect(function(Input)
+                        if Input.UserInputType == Enum.UserInputType.Keyboard then
+                            if Input.KeyCode == Enum.KeyCode.G then
+                                Nav.Flying = not Nav.Flying
+                                Root.Anchored = Nav.Flying
+                            elseif Input.KeyCode == Enum.KeyCode.W then
+                                Nav.Forward = true
+                            elseif Input.KeyCode == Enum.KeyCode.S then
+                                Nav.Backward = true
+                            elseif Input.KeyCode == Enum.KeyCode.A then
+                                Nav.Left = true
+                            elseif Input.KeyCode == Enum.KeyCode.D then
+                                Nav.Right = true
+                            end
+                        end
+                    end)
+                    
+                    C2 = UIS.InputEnded:Connect(function(Input)
+                        if Input.UserInputType == Enum.UserInputType.Keyboard then
+                            if Input.KeyCode == Enum.KeyCode.W then
+                                Nav.Forward = false
+                            elseif Input.KeyCode == Enum.KeyCode.S then
+                                Nav.Backward = false
+                            elseif Input.KeyCode == Enum.KeyCode.A then
+                                Nav.Left = false
+                            elseif Input.KeyCode == Enum.KeyCode.D then
+                                Nav.Right = false
+                            end
+                        end
+                    end)
+                    
+                    C3 = Camera:GetPropertyChangedSignal("CFrame"):Connect(function()
+                        if Nav.Flying then
+                            Root.CFrame = CFrame.new(Root.CFrame.Position, Root.CFrame.Position + Camera.CFrame.LookVector)
+                        end
+                    end)
+                    
+                    while true do
+                        local Delta = OnRender:Wait()
+                        if Nav.Flying then
+                            if Nav.Forward then
+                                Root.CFrame = Root.CFrame + (Camera.CFrame.LookVector * (Delta * getgenv().FlySpeed))
+                            end
+                            if Nav.Backward then
+                                Root.CFrame = Root.CFrame + (-Camera.CFrame.LookVector * (Delta * getgenv().FlySpeed))
+                            end
+                            if Nav.Left then
+                                Root.CFrame = Root.CFrame + (-Camera.CFrame.RightVector * (Delta * getgenv().FlySpeed))
+                            end
+                            if Nav.Right then
+                                Root.CFrame = Root.CFrame + (Camera.CFrame.RightVector * (Delta * getgenv().FlySpeed))
+                            end
+                        end
+                    end
+                end)
+
+                local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                    Notification:Notify(
+                        {Title = "Fly Enabled", Description = "Press G to toggle the fly."},
+                        {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
+                    )
+
+        end
+        })
+
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/GyaGN2l5KuEVM6APY4TZOY9sEqGApqlme76iJ1gkUGsaN"))()
+    
+        Section:Button({
+        Text = "Inf Jumps",
+        Callback = function()
+            local UserInputService = game:GetService("UserInputService")
+            local localPlayer = game.Players.LocalPlayer
+            local character
+            local humanoid
+            
+            local canDoubleJump = false
+            local hasDoubleJumped = false
+            local oldPower
+            local TIME_BETWEEN_JUMPS = 0.05
+            local DOUBLE_JUMP_POWER_MULTIPLIER = 0.75
+            
+            function onJumpRequest()
+                if not character or not humanoid or not character:IsDescendantOf(workspace) or
+                humanoid:GetState() == Enum.HumanoidStateType.Dead then
+                    return
+                end
+                
+                if canDoubleJump and not hasDoubleJumped then
+                    hasDoubleJumped = false
+                    humanoid.JumpPower = oldPower * DOUBLE_JUMP_POWER_MULTIPLIER
+                    humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+                end
+            end
+            
+            local function characterAdded(newCharacter)
+                character = newCharacter
+                humanoid = newCharacter:WaitForChild("Humanoid")
+                hasDoubleJumped = false
+                canDoubleJump = false
+                oldPower = humanoid.JumpPower
+                
+                humanoid.StateChanged:connect(function(old, new)
+                    if new == Enum.HumanoidStateType.Landed then
+                        canDoubleJump = false
+                        hasDoubleJumped = false
+                        humanoid.JumpPower = oldPower
+                    elseif new == Enum.HumanoidStateType.Freefall then
+                        wait(TIME_BETWEEN_JUMPS)
+                        canDoubleJump = true
+                    end
+                end)
+            end
+            
+            if localPlayer.Character then
+                characterAdded(localPlayer.Character)
+            end
+            
+            localPlayer.CharacterAdded:connect(characterAdded)
+            UserInputService.JumpRequest:connect(onJumpRequest)
+
+            local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+            local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Inf Jumps Enabled", Description = "You Can Now Have Infinite Jumps."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
+                )
+
+            end
+        })
+
+        if Key ~= (nonPremiumKey) then
+            Section:Toggle({
+                Text = "GodMode",
+                Callback = function(bool)
+                    if bool == true then
+                        game.Players.LocalPlayer.Character.scripts.killed.kill:Destroy()
+
+                        local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                        local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                            Notification:Notify(
+                                {Title = "GodMode Enabled", Description = "You Wont Die From The Bots."},
+                                {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
+                            )
+
+                    elseif bool == false then
+                        game:GetService("ReplicatedStorage").events.player.char.respawnchar:FireServer()
+
+                        local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                        local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                            Notification:Notify(
+                                {Title = "GodMode Disabled", Description = "You Will Now Die From The Bots."},
+                                {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
+                            )
+
+                    end
+                end
+            })
+        end
+    
+        Section:Button({
+        Text = "Force Reset",
+        Callback = function()
+            game.Players.LocalPlayer.Character.Humanoid.Health = 0
+            end
+        })
+        -- section 2
+
+        Section2:Toggle({
+            Text = "Bot ESP",
+            Callback = function(bool)
+                function doBotEsp_mall()
+                    if bool == true then
+                        for i,v in pairs(game:GetService("Workspace").bots["nn_mall"]:GetDescendants()) do
+                        if v.ClassName == "Humanoid" and v.Parent.Name ~= "slowpihax on top" then -- i am just wondering that the part u wanna esp have these properties u can change them if it doesnt work
+                        local BillboardGui = Instance.new("BillboardGui")
+                        local TextLabel = Instance.new("TextLabel")
+                        local botName = v.Parent.Name
+                        
+                        BillboardGui.Name = "BotEsp_slowpihax"
+                        BillboardGui.Parent = v.Parent
+                        BillboardGui.AlwaysOnTop = true
+                        BillboardGui.LightInfluence = 1
+                        BillboardGui.Size = UDim2.new(0, 50, 0, 50)
+                        BillboardGui.StudsOffset = Vector3.new(0, 2, 0)
+                        
+                        TextLabel.Parent = BillboardGui
+                        TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+                        TextLabel.BackgroundTransparency = 1
+                        TextLabel.Size = UDim2.new(1.25, 0, 1.25, 0)
+                        TextLabel.Text = botName
+                        TextLabel.TextColor3 = Color3.new(1, 0, 0)
+                        TextLabel.TextScaled = false
+                                end
+                            end
+                        elseif bool == false then
+                    end
+                end
+                    
+                function doBotEsp_russia()
+                    if bool == true then
+                        for i,v in pairs(game:GetService("Workspace").bots["nn_russia"]:GetDescendants()) do
+                        if v.ClassName == "Humanoid" and v.Parent.Name ~= "slowpihax on top" then -- i am just wondering that the part u wanna esp have these properties u can change them if it doesnt work
+                        local BillboardGui = Instance.new("BillboardGui")
+                        local TextLabel = Instance.new("TextLabel")
+                        local botName = v.Parent.Name
+                        
+                        BillboardGui.Name = "BotEsp_slowpihax"
+                        BillboardGui.Parent = v.Parent
+                        BillboardGui.Name = "BotEsp_slowpihax"
+                        BillboardGui.AlwaysOnTop = true
+                        BillboardGui.LightInfluence = 1
+                        BillboardGui.Size = UDim2.new(0, 50, 0, 50)
+                        BillboardGui.StudsOffset = Vector3.new(0, 2, 0)
+                        
+                        TextLabel.Parent = BillboardGui
+                        TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+                        TextLabel.BackgroundTransparency = 1
+                        TextLabel.Size = UDim2.new(1.25, 0, 1.25, 0)
+                        TextLabel.Text = botName
+                        TextLabel.TextColor3 = Color3.new(1, 0, 0)
+                        TextLabel.TextScaled = false
+                                end
+                            end
+                        elseif bool == false then
+                    end
+                end
+                    
+                function doBotEsp_flatgrass()
+                    if bool == true then
+                        for i,v in pairs(game:GetService("Workspace").bots["nn_flatgrass"]:GetDescendants()) do
+                        if v.ClassName == "Humanoid" and v.Parent.Name ~= "slowpihax on top" then -- i am just wondering that the part u wanna esp have these properties u can change them if it doesnt work
+                        local BillboardGui = Instance.new("BillboardGui")
+                        local TextLabel = Instance.new("TextLabel")
+                        local botName = v.Parent.Name
+                        
+                        BillboardGui.Name = "BotEsp_slowpihax"
+                        BillboardGui.Parent = v.Parent
+                        BillboardGui.AlwaysOnTop = true
+                        BillboardGui.LightInfluence = 1
+                        BillboardGui.Size = UDim2.new(0, 50, 0, 50)
+                        BillboardGui.StudsOffset = Vector3.new(0, 2, 0)
+                        
+                        TextLabel.Parent = BillboardGui
+                        TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+                        TextLabel.BackgroundTransparency = 1
+                        TextLabel.Size = UDim2.new(1.25, 0, 1.25, 0)
+                        TextLabel.Text = botName
+                        TextLabel.TextColor3 = Color3.new(1, 0, 0)
+                        TextLabel.TextScaled = false
+                                end
+                            end
+                        elseif bool == false then
+                    end
+                end
+                    
+                function doBotEsp_backrooms()
+                        if bool == true then
+                        for i,v in pairs(game:GetService("Workspace").bots["nn_backrooms"]:GetDescendants()) do
+                        if v.ClassName == "Humanoid" and v.Parent.Name ~= "slowpihax on top" then -- i am just wondering that the part u wanna esp have these properties u can change them if it doesnt work
+                        local BillboardGui = Instance.new("BillboardGui")
+                        local TextLabel = Instance.new("TextLabel")
+                        local botName = v.Parent.Name
+                        
+                        BillboardGui.Name = "BotEsp_slowpihax"
+                        BillboardGui.Parent = v.Parent
+                        BillboardGui.AlwaysOnTop = true
+                        BillboardGui.LightInfluence = 1
+                        BillboardGui.Size = UDim2.new(0, 50, 0, 50)
+                        BillboardGui.StudsOffset = Vector3.new(0, 2, 0)
+                        
+                        TextLabel.Parent = BillboardGui
+                        TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+                        TextLabel.BackgroundTransparency = 1
+                        TextLabel.Size = UDim2.new(1.25, 0, 1.25, 0)
+                        TextLabel.Text = botName
+                        TextLabel.TextColor3 = Color3.new(1, 0, 0)
+                        TextLabel.TextScaled = false
+                                end
+                            end
+                        elseif bool == false then
+                    end
+                end
+                    if bool == true then
+
+                        local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                        local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                            Notification:Notify(
+                                {Title = "Bot Esp Enabled", Description = "You Can Now See All The Bots."},
+                                {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
+                            )
+
+                    if game:GetService("Workspace").bots:FindFirstChild("Humanoid") then
+                        doBotEsp_mall()
+                        task.wait(0.25)
+                        doBotEsp_russia()
+                        task.wait(0.25)
+                        doBotEsp_flatgrass()
+                        task.wait(0.25)
+                    end
+                    
+                        doBotEsp_mall()
+                        task.wait(0.25)
+                        doBotEsp_russia()
+                        task.wait(0.25)
+                        doBotEsp_flatgrass()
+                        task.wait(0.25)
+                    doBotEsp_backrooms()
+                elseif bool == false then 
+
+                    local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                    local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                        Notification:Notify(
+                            {Title = "Bot Esp Disabled", Description = "You Can No Longer See All The Bots."},
+                            {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
+                        )
+
+                    for i,v in pairs(game:GetService("Workspace").bots:GetDescendants()) do
+                        if v.ClassName == "BillboardGui" and v.Name == "BotEsp_slowpihax" then
+                            v:Destroy()
+                        end
+                    end
+                end
+
+            end
+        })
+
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/GyaGN2l5KuEVM6APY4TZOY9sEqGApqlme76iJ1gkUGsaN"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/GyaGN2l5KuEVM6APY4TZOY9sEqGApqlme76iJ1gkUGsaN"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/GyaGN2l5KuEVM6APY4TZOY9sEqGApqlme76iJ1gkUGsaN"))()
+
+        Section2:Toggle({
+            Text = "Power Box ESP",
+            Callback = function(bool)
+
+                function doPowerBoxEsp_russia()
+                    if bool == true then
+                        for i,v in pairs(game:GetService("Workspace")["nn_russia"][".powerboxes"]:GetDescendants()) do
+                        if v.Name == "PowerInteract" and v.Parent.Name == "PowerBox" then -- i am just wondering that the part u wanna esp have these properties u can change them if it doesnt work
+                        local BillboardGui = Instance.new("BillboardGui")
+                        local TextLabel = Instance.new("TextLabel")
+                        local botName = v.Parent.Name
+                        
+                        BillboardGui.Name = "BoxEsp_slowpihax"
+                        BillboardGui.Parent = v.Parent
+                        BillboardGui.AlwaysOnTop = true
+                        BillboardGui.LightInfluence = 1
+                        BillboardGui.Size = UDim2.new(0, 50, 0, 50)
+                        BillboardGui.StudsOffset = Vector3.new(0, 2, 0)
+                        
+                        TextLabel.Parent = BillboardGui
+                        TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+                        TextLabel.BackgroundTransparency = 1
+                        TextLabel.Size = UDim2.new(1.25, 0, 1.25, 0)
+                        TextLabel.Text = botName
+                        TextLabel.TextColor3 = Color3.new(0, 255, 0)
+                        TextLabel.TextScaled = false
+                                end
+                            end
+                        elseif bool == false then
+                    end
+                end
+
+                function doPowerBoxEsp_mall()
+                    if bool == true then
+                        for i,v in pairs(game:GetService("Workspace")["nn_mall"][".powerboxes"]:GetDescendants()) do
+                        if v.Name == "PowerInteract" and v.Parent.Name == "PowerBox" then -- i am just wondering that the part u wanna esp have these properties u can change them if it doesnt work
+                        local BillboardGui = Instance.new("BillboardGui")
+                        local TextLabel = Instance.new("TextLabel")
+                        
+                        BillboardGui.Name = "BoxEsp_slowpihax"
+                        BillboardGui.Parent = v.Parent
+                        BillboardGui.AlwaysOnTop = true
+                        BillboardGui.LightInfluence = 1
+                        BillboardGui.Size = UDim2.new(0, 50, 0, 50)
+                        BillboardGui.StudsOffset = Vector3.new(0, 1, 0)
+                        
+                        TextLabel.Parent = BillboardGui
+                        TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+                        TextLabel.BackgroundTransparency = 1
+                        TextLabel.Size = UDim2.new(1.25, 0, 1.25, 0)
+                        TextLabel.Text = "Power Box"
+                        TextLabel.TextColor3 = Color3.new(0, 255, 0)
+                        TextLabel.TextScaled = false
+                                end
+                            end
+                        elseif bool == false then
+                    end
+                end
+
+                function doPowerBoxEsp_russia()
+                    if bool == true then
+                        for i,v in pairs(game:GetService("Workspace")["nn_russia"][".powerboxes"]:GetDescendants()) do
+                        if v.Name == "PowerInteract" and v.Parent.Name == "PowerBox" then -- i am just wondering that the part u wanna esp have these properties u can change them if it doesnt work
+                        local BillboardGui = Instance.new("BillboardGui")
+                        local TextLabel = Instance.new("TextLabel")
+                        
+                        BillboardGui.Name = "BoxEsp_slowpihax"
+                        BillboardGui.Parent = v.Parent
+                        BillboardGui.AlwaysOnTop = true
+                        BillboardGui.LightInfluence = 1
+                        BillboardGui.Size = UDim2.new(0, 50, 0, 50)
+                        BillboardGui.StudsOffset = Vector3.new(0, 1, 0)
+                        
+                        TextLabel.Parent = BillboardGui
+                        TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+                        TextLabel.BackgroundTransparency = 1
+                        TextLabel.Size = UDim2.new(1.25, 0, 1.25, 0)
+                        TextLabel.Text = "Power Box"
+                        TextLabel.TextColor3 = Color3.new(0, 255, 0)
+                        TextLabel.TextScaled = false
+                                end
+                            end
+                        elseif bool == false then
+                    end
+                end
+
+            if bool == true then
+
+                local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                    Notification:Notify(
+                        {Title = "Power Box Enabled", Description = "You Can Now See All The Boxes."},
+                        {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
+                    )
+
+                    doPowerBoxEsp_mall()
+                    task.wait(0.25)
+                    doPowerBoxEsp_mall()
+
+                    if game:GetService("Workspace"):FindFirstChild("PowerInteract") == "nil" then
+
+                        for i,v in pairs(game:GetService("Workspace"):GetDescendants()) do
+                            if v.ClassName == "BillboardGui" and v.Name == "BoxEsp_slowpihax" then
+                                v:Destroy()
+                            end
+                        end
+                    end
+            elseif bool == false then
+
+                local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                    Notification:Notify(
+                        {Title = "Power Box Disabled", Description = "You Can No Longer See All The Boxes."},
+                        {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
+                    )
+
+                for i,v in pairs(game:GetService("Workspace"):GetDescendants()) do
+                    if v.ClassName == "BillboardGui" and v.Name == "BoxEsp_slowpihax" then
+                        v:Destroy()
+                    end
+                end
+            end
+        end
+        })
+    
+        -- Section 3
+
+        Section3:Toggle({
+            Text = "Autofarm",
+            Callback = function(bool)
+                if bool == true then
+
+                    local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                    local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                        Notification:Notify(
+                            {Title = "Autofarm Enabled", Description = "Autofarm Is Now Enabled."},
+                            {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
+                        )
+
+                autofarm = true
+                autofarmreturn = true
+
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-121.19397, 11.7480297, -425.320862, -0.0171290636, -1.7715598e-05, 0.999853373, -1.74467186e-05, 1, 1.74193101e-05, -0.999853373, -1.7145785e-05, -0.0171290636)
+            
+local TS = game:GetService("TweenService")
+while autofarmreturn == true do
+
+    local tween = TS:Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(2), {CFrame = CFrame.new(237.068024, 145.547531, -433.277161)})
+        tween:Play()
+            tween.Completed:wait()
+        game.Players.LocalPlayer.Character.Humanoid.Jump = true
+    task.wait(0.4)
+
+if autofarm == true then
+    local tween = TS:Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(2), {CFrame = CFrame.new(-765.508301, 66.498024, 100.494644)})
+        tween:Play()
+            tween.Completed:wait()
+        game.Players.LocalPlayer.Character.Humanoid.Jump = true
+    task.wait(0.4)
+
+end
+if autofarm == true then
+    local tween = TS:Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(2), {CFrame = CFrame.new(-996.701904, 77.3839951, 314.132507)})
+        tween:Play()
+            tween.Completed:wait()
+        game.Players.LocalPlayer.Character.Humanoid.Jump = true
+    task.wait(0.4)
+
+end
+if autofarm == true then
+    local tween = TS:Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(2), {CFrame = CFrame.new(-1191.66199, 77.3840103, 314.631927)})
+        tween:Play()
+            tween.Completed:wait()
+        game.Players.LocalPlayer.Character.Humanoid.Jump = true
+    task.wait(0.4)
+
+end
+if autofarm == true then
+    local tween = TS:Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(2), {CFrame = CFrame.new(-1295.64136, 67.998024, -72.0887909)})
+        tween:Play()
+            tween.Completed:wait()
+        game.Players.LocalPlayer.Character.Humanoid.Jump = true
+    task.wait(0.4)
+
+end
+if autofarm == true then
+    local tween = TS:Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(2), {CFrame = CFrame.new(-1168.98181, 67.9980011, -801.711914)})
+        tween:Play()
+            tween.Completed:wait()
+        game.Players.LocalPlayer.Character.Humanoid.Jump = true
+    task.wait(0.4)
+
+end
+if autofarm == true then
+    local tween = TS:Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(2), {CFrame = CFrame.new(-821.609009, 19.9980259, -1416.73657)})
+        tween:Play()
+            tween.Completed:wait()
+        game.Players.LocalPlayer.Character.Humanoid.Jump = true
+    task.wait(0.4)
+
+end
+if autofarm == true then
+    local tween = TS:Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(2), {CFrame = CFrame.new(396.152283, 25.99802303, -1416.4646)})
+        tween:Play()
+            tween.Completed:wait()
+        game.Players.LocalPlayer.Character.Humanoid.Jump = true
+    task.wait(0.4)
+
+end
+if autofarm == true then
+    local tween = TS:Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(2), {CFrame = CFrame.new(390.887268, 30.99802589, -1410.612066)})
+        tween:Play()
+            tween.Completed:wait()
+        game.Players.LocalPlayer.Character.Humanoid.Jump = true
+    task.wait(0.4)
+
+    end
+end
+
+                    elseif bool == false then
+
+                        autofarm = false
+                        autofarmreturn = false
+                        
+                        local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                        local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                            Notification:Notify(
+                                {Title = "Autofarm Disabled", Description = "Autofarm Is Now Disabled, Please Wait 5 Seconds Before Moving."},
+                                {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 5.1, Type = "default"}
+                            )
+    local randomteleport = math.random(1, 10)
+            
+        task.wait(5)
+            if randomteleport == 1 then
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-121.19397, 20.7480297, -425.320862, -0.0171290636, -1.7715598e-05, 0.999853373, -1.74467186e-05, 1, 1.74193101e-05, -0.999853373, -1.7145785e-05, -0.0171290636)
+            elseif randomteleport == 2 then
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(242.445496, 15.998024, -1026.53479, 0.00635796785, 0, 0.999979913, 0, 1, 0, -0.999979913, 0, 0.00635796785)
+            elseif randomteleport == 3 then
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-58.4512482, 17.9980431, -1202.94751, -0.999971867, 3.98565057e-08, 0.0075365724, 4.01600779e-08, 1, 4.01282492e-08, -0.0075365724, 4.04297822e-08, -0.999971867)
+            elseif randomteleport == 4 then
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-452.512634, 26.0980225, -1111.76917, 0.999878585, -0, -0.0155818816, 0, 1, -0, 0.0155818816, 0, 0.999878585)
+            elseif randomteleport == 5 then
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1299.46753, 32.0977516, 50.497673, 0.0273134708, 9.56162172e-09, -0.999626994, -9.31102218e-09, 1, 9.31077881e-09, 0.999626994, 9.05323905e-09, 0.0273134708)
+            elseif randomteleport == 6 then
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1295.70581, 32.0977516, 59.6537933, 0.0197780728, 9.14105769e-09, -0.999804497, 9.32582545e-09, 1, 9.32732913e-09, 0.999804497, -9.50847845e-09, 0.0197780728)
+            elseif randomteleport == 7 then
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1191.79199, 18.09775448, -43.2891312, 0.0248564482, -0, -0.999691129, 0, 1, -0, 0.999691129, 0, 0.0248564482)
+            elseif randomteleport == 8 then
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-859.777222, 15.0909977, -259.018005, -0.0177978277, 0, 0.99984169, 0, 1, 0, -0.99984169, 0, -0.0177978277)
+            elseif randomteleport == 9 then
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-796.628784, 0.40174341, -68.4246826, -0.0293315649, 0, 0.999569833, 0, 1, 0, -0.999569833, 0, -0.0293315649)
+            elseif randomteleport == 10 then
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1145.71411, 87.0977631, 132.351074, 0.99999994, -0, -0.000283906702, 0, 1, -0, 0.000283906702, 0, 0.99999994)
+            end
+        end
+    end
+})
+    
+    
+        -- Section 4
+    
+        Section4:Button({
+            Text = "Get Btools",
+            Callback = function()
+
+                local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                    Notification:Notify(
+                        {Title = "Btools Enabled", Description = "You Now Have Client Sided Btools"},
+                        {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
+                    )
+
+                loadstring(game:HttpGet("https://pastebin.com/raw/PSeXEvEc"))()
+            end
+        })
+    
+        Section4:Toggle({
+            Text = "FPS Boost",
+            Callback = function(bool)
+                if bool == true then
+
+                    local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                    local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                        Notification:Notify(
+                            {Title = "FPS Boost Enabled", Description = "Your FPS Should Now Be Higher."},
+                            {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
+                        )
+
+                    local a = game
+                    local b = a.Workspace
+                    local c = a.Lighting
+                    local d = b.Terrain
+                d.WaterWaveSize = 0
+                d.WaterWaveSpeed = 0
+                d.WaterReflectance = 0
+                d.WaterTransparency = 0
+                c.GlobalShadows = false
+                c.FogEnd = 9e9
+                settings().Rendering.QualityLevel = "Level01"
+            
+                while task.wait() do if iswindowactive() then setfpscap(144) else setfpscap(25) end end
+            
+            elseif bool == false then
+
+                local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                    Notification:Notify(
+                        {Title = "FPS Boost Disabled", Description = "Your FPS Should Now Be Back To Normal."},
+                        {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2.25, Type = "default"}
+                    )
+
+                    local a = game
+                    local b = a.Workspace
+                    local c = a.Lighting
+                    local d = b.Terrain
+                d.WaterWaveSize = 0.15
+                d.WaterWaveSpeed = 10
+                d.WaterReflectance = 1
+                d.WaterTransparency = 1
+                c.GlobalShadows = true
+                c.FogEnd = 100000
+                settings().Rendering.QualityLevel = "Level20"
+
+                    end
+            
+                    while task.wait() do if iswindowactive() then setfpscap(144) else setfpscap(60) end end
+                end
+        })
+
+        Section4:Toggle({
+            Text = "No Shadows",
+            Callback = function(bool)
+                game.Lighting.GlobalShadows = not(bool)
+            end
+        })
+
+        Section4:Button({
+            Text = "Break Bots (Server Sided)",
+            Callback = function()
+
+                game.Players.LocalPlayer.Character.scripts.misc.humanoidcheck:Destroy()
+                task.wait(0.06)
+
+                local hrp  = game.Players.LocalPlayer.Character:FindFirstChild("Humanoid")
+                hrp.Parent = nil;
+                hrp:Clone()
+                hrp.Parent =  game.Players.LocalPlayer.Character
+                hrp.Name   = "Humanoid"
+
+                local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                    Notification:Notify(
+                        {Title = "Breaking Bots..", Description = "Please Wait Until You Have Respawned Before Moving! (Estimated Time - 30 Seconds)"},
+                        {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 33, Type = "default"}
+                    )
+
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1037.35498, 77.3840103, 283.325714)
+                    task.wait(0.25)
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-925.263916, 20.1675396, -48.7668152)
+                    task.wait(0.25)
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1042.047, 41.0977554, -407.763611)
+                    task.wait(0.25)
+                    for i,v in pairs(game:GetService("Workspace").bots["nn_mall"]:GetDescendants()) do
+                        if v.ClassName == "Part" and v.Name == "collision" then
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.Position = v.Position
+                                task.wait(0.6)
+                            v:Destroy()
+                        end
+                    end
+                task.wait(0.3)
+                    for i,v in pairs(game:GetService("Workspace").bots["nn_mall"]:GetDescendants()) do
+                        if v.ClassName == "Part" and v.Name == "hitbox" then
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.Position = v.Position
+                                task.wait(0.6)
+                            v:Destroy()
+                        end
+                    end
+                    task.wait(0.3)
+                    for i,v in pairs(game:GetService("Workspace").bots["nn_mall"]:GetDescendants()) do
+                        if v.ClassName == "Part" and v.Name == "collision" then
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.Position = v.Position
+                                task.wait(0.6)
+                            v:Destroy()
+                        end
+                    end
+                        task.wait(0.3)
+                    for i,v in pairs(game:GetService("Workspace").bots["nn_mall"]:GetDescendants()) do
+                        if v.ClassName == "Part" and v.Name == "collision" then
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.Position = v.Position
+                                task.wait(0.6)
+                            v:Destroy()
+                        end
+                    end
+                task.wait(2)
+
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1790.50854, -190.402008, 70.0791321)
+                task.wait(0.3)
+                    for i,v in pairs(game:GetService("Workspace").bots["nn_backrooms"]:GetDescendants()) do
+                        if v.ClassName == "Part" and v.Name == "collision" then
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.Position = v.Position
+                                task.wait(0.5)
+                            v:Destroy()
+                        end
+                    end
+                        task.wait(0.3)
+                    for i,v in pairs(game:GetService("Workspace").bots["nn_backrooms"]:GetDescendants()) do
+                        if v.ClassName == "Part" and v.Name == "hitbox" then
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.Position = v.Position
+                                task.wait(0.6)
+                            v:Destroy()
+                        end
+                    end
+                task.wait(2)
+
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25.4209671, 105.998016, -535.584534)
+                    task.wait(0.5)
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(127.873535, 60.3152008, -1107.16602)
+                    task.wait(0.5)
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-434.908691, 79.6428833, -868.759399)
+                    task.wait(0.5)
+                    for i,v in pairs(game:GetService("Workspace").bots["nn_russia"]:GetDescendants()) do
+                        if v.ClassName == "Part" and v.Name == "collision" then
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.Position = v.Position
+                            task.wait(0.6)
+                            v:Destroy()
+                        end
+                    end
+                    task.wait(0.3)
+                    for i,v in pairs(game:GetService("Workspace").bots["nn_russia"]:GetDescendants()) do
+                        if v.ClassName == "Part" and v.Name == "hitbox" then
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.Position = v.Position
+                            task.wait(0.6)
+                            v:Destroy()
+                        end
+                    end
+                        task.wait(0.3)
+                    for i,v in pairs(game:GetService("Workspace").bots["nn_russia"]:GetDescendants()) do
+                        if v.ClassName == "Part" and v.Name == "collision" then
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.Position = v.Position
+                                task.wait(0.6)
+                            v:Destroy()
+                        end
+                    end
+                        task.wait(0.3)
+                    for i,v in pairs(game:GetService("Workspace").bots["nn_russia"]:GetDescendants()) do
+                        if v.ClassName == "Part" and v.Name == "collision" then
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.Position = v.Position
+                                task.wait(0.6)
+                            v:Destroy()
+                        end
+                    end
+            task.wait(3)
+game:GetService("ReplicatedStorage").events.player.char.respawnchar:FireServer()
+
+local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+    Notification:Notify(
+        {Title = "Bots Successfully Broken!", Description = "You Have Now Broken All Of The Bots!"},
+        {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 5, Type = "default"}
+    )
+                end
+    })
+
+        if game.PlaceId ~= 10118559731 then
+            local drop = Section5:Dropdown({
+            Text = "Nico's Nextbots | Working",
+            List = {"Teleport"},
+            Callback = function(v)
+                local placeid = 10118559731; -- Enter your place ID
+    
+                for i,v in pairs(game:FindFirstChildOfClass("Players"):GetPlayers()) do
+                if v~= game.Players.LocalPlayer then
+                game:GetService("TeleportService"):Teleport(placeid, v)
+                end
+                end
+                task.wait(0.5)
+                local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                    Notification:Notify(
+                        {Title = "Teleport Failed", Description = "Please Join The Game Manually."},
+                        {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 5, Type = "default"}
+                    )
+        end})
+    end
+        Section5:Button({
+            Text = "No Other Games Yet.",
+            Callback = function()
+                print("Theres No Other Supported Games Yet.")
+            end
+        })
+
+        Section5:Button({
+            Text = "Load Universal",
+            Callback = function()
+            loadstring(game:HttpGet(""))()
+end
+        })
+
+Section6:Button({
+    Text = "Scripted by slowpi#8954",
+    Callback = function()
+        local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+        local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+            Notification:Notify(
+                {Title = "Script By slowpi#8954", Description = "Scripted By slowpi#8954"},
+                {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 5, Type = "default"}
+            )
+    end
+})
+
+Section6:Button({
+Text = "UI by Unnamed Library",
+Callback = function()
+    local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+    local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+        Notification:Notify(
+            {Title = "UI Library by Rain-Design (GitHub)", Description = "Gui Made With Unnamed UI Library"},
+            {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 5, Type = "default"}
+        )
+    end
+})

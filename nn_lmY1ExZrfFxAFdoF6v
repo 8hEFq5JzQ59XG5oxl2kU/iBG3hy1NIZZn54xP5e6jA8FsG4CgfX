@@ -87,15 +87,22 @@ end)
         
         -- Sliders
     
-        Section:Slider({
-            Text = "WalkSpeed (Bugged)",
-            Default = 10,
-            Minimum = 1,
-            Maximum = 500,
-            Callback = function(Value)
-                game.Players.LocalPlayer.Character.Humanoid.WalkSpeed =(Value)
-            end
-        })
+Section:Slider({
+    Text = "Walkspeed",
+    Default = 10,
+    Minimum = 1,
+    Maximum = 100,
+    Callback = function(Value)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+
+        while true do
+            task.wait()
+        if game.Players.LocalPlayer.Character.Humanoid.WalkSpeed ~= Value then
+            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+        end
+    end
+    end
+})
     
         Section:Slider({
             Text = "FlySpeed",

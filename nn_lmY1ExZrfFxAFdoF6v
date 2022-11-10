@@ -89,7 +89,7 @@ end)
     
 Section:Slider({
     Text = "Walkspeed",
-    Default = 10,
+    Default = 22.5,
     Minimum = 1,
     Maximum = 100,
     Callback = function(Value)

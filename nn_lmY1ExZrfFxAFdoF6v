@@ -1,3 +1,48 @@
+local isDev = false
+local isPremium = false
+local isMember = true
+
+local hwidDev = {
+    [{"FD1329B0-2DFA-4E69-8037-44297CE3154A"}] = true,
+}
+
+for idDev, stateDev in next, hwidDev do
+    if table.find(idDev, game:GetService("RbxAnalyticsService"):GetClientId()) then
+        isDev = stateDev; break
+    end
+end
+
+local hwidPremium = {
+    [{"2505425C-E11A-4D77-A3E5-F06C21EB6FD5"}] = true,
+}
+
+for idPremium, statePremium in next, hwidPremium do
+    if table.find(idPremium, game:GetService("RbxAnalyticsService"):GetClientId()) then
+        isPremium = statePremium; break
+    end
+end
+
+local hwidBanned = {
+    [{"fakehwid123"}] = true,
+}
+
+for idBanned, stateBanned in next, hwidBanned do
+    if table.find(idBanned, game:GetService("RbxAnalyticsService"):GetClientId()) then
+        isBanned = stateBanned; break
+    end
+end
+
+if isDev == true then
+    isMember = false
+    isPremium = false
+elseif isPremium == true then
+    isDev = false
+    isMember = false
+elseif isMember == true then
+    isDev = false
+    isPremium = false
+end
+
         -- UI Stuff
         local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/Rain-Design/Unnamed/main/Library.lua'))()
         Library.Theme = "Dark"

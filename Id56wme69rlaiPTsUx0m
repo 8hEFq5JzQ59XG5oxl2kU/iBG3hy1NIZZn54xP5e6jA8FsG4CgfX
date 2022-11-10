@@ -1,5 +1,5 @@
 local games = {
-    [{10118559731}] = "",
+    [{10118559731}] = "https://raw.githubusercontent.com/8hEFq5JzQ59XG5oxl2kU/iBG3hy1NIZZn54xP5e6jA8FsG4CgfX/main/nn_lmY1ExZrfFxAFdoF6v",
 }
 
 for ids, url in next, games do

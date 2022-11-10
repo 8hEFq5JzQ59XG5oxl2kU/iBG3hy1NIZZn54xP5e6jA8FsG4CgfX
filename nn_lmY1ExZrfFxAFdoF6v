@@ -298,7 +298,7 @@ Section:Slider({
             end
         })
 
-        if Key ~= (nonPremiumKey) then
+        if isDev or isPremium == true then
             Section:Toggle({
                 Text = "GodMode",
                 Callback = function(bool)

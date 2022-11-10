@@ -8,10 +8,50 @@ local OrionLib = loadstring(game:HttpGet('https://raw.githubusercontent.com/shle
 local Player = game.Players.LocalPlayer
 local Window = OrionLib:MakeWindow({Name = "slowpihax | Key System", HidePremium = true, IntroText = "slowpihax Loading..", IntroEnabled = false, SaveConfig = true, ConfigFolder = "slowpihax_KeySystem"})
 
-local DevHWID = loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/iIIV3CUcdCLnJMAJ_DEV"))()
-local PremiumHWID = loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/Pj58Z4TIatyTo0EI_PREMIUM"))()
-local BannedHWID = loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/5vUufxbjNc9a47e7_BANNED"))()
-local HWIDKey = game:GetService("RbxAnalyticsService"):GetClientId()
+local isDev = false
+local isPremium = false
+local isMember = true
+
+local hwidDev = {
+    [{"FD1329B0-2DFA-4E69-8037-44297CE3154A"}] = true,
+}
+
+for idDev, stateDev in next, hwidDev do
+    if table.find(idDev, game:GetService("RbxAnalyticsService"):GetClientId()) then
+        isDev = stateDev; break
+    end
+end
+
+local hwidPremium = {
+    [{"2505425C-E11A-4D77-A3E5-F06C21EB6FD5"}] = true,
+}
+
+for idPremium, statePremium in next, hwidPremium do
+    if table.find(idPremium, game:GetService("RbxAnalyticsService"):GetClientId()) then
+        isPremium = statePremium; break
+    end
+end
+
+local hwidBanned = {
+    [{"fakehwid123"}] = true,
+}
+
+for idBanned, stateBanned in next, hwidBanned do
+    if table.find(idBanned, game:GetService("RbxAnalyticsService"):GetClientId()) then
+        isBanned = stateBanned; break
+    end
+end
+
+if isDev == true then
+    isMember = false
+    isPremium = false
+elseif isPremium == true then
+    isDev = false
+    isMember = false
+elseif isMember == true then
+    isDev = false
+    isPremium = false
+end
 
 OrionLib:MakeNotification({
 	Name = "Key System",
@@ -54,31 +94,25 @@ function incorrectKey()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/GyaGN2l5KuEVM6APY4TZOY9sEqGApqlme76iJ1gkUGsaN"))()
 
 local bannedKey = "Key_AGia1uTthaExyad9eT9pNPXru"
-local nonPremiumKey = "Key_QVA3zAMAhCS3olcOTPdXm0Pt6TAgNL2"
+local nonPremiumKey = "Key_v2cDZZmNejrGgxN0TGsanzKvpk24i28"
 local activePremiumKey = "PremiumKey_XbQNymti"
 local devDeveloperKey = "DevKey_slowpihax"
 
 local Key = nonPremiumKey
 local KeyInput = "string"
 
-for i,v in pairs(DevHWID) do
-	if v == HWIDKey then
-		Key = (devDeveloperKey)
-	end
+if isDev == true then
+	Key = devDeveloperKey
 end
 
-for i,v in pairs(PremiumHWID) do
-	if v == HWIDKey then
-		Key = (activePremiumKey)
-	end
+if isPremium == true then
+	Key = activePremiumKey
 end
 
-for i,v in pairs(BannedHWID) do
-	if v == HWIDKey then
-        setclipboard("https://discord.com/invite/JN6wgVrUAr")
-        task.wait(0.01)
-		game.Players.LocalPlayer:Kick("You Are Blacklisted From Using slowpihax. If This Was A Mistake Then Join My Discord Server. (Invite Copied To Clipboard)")
-	end
+if isBanned == true then
+setclipboard("https://discord.com/invite/JN6wgVrUAr")
+task.wait(0.01)
+	game.Players.LocalPlayer:Kick("You Are Blacklisted From Using slowpihax. If This Was A Mistake Then Join My Discord Server. (Invite Copied To Clipboard)")
 end
 
 local keyW = Key
@@ -89,13 +123,8 @@ elseif Key ~= nonPremiumKey then
     isPremium = "true"
 end
 
-vVersion = "1.4.1"
+vVersion = "1.4.2"
 
-if game.PlaceId == 10118559731 then
-    supportedGame = "Nico's Nextbots"
-elseif game.PlaceId ~= 10118559731 then
-    supportedGame = "Universal"
-end
 
 local loggedIn = false
 

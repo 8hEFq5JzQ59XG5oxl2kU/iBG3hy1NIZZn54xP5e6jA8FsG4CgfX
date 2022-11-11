@@ -61,11 +61,11 @@ end
         local Flags = Library.Flags
     
             if isMember == true then
-                title = "slowpihax | "..vVersion.." | nico's nextbots | Public";
+                title = "slowpihax | "..vVersion.." | Doors | Public";
             elseif isPremium == true then
-                title = "slowpihax | "..vVersion.." | nico's nextbots | Premium";
+                title = "slowpihax | "..vVersion.." | Doors | Premium";
             elseif isDev == true then
-                title = "slowpihax | "..vVersion.." | nico's nextbots | Dev";
+                title = "slowpihax | "..vVersion.." | Doors | Dev";
             end
     
         local Window = Library:Window({

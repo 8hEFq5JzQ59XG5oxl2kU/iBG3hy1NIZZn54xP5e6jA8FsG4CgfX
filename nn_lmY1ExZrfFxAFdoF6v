@@ -245,6 +245,17 @@ Section:Slider({
         end
         })
 
+        Section:Toggle({
+            Text = "Noclip",
+            Callback = function(bool)
+                if bool == true then
+                game.Players.LocalPlayer.Character.Collision.CanCollide = false
+                else
+                    game.Players.LocalPlayer.Character.Collision.CanCollide = true
+            end
+        end
+        })
+
         Section:Button({
         Text = "Inf Jumps",
         Callback = function()

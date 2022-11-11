@@ -248,9 +248,10 @@ Section:Slider({
         Section:Toggle({
             Text = "Noclip",
             Callback = function(bool)
-                if bool == true then
-                game.Players.LocalPlayer.Character.Collision.CanCollide = false
-                else
+                while bool == true do
+                    game:GetService("Workspace").LuaPackages.collisionPart = false
+                end
+                if bool == false then
                     game.Players.LocalPlayer.Character.Collision.CanCollide = true
             end
         end
@@ -488,7 +489,6 @@ Section:Slider({
                         doBotEsp_flatgrass()
                         task.wait(0.25)
                     end
-                end
                     
                         doBotEsp_mall()
                         task.wait(0.25)
@@ -497,7 +497,7 @@ Section:Slider({
                         doBotEsp_flatgrass()
                         task.wait(0.25)
                     doBotEsp_backrooms()
-                elseif bool == false then 
+                elseif bool == false then
 
                     local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
                     local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
@@ -511,9 +511,9 @@ Section:Slider({
                             v:Destroy()
                     end
                 end
-            end
 
             end
+        end
         })
         
         Section2:Toggle({

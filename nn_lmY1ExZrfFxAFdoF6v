@@ -245,18 +245,6 @@ Section:Slider({
         end
         })
 
-        Section:Toggle({
-            Text = "Noclip",
-            Callback = function(bool)
-                while bool == true do
-                    game:GetService("Workspace").LuaPackages.collisionPart = false
-                end
-                if bool == false then
-                    game.Players.LocalPlayer.Character.Collision.CanCollide = true
-            end
-        end
-        })
-
         Section:Button({
         Text = "Inf Jumps",
         Callback = function()

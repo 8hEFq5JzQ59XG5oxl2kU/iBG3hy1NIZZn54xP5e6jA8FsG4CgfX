@@ -494,12 +494,14 @@ Section:Slider({
                             {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
                         )
 
+                        while bool == true do
                     for i,v in pairs(game:GetService("Workspace").bots:GetDescendants()) do
                         if v.ClassName == "BillboardGui" and v.Name == "BotEsp_slowpihax" then
                             v:Destroy()
                         end
                     end
                 end
+            end
 
             end
         })

@@ -469,8 +469,6 @@ Section:Slider({
                                 {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
                             )
 
-                            while bool == true do
-                                task.wait(0.25)
                     if game:GetService("Workspace").bots:FindFirstChild("Humanoid") then
                         doBotEsp_mall()
                         task.wait(0.25)

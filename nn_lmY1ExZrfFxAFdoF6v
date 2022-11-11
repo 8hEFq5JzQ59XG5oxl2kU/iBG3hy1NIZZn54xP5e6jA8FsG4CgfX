@@ -469,6 +469,8 @@ Section:Slider({
                                 {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
                             )
 
+                            while bool == true do
+                                task.wait(0.25)
                     if game:GetService("Workspace").bots:FindFirstChild("Humanoid") then
                         doBotEsp_mall()
                         task.wait(0.25)
@@ -477,6 +479,7 @@ Section:Slider({
                         doBotEsp_flatgrass()
                         task.wait(0.25)
                     end
+                end
                     
                         doBotEsp_mall()
                         task.wait(0.25)
@@ -494,11 +497,9 @@ Section:Slider({
                             {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
                         )
 
-                        while bool == true do
                     for i,v in pairs(game:GetService("Workspace").bots:GetDescendants()) do
                         if v.ClassName == "BillboardGui" and v.Name == "BotEsp_slowpihax" then
                             v:Destroy()
-                        end
                     end
                 end
             end

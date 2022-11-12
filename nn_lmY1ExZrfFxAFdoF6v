@@ -352,6 +352,7 @@ Section:Slider({
                     if bool == true then
                         for i,v in pairs(game:GetService("Workspace").bots["nn_mall"]:GetDescendants()) do
                         if v.ClassName == "Humanoid" and v.Parent.Name ~= "slowpihax on top" then -- i am just wondering that the part u wanna esp have these properties u can change them if it doesnt work
+                            if v:FindFirstChild("BotEsp_slowpihax") == nil then
                         local BillboardGui = Instance.new("BillboardGui")
                         local TextLabel = Instance.new("TextLabel")
                         local botName = v.Parent.Name
@@ -372,6 +373,7 @@ Section:Slider({
                         TextLabel.TextScaled = false
                                 end
                             end
+                        end
                         elseif bool == false then
                     end
                 end
@@ -497,8 +499,8 @@ Section:Slider({
                     for i,v in pairs(game:GetService("Workspace").bots:GetDescendants()) do
                         if v.ClassName == "BillboardGui" and v.Name == "BotEsp_slowpihax" then
                             v:Destroy()
+                        end
                     end
-                end
 
             end
         end

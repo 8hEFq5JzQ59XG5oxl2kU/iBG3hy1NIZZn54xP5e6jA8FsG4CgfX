@@ -94,7 +94,7 @@ function incorrectKey()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/GyaGN2l5KuEVM6APY4TZOY9sEqGApqlme76iJ1gkUGsaN"))()
 
 local bannedKey = "Key_AGia1uTthaExyad9eT9pNPXru"
-local nonPremiumKey = "Key_v2cDZZmNejrGgxN0TGsanzKvpk24i28"
+local nonPremiumKey = "Key_QVA3zAMAhCS3olcOTPdXm0Pt6TAgNL2"
 local activePremiumKey = "PremiumKey_XbQNymti"
 local devDeveloperKey = "DevKey_slowpihax"
 

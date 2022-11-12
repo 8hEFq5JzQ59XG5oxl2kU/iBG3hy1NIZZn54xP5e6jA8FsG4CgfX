@@ -382,6 +382,7 @@ Section:Slider({
                     if bool == true then
                         for i,v in pairs(game:GetService("Workspace").bots["nn_russia"]:GetDescendants()) do
                         if v.ClassName == "Humanoid" and v.Parent.Name ~= "slowpihax on top" then -- i am just wondering that the part u wanna esp have these properties u can change them if it doesnt work
+                        if v:FindFirstChild("BotEsp_slowpihax") == nil then
                         local BillboardGui = Instance.new("BillboardGui")
                         local TextLabel = Instance.new("TextLabel")
                         local botName = v.Parent.Name
@@ -403,6 +404,7 @@ Section:Slider({
                         TextLabel.TextScaled = false
                                 end
                             end
+                        end
                         elseif bool == false then
                     end
                 end
@@ -439,6 +441,7 @@ Section:Slider({
                         if bool == true then
                         for i,v in pairs(game:GetService("Workspace").bots["nn_backrooms"]:GetDescendants()) do
                         if v.ClassName == "Humanoid" and v.Parent.Name ~= "slowpihax on top" then -- i am just wondering that the part u wanna esp have these properties u can change them if it doesnt work
+                        if v:FindFirstChild("BotEsp_slowpihax") == nil then
                         local BillboardGui = Instance.new("BillboardGui")
                         local TextLabel = Instance.new("TextLabel")
                         local botName = v.Parent.Name
@@ -459,6 +462,7 @@ Section:Slider({
                         TextLabel.TextScaled = false
                                 end
                             end
+                        end
                         elseif bool == false then
                     end
                 end
@@ -472,21 +476,17 @@ Section:Slider({
                             )
 
                     if game:GetService("Workspace").bots:FindFirstChild("Humanoid") then
+                        while bool == true do
+                            task.wait(0.1)
                         doBotEsp_mall()
                         task.wait(0.25)
                         doBotEsp_russia()
                         task.wait(0.25)
                         doBotEsp_flatgrass()
                         task.wait(0.25)
+                        doBotEsp_backrooms()
+                        end
                     end
-                    
-                        doBotEsp_mall()
-                        task.wait(0.25)
-                        doBotEsp_russia()
-                        task.wait(0.25)
-                        doBotEsp_flatgrass()
-                        task.wait(0.25)
-                    doBotEsp_backrooms()
                 elseif bool == false then
 
                     local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()

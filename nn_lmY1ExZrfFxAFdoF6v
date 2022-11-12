@@ -348,11 +348,21 @@ Section:Slider({
         Section2:Toggle({
             Text = "Bot ESP",
             Callback = function(bool)
+
+                if bool == true then
+
+                    local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                    local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                        Notification:Notify(
+                            {Title = "Bot Esp Enabled", Description = "You Can Now See All The Bots."},
+                            {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
+            )
+
                 function doBotEsp_mall()
                     if bool == true then
                         for i,v in pairs(game:GetService("Workspace").bots["nn_mall"]:GetDescendants()) do
                         if v.ClassName == "Humanoid" and v.Parent.Name ~= "slowpihax on top" then -- i am just wondering that the part u wanna esp have these properties u can change them if it doesnt work
-                            if v:FindFirstChild("BotEsp_slowpihax") == nil then
+                        if v.Parent:FindFirstChild("BotEsp_slowpihax") == nil then
                         local BillboardGui = Instance.new("BillboardGui")
                         local TextLabel = Instance.new("TextLabel")
                         local botName = v.Parent.Name
@@ -382,7 +392,7 @@ Section:Slider({
                     if bool == true then
                         for i,v in pairs(game:GetService("Workspace").bots["nn_russia"]:GetDescendants()) do
                         if v.ClassName == "Humanoid" and v.Parent.Name ~= "slowpihax on top" then -- i am just wondering that the part u wanna esp have these properties u can change them if it doesnt work
-                        if v:FindFirstChild("BotEsp_slowpihax") == nil then
+                            if v.Parent:FindFirstChild("BotEsp_slowpihax") == nil then
                         local BillboardGui = Instance.new("BillboardGui")
                         local TextLabel = Instance.new("TextLabel")
                         local botName = v.Parent.Name
@@ -413,35 +423,7 @@ Section:Slider({
                     if bool == true then
                         for i,v in pairs(game:GetService("Workspace").bots["nn_flatgrass"]:GetDescendants()) do
                         if v.ClassName == "Humanoid" and v.Parent.Name ~= "slowpihax on top" then -- i am just wondering that the part u wanna esp have these properties u can change them if it doesnt work
-                        local BillboardGui = Instance.new("BillboardGui")
-                        local TextLabel = Instance.new("TextLabel")
-                        local botName = v.Parent.Name
-                        
-                        BillboardGui.Name = "BotEsp_slowpihax"
-                        BillboardGui.Parent = v.Parent
-                        BillboardGui.AlwaysOnTop = true
-                        BillboardGui.LightInfluence = 1
-                        BillboardGui.Size = UDim2.new(0, 50, 0, 50)
-                        BillboardGui.StudsOffset = Vector3.new(0, 2, 0)
-                        
-                        TextLabel.Parent = BillboardGui
-                        TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
-                        TextLabel.BackgroundTransparency = 1
-                        TextLabel.Size = UDim2.new(1.25, 0, 1.25, 0)
-                        TextLabel.Text = botName
-                        TextLabel.TextColor3 = Color3.new(1, 0, 0)
-                        TextLabel.TextScaled = false
-                                end
-                            end
-                        elseif bool == false then
-                    end
-                end
-                    
-                function doBotEsp_backrooms()
-                        if bool == true then
-                        for i,v in pairs(game:GetService("Workspace").bots["nn_backrooms"]:GetDescendants()) do
-                        if v.ClassName == "Humanoid" and v.Parent.Name ~= "slowpihax on top" then -- i am just wondering that the part u wanna esp have these properties u can change them if it doesnt work
-                        if v:FindFirstChild("BotEsp_slowpihax") == nil then
+                            if v.Parent:FindFirstChild("BotEsp_slowpihax") == nil then
                         local BillboardGui = Instance.new("BillboardGui")
                         local TextLabel = Instance.new("TextLabel")
                         local botName = v.Parent.Name
@@ -466,16 +448,36 @@ Section:Slider({
                         elseif bool == false then
                     end
                 end
-                    if bool == true then
-
-                        local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
-                        local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
-                            Notification:Notify(
-                                {Title = "Bot Esp Enabled", Description = "You Can Now See All The Bots."},
-                                {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
-                            )
-
-                    if game:GetService("Workspace").bots:FindFirstChild("Humanoid") then
+                    
+                function doBotEsp_backrooms()
+                        if bool == true then
+                        for i,v in pairs(game:GetService("Workspace").bots["nn_backrooms"]:GetDescendants()) do
+                        if v.ClassName == "Humanoid" and v.Parent.Name ~= "slowpihax on top" then -- i am just wondering that the part u wanna esp have these properties u can change them if it doesnt work
+                            if v.Parent:FindFirstChild("BotEsp_slowpihax") == nil then
+                        local BillboardGui = Instance.new("BillboardGui")
+                        local TextLabel = Instance.new("TextLabel")
+                        local botName = v.Parent.Name
+                        
+                        BillboardGui.Name = "BotEsp_slowpihax"
+                        BillboardGui.Parent = v.Parent
+                        BillboardGui.AlwaysOnTop = true
+                        BillboardGui.LightInfluence = 1
+                        BillboardGui.Size = UDim2.new(0, 50, 0, 50)
+                        BillboardGui.StudsOffset = Vector3.new(0, 2, 0)
+                        
+                        TextLabel.Parent = BillboardGui
+                        TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+                        TextLabel.BackgroundTransparency = 1
+                        TextLabel.Size = UDim2.new(1.25, 0, 1.25, 0)
+                        TextLabel.Text = botName
+                        TextLabel.TextColor3 = Color3.new(1, 0, 0)
+                        TextLabel.TextScaled = false
+                                end
+                            end
+                        end
+                        elseif bool == false then
+                    end
+                end
                         while bool == true do
                             task.wait(0.1)
                         doBotEsp_mall()
@@ -486,8 +488,9 @@ Section:Slider({
                         task.wait(0.25)
                         doBotEsp_backrooms()
                         end
-                    end
-                elseif bool == false then
+
+                            
+                    else
 
                     local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
                     local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
@@ -503,7 +506,7 @@ Section:Slider({
                     end
 
             end
-        end
+    end
         })
         
         Section2:Toggle({

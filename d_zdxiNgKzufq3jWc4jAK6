@@ -43,8 +43,6 @@ elseif isMember == true then
     isPremium = false
 end
 
-vVersion = "1.4.2 BETA"
-
 local plr = game:GetService("Players").LocalPlayer
 local Spoof 
 Spoof = hookmetamethod(game, "__index", function(self, ...)

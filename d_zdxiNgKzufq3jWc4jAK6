@@ -84,23 +84,47 @@ local Section = Tab:Section({
 })
 
 local Tab2 = Window:Tab({
-    Text = "Room"
+    Text = "Visual"
 })
 
 local Section2 = Tab2:Section({
-    Text = "Room (Client Side)"
-})
-
-local Section2_1 = Tab2:Section({
-    Text = "Spawn (Client Side)"
+    Text = "Visual"
 })
 
 local Tab3 = Window:Tab({
-    Text = "Miscellaneous"
+    Text = "Room"
 })
 
 local Section3 = Tab3:Section({
+    Text = "Room (Client Side)"
+})
+
+local Section3_1 = Tab3:Section({
+    Text = "Spawn (Client Side)"
+})
+
+local Tab4 = Window:Tab({
     Text = "Miscellaneous"
+})
+
+local Section4 = Tab4:Section({
+    Text = "Miscellaneous"
+})
+
+local Tab5 = Window:Tab({
+    Text = "Games"
+})
+
+local Section5 = Tab5:Section({
+    Text = "Games"
+})
+
+local Tab6 = Window:Tab({
+    Text = "Credits"
+})
+
+local Section6 = Tab6:Section({
+    Text = "Credits"
 })
 
 Section:Slider({
@@ -125,41 +149,403 @@ Section:Toggle({
     Callback = function(bool)
         if bool == true then
         game.Players.LocalPlayer.Character.Collision.CanCollide = false
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CanCollide = false
         else
             game.Players.LocalPlayer.Character.Collision.CanCollide = true
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CanCollide = true
     end
 end
 })
 
-Section2:Button({
+Section2:Toggle({
+    Text = "Item Esp",
+    Callback = function(bool)
+        function doItemEsp()
+            if bool == true then
+                local CurrentDoor = workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Door")
+
+                for _,object in ipairs(CurrentDoor.Parent:GetDescendants()) do
+                	if object.Name == "Key" and object.ClassName == "MeshPart" and object.Parent.Name == "Hitbox" then
+
+                    if object:FindFirstChild("ItemEsp_slowpihax") == nil then
+                local BillboardGui = Instance.new("BillboardGui")
+                local TextLabel = Instance.new("TextLabel")
+                
+                BillboardGui.Name = "ItemEsp_slowpihax"
+                BillboardGui.Parent = object
+                BillboardGui.AlwaysOnTop = true
+                BillboardGui.LightInfluence = 1
+                BillboardGui.Size = UDim2.new(0, 1, 0, 1)
+                BillboardGui.StudsOffset = Vector3.new(0, -0.5, 0)
+                
+                TextLabel.Parent = BillboardGui
+                TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+                TextLabel.BackgroundTransparency = 1
+                TextLabel.Size = UDim2.new(1, 0, 1, 0)
+                TextLabel.Text = "Key"
+                TextLabel.TextColor3 = Color3.new(0, 255, 0)
+                TextLabel.TextScaled = false
+                        end
+                    elseif object.ClassName == "MeshPart" and object.Name == "Main" and object.Parent.ClassName == "Model" and object.Parent.Name == "LeverForGate" then
+                                
+                                if object:FindFirstChild("ItemEsp_slowpihax") == nil then
+                                    local BillboardGui = Instance.new("BillboardGui")
+                                    local TextLabel = Instance.new("TextLabel")
+                                    
+                                    BillboardGui.Name = "ItemEsp_slowpihax"
+                                    BillboardGui.Parent = object
+                                    BillboardGui.AlwaysOnTop = true
+                                    BillboardGui.LightInfluence = 1
+                                    BillboardGui.Size = UDim2.new(0, 1, 0, 1)
+                                    BillboardGui.StudsOffset = Vector3.new(0, -0.5, 0)
+                                    
+                                    TextLabel.Parent = BillboardGui
+                                    TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+                                    TextLabel.BackgroundTransparency = 1
+                                    TextLabel.Size = UDim2.new(1, 0, 1, 0)
+                                    TextLabel.Text = "Lever"
+                                    TextLabel.TextColor3 = Color3.new(0, 255, 0)
+                                    TextLabel.TextScaled = false
+                                end
+
+elseif object.ClassName == "Part" and object.Name == "Base" and object.Parent.ClassName == "Model" and object.Parent.Name == "LiveHintBook" then
+    if object:FindFirstChild("ItemEsp_slowpihax") == nil then
+        local BillboardGui = Instance.new("BillboardGui")
+        local TextLabel = Instance.new("TextLabel")
+        
+        BillboardGui.Name = "ItemEsp_slowpihax"
+        BillboardGui.Parent = object
+        BillboardGui.AlwaysOnTop = true
+        BillboardGui.LightInfluence = 1
+        BillboardGui.Size = UDim2.new(0, 1, 0, 1)
+        BillboardGui.StudsOffset = Vector3.new(0, -0.5, 0)
+        
+        TextLabel.Parent = BillboardGui
+        TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+        TextLabel.BackgroundTransparency = 1
+        TextLabel.Size = UDim2.new(1, 0, 1, 0)
+        TextLabel.Text = "Book"
+        TextLabel.TextColor3 = Color3.new(0, 255, 0)
+        TextLabel.TextScaled = false
+                end
+            end
+        end
+    end
+end
+
+while bool == true do
+    task.wait()
+    if bool == true then
+    doItemEsp()
+    end
+end
+
+if bool == false then
+    task.wait()
+    local DoorReplication = loadstring(game:HttpGet("https://raw.githubusercontent.com/RegularVynixu/Utilities/main/Doors/Door%20Replication/Source.lua"))()
+
+    local CurrentDoor = workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Door")
+
+
+    for _,object in ipairs(CurrentDoor.Parent:GetDescendants()) do
+    if object.Name == "ItemEsp_slowpihax" then
+        object:Destroy()
+    end
+end
+    end
+end
+})
+
+Section2:Toggle({
+    Text = "Door Esp",
+    Callback = function(bool)
+        function doDoorEsp()
+            if bool == true then
+
+                local CurrentDoor = workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Door")
+
+
+            	for _,object in ipairs(CurrentDoor:GetDescendants()) do
+                	if object.Name == "Sign" and object.ClassName == "MeshPart" and  object.Parent.Name == "Door"then
+                if object:FindFirstChild("DoorEsp_slowpihax") == nil then
+                    local BillboardGui = Instance.new("BillboardGui")
+                    local TextLabel = Instance.new("TextLabel")
+                    
+                    BillboardGui.Name = "DoorEsp_slowpihax"
+                    BillboardGui.Parent = object
+                    BillboardGui.AlwaysOnTop = true
+                    BillboardGui.LightInfluence = 1
+                    BillboardGui.Size = UDim2.new(0, 1, 0, 1)
+                    BillboardGui.StudsOffset = Vector3.new(0, -2, 0)
+                    
+                    TextLabel.Parent = BillboardGui
+                    TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+                    TextLabel.BackgroundTransparency = 1
+                    TextLabel.Size = UDim2.new(1, 0, 1, 0)
+                    TextLabel.Text = "Door"
+                    TextLabel.TextColor3 = Color3.new(0, 0, 255)
+                    TextLabel.TextScaled = false
+                            end
+                        end
+                    end
+                end
+            end
+
+        while bool == true do
+            task.wait(0.1)
+            doDoorEsp()
+        end
+
+        if bool == false then
+            for i,v in pairs(game:GetService("Workspace").CurrentRooms:GetDescendants()) do
+                if v.ClassName == "BillboardGui" and v.Name == "DoorEsp_slowpihax" then
+                        v:Destroy()
+                    end
+                end
+            end
+end
+})
+
+Section2:Toggle({
+    Text = "Entity Esp",
+    Callback = function(bool)
+                function doCommonEntityEsp()
+                    if bool == true then
+                        workspace.ChildAdded:Connect(function(Descendant)
+                            if Descendant:IsA("Model") then
+                            if Descendant:FindFirstChild("EntityEsp_slowpihax") == nil then
+                        local BillboardGui = Instance.new("BillboardGui")
+                        local TextLabel = Instance.new("TextLabel")
+                        local EntityName = "Rush"
+
+                        if Descendant.Name == "RushMoving" then EntityName = "Rush"
+                        elseif Descendant.Name == "AmbushMoving" then EntityName = "Ambush"
+                        elseif Descendant.Name == "Lookman" then EntityName = "Look Man"
+                        elseif Descendant.Name == "SeekMoving" then EntityName = "Seek"
+                        end
+                        
+                        BillboardGui.Name = "EntityEsp_slowpihax"
+                        BillboardGui.Parent = Descendant
+                        BillboardGui.AlwaysOnTop = true
+                        BillboardGui.LightInfluence = 1
+                        BillboardGui.Size = UDim2.new(0, 1, 0, 1)
+                        BillboardGui.StudsOffset = Vector3.new(0, -0.5, 0)
+                        
+                        TextLabel.Parent = BillboardGui
+                        TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+                        TextLabel.BackgroundTransparency = 1
+                        TextLabel.Size = UDim2.new(1, 0, 1, 0)
+                        TextLabel.Text = EntityName
+                        TextLabel.TextColor3 = Color3.new(255, 0, 0)
+                        TextLabel.TextScaled = false
+                                end
+                            end
+                        end)
+                    end
+                    task.wait(0.01)
+                end
+
+    function doOtherEntityEsp()
+        if bool == true then
+
+            local CurrentDoor = workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("FigureSetup")
+
+        end
+        for i,v in pairs(CurrentDoor:GetDescendants()) do
+            if v.Name == "Torso" and v.ClassName == "MeshPart" then
+                if v:IsA("MeshPart") and v.Name == "Torso" then
+                if v:FindFirstChild("EntityEsp_slowpihax") == nil then
+                        local BillboardGui = Instance.new("BillboardGui")
+                        local TextLabel = Instance.new("TextLabel")
+                        local EntityName = "Figure"
+            
+            BillboardGui.Name = "EntityEsp_slowpihax"
+            BillboardGui.Parent = v
+            BillboardGui.AlwaysOnTop = true
+            BillboardGui.LightInfluence = 1
+            BillboardGui.Size = UDim2.new(0, 1, 0, 1)
+            BillboardGui.StudsOffset = Vector3.new(0, -0.5, 0)
+            
+            TextLabel.Parent = BillboardGui
+            TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+            TextLabel.BackgroundTransparency = 1
+            TextLabel.Size = UDim2.new(1, 0, 1, 0)
+            TextLabel.Text = EntityName
+            TextLabel.TextColor3 = Color3.new(255, 0, 0)
+            TextLabel.TextScaled = false
+                            end
+                        end
+                    end
+                end
+            end
+
+function delSeekAndEyes()
+    if game:GetService("Workspace").Lookman ~= nil then
+        game:GetService("Workspace").Lookman:Destroy()
+    end
+    if game:GetService("Workspace").SeekMoving ~= nil then
+        game:GetService("Workspace").SeekMoving:Destroy()
+    end
+end
+
+while bool == true do
+    game:GetService("RunService").Heartbeat:Wait()
+    doCommonEntityEsp()
+end
+
+if bool == false then
+    for i,v in pairs(game:GetService("Workspace"):GetDescendants()) do
+        if v.Name == "EntityEsp_slowpihax"then
+            v:Destroy()
+        end
+    end
+    delSeekAndEyes()
+end
+    end
+})
+
+Section2:Toggle({
+    Text = "Fullbright",
+    Callback = function(bool)
+        if not _G.FullBrightExecuted then
+
+            _G.FullBrightEnabled = false
+        
+            _G.NormalLightingSettings = {
+                Brightness = game:GetService("Lighting").Brightness,
+                ClockTime = game:GetService("Lighting").ClockTime,
+                FogEnd = game:GetService("Lighting").FogEnd,
+                GlobalShadows = game:GetService("Lighting").GlobalShadows,
+                Ambient = game:GetService("Lighting").Ambient
+            }
+        
+            game:GetService("Lighting"):GetPropertyChangedSignal("Brightness"):Connect(function()
+                if game:GetService("Lighting").Brightness ~= 1 and game:GetService("Lighting").Brightness ~= _G.NormalLightingSettings.Brightness then
+                    _G.NormalLightingSettings.Brightness = game:GetService("Lighting").Brightness
+                    if not _G.FullBrightEnabled then
+                        repeat
+                            wait()
+                        until _G.FullBrightEnabled
+                    end
+                    game:GetService("Lighting").Brightness = 1
+                end
+            end)
+        
+            game:GetService("Lighting"):GetPropertyChangedSignal("ClockTime"):Connect(function()
+                if game:GetService("Lighting").ClockTime ~= 12 and game:GetService("Lighting").ClockTime ~= _G.NormalLightingSettings.ClockTime then
+                    _G.NormalLightingSettings.ClockTime = game:GetService("Lighting").ClockTime
+                    if not _G.FullBrightEnabled then
+                        repeat
+                            wait()
+                        until _G.FullBrightEnabled
+                    end
+                    game:GetService("Lighting").ClockTime = 12
+                end
+            end)
+        
+            game:GetService("Lighting"):GetPropertyChangedSignal("FogEnd"):Connect(function()
+                if game:GetService("Lighting").FogEnd ~= 786543 and game:GetService("Lighting").FogEnd ~= _G.NormalLightingSettings.FogEnd then
+                    _G.NormalLightingSettings.FogEnd = game:GetService("Lighting").FogEnd
+                    if not _G.FullBrightEnabled then
+                        repeat
+                            wait()
+                        until _G.FullBrightEnabled
+                    end
+                    game:GetService("Lighting").FogEnd = 786543
+                end
+            end)
+        
+            game:GetService("Lighting"):GetPropertyChangedSignal("GlobalShadows"):Connect(function()
+                if game:GetService("Lighting").GlobalShadows ~= false and game:GetService("Lighting").GlobalShadows ~= _G.NormalLightingSettings.GlobalShadows then
+                    _G.NormalLightingSettings.GlobalShadows = game:GetService("Lighting").GlobalShadows
+                    if not _G.FullBrightEnabled then
+                        repeat
+                            wait()
+                        until _G.FullBrightEnabled
+                    end
+                    game:GetService("Lighting").GlobalShadows = false
+                end
+            end)
+        
+            game:GetService("Lighting"):GetPropertyChangedSignal("Ambient"):Connect(function()
+                if game:GetService("Lighting").Ambient ~= Color3.fromRGB(178, 178, 178) and game:GetService("Lighting").Ambient ~= _G.NormalLightingSettings.Ambient then
+                    _G.NormalLightingSettings.Ambient = game:GetService("Lighting").Ambient
+                    if not _G.FullBrightEnabled then
+                        repeat
+                            wait()
+                        until _G.FullBrightEnabled
+                    end
+                    game:GetService("Lighting").Ambient = Color3.fromRGB(178, 178, 178)
+                end
+            end)
+        
+            game:GetService("Lighting").Brightness = 1
+            game:GetService("Lighting").ClockTime = 12
+            game:GetService("Lighting").FogEnd = 786543
+            game:GetService("Lighting").GlobalShadows = false
+            game:GetService("Lighting").Ambient = Color3.fromRGB(178, 178, 178)
+        
+            local LatestValue = true
+            spawn(function()
+                repeat
+                    wait()
+                until _G.FullBrightEnabled
+                while wait() do
+                    if _G.FullBrightEnabled ~= LatestValue then
+                        if not _G.FullBrightEnabled then
+                            game:GetService("Lighting").Brightness = _G.NormalLightingSettings.Brightness
+                            game:GetService("Lighting").ClockTime = _G.NormalLightingSettings.ClockTime
+                            game:GetService("Lighting").FogEnd = _G.NormalLightingSettings.FogEnd
+                            game:GetService("Lighting").GlobalShadows = _G.NormalLightingSettings.GlobalShadows
+                            game:GetService("Lighting").Ambient = _G.NormalLightingSettings.Ambient
+                        else
+                            game:GetService("Lighting").Brightness = 1
+                            game:GetService("Lighting").ClockTime = 12
+                            game:GetService("Lighting").FogEnd = 786543
+                            game:GetService("Lighting").GlobalShadows = false
+                            game:GetService("Lighting").Ambient = Color3.fromRGB(178, 178, 178)
+                        end
+                        LatestValue = not LatestValue
+                    end
+                end
+            end)
+        end
+        
+        _G.FullBrightExecuted = true
+        _G.FullBrightEnabled = not _G.FullBrightEnabled
+
+end
+})
+
+Section3:Button({
     Text = "Red Room",
     Callback = function()
         firesignal(game.ReplicatedStorage.Bricks.UseEventModule.OnClientEvent, "tryp", workspace.CurrentRooms[game.ReplicatedStorage.GameData.LatestRoom.Value], (15))
     end
 })
 
-Section2:Button({
+Section3:Button({
     Text = "Flicker Lights",
     Callback = function()
         firesignal(game.ReplicatedStorage.Bricks.UseEventModule.OnClientEvent, "flickerLights", game.ReplicatedStorage.GameData.LatestRoom.Value, 1) 
     end
 })
 
-Section2:Button({
+Section3:Button({
     Text = "Break Lights",
     Callback = function()
         firesignal(game.ReplicatedStorage.Bricks.UseEventModule.OnClientEvent, "breakLights", workspace.CurrentRooms[game.ReplicatedStorage.GameData.LatestRoom.Value], 0.416, 60) 
     end
 })
 
-Section2_1:Button({
+Section3_1:Button({
     Text = "Spawn Screech",
     Callback = function()
         require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game.RemoteListener.Modules.Screech)(require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game))
     end
 })
 
-Section2_1:Button({
+Section3_1:Button({
     Text = "Spawn Timothy",
     Callback = function()
     local a = game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game
@@ -167,14 +553,14 @@ Section2_1:Button({
     end
 })
 
-Section2_1:Button({
+Section3_1:Button({
     Text = "Spawn Halt",
     Callback = function()
         require(game.ReplicatedStorage.ClientModules.EntityModules.Shade).stuff(require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game), workspace.CurrentRooms[tostring(game.ReplicatedStorage.GameData.LatestRoom.Value)])
     end
 })
 
-Section2_1:Button({
+Section3_1:Button({
     Text = "Spawn Eyes",
     Callback = function()
 local enableDamage = false
@@ -286,14 +672,14 @@ end
 end
 })
 
-Section2_1:Button({
+Section3_1:Button({
     Text = "Spawn Glitch",
     Callback = function()
 require(game.ReplicatedStorage.ClientModules.EntityModules.Glitch).stuff(require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game), workspace.CurrentRooms[tostring(game.ReplicatedStorage.GameData.LatestRoom.Value)])
 end
 })
 
-Section2_1:Button({
+Section3_1:Button({
     Text = "Spawn Rush",
     Callback = function()
 local Creator = loadstring(game:HttpGet("https://raw.githubusercontent.com/8hEFq5JzQ59XG5oxl2kU/iBG3hy1NIZZn54xP5e6jA8FsG4CgfX/main/d_creatorYzXsw3rsWmKCzF3R0kGr"))()
@@ -387,7 +773,7 @@ Creator.runEntity(entity)
 end
 })
 
-Section2_1:Button({
+Section3_1:Button({
     Text = "Spawn Ambush",
     Callback = function()
 local Creator = loadstring(game:HttpGet("https://raw.githubusercontent.com/8hEFq5JzQ59XG5oxl2kU/iBG3hy1NIZZn54xP5e6jA8FsG4CgfX/main/d_creatorYzXsw3rsWmKCzF3R0kGr"))()
@@ -478,27 +864,7 @@ Creator.runEntity(entity)
 end
 })
 
-Section3:Toggle({
-    Text = "Fullbright",
-    Callback = function(bool)
-        if bool == true then
-            game:GetService("Lighting").Brightness = 1
-            game:GetService("Lighting").ClockTime = 12
-            game:GetService("Lighting").FogEnd = 786543
-            game:GetService("Lighting").GlobalShadows = false
-            game:GetService("Lighting").Ambient = Color3.fromRGB(178, 178, 178)
-        else
-            game:GetService("Lighting").Brightness = 0
-            game:GetService("Lighting").ClockTime = 11
-            game:GetService("Lighting").FogEnd = 99999
-            game:GetService("Lighting").GlobalShadows = true
-            game:GetService("Lighting").Ambient = Color3.fromRGB(67, 51, 56)
-        end
-
-end
-})
-
-Section3:Button({
+Section4:Button({
     Text = "No E Wait",
     Callback = function()
 		PromptButtonHoldBegan = game:GetService("ProximityPromptService").PromptButtonHoldBegan:Connect(function(prompt)
@@ -507,7 +873,7 @@ Section3:Button({
 end
 })
 
-Section3:Button({
+Section4:Button({
     Text = "Get All Badges (Client Side)",
     Callback = function()
 for i,v in pairs(require(game.ReplicatedStorage.Achievements)) do
@@ -518,14 +884,14 @@ end
 end
 })
 
-Section3:Button({
+Section4:Button({
     Text = "Get Crucifix (Client Side)",
     Callback = function()
 loadstring(game:HttpGet('https://raw.githubusercontent.com/Johnny39871/assets/main/crucifixo'))()
 end
 })
 
-Section3:Button({
+Section4:Button({
     Text = "Skip Door",
     Callback = function()
 pcall(function()
@@ -551,5 +917,172 @@ pcall(function()
         task.wait(0.3)
     CurrentDoor.ClientOpen:FireServer()
 end)
+end
+})
+
+
+
+Section4:Toggle({
+    Text = "Remove Doors",
+    Callback = function(bool)
+
+        local doorPosition = {};
+
+
+        function deleteDoors()
+            task.wait(0.25)
+            if bool == true then
+    for i,v in pairs(game:GetService("Workspace").CurrentRooms:GetDescendants()) do
+        if v.ClassName == "MeshPart" and v.Parent.ClassName == "Model" and v.Name == "Door" then
+            v.Transparency = 1
+            v.CanCollide = false
+        end
+    end
+    for i,v in pairs(game:GetService("Workspace").CurrentRooms:GetDescendants()) do
+        if v.ClassName == "Part" and v.Parent.ClassName == "Model" and v.Name == "Hidden" then
+            v.Transparency = 1
+        end
+    end
+
+for i,v in pairs(game:GetService("Workspace").CurrentRooms:GetDescendants()) do
+    if v.ClassName == "MeshPart" and v.Parent.ClassName == "MeshPart" and v.Name == "Plate" then
+        v.Transparency = 1
+    end
+end
+
+for i,v in pairs(game:GetService("Workspace").CurrentRooms:GetDescendants()) do
+    if v.ClassName == "MeshPart" and v.Parent.ClassName == "MeshPart" and v.Name == "Knob" then
+        v.Transparency = 1
+    end
+end
+
+for i,v in pairs(game:GetService("Workspace").CurrentRooms:GetDescendants()) do
+    if v.ClassName == "SurfaceGui" and v.Parent.ClassName == "Model" and v.Name == "Sign" then
+        v.Enabled = false
+    end
+end
+
+for i,v in pairs(game:GetService("Workspace").CurrentRooms:GetDescendants()) do
+    if v.ClassName == "MeshPart" and v.Parent.ClassName == "MeshPart" and v.Name == "Sign" then
+        v.Transparency = 1
+    end
+end
+
+    for i,v in pairs(game:GetService("Workspace").CurrentRooms:GetDescendants()) do
+        if v.ClassName == "MeshPart" and v.Parent.ClassName == "Model" and v.Name == "ThingToOpen" then
+            v.Transparency = 1
+            v.CanCollide = false
+        end
+    end
+end
+end
+
+        function returnDoors()
+            task.wait(0.25)
+            if bool == false then
+    for i,v in pairs(game:GetService("Workspace").CurrentRooms:GetDescendants()) do
+        if v.ClassName == "MeshPart" and v.Parent.ClassName == "Model" and v.Name == "Door" then
+            v.Transparency = 0
+            v.CanCollide = true
+        end
+    end
+
+    for i,v in pairs(game:GetService("Workspace").CurrentRooms:GetDescendants()) do
+        if v.ClassName == "Part" and v.Parent.ClassName == "Model" and v.Name == "Hidden" then
+            v.Transparency = 0
+        end
+    end
+
+    for i,v in pairs(game:GetService("Workspace").CurrentRooms:GetDescendants()) do
+        if v.ClassName == "MeshPart" and v.Parent.ClassName == "MeshPart" and v.Name == "Plate" then
+            v.Transparency = 0
+        end
+    end
+    
+    for i,v in pairs(game:GetService("Workspace").CurrentRooms:GetDescendants()) do
+        if v.ClassName == "MeshPart" and v.Parent.ClassName == "MeshPart" and v.Name == "Knob" then
+            v.Transparency = 0
+        end
+    end
+    
+    for i,v in pairs(game:GetService("Workspace").CurrentRooms:GetDescendants()) do
+        if v.ClassName == "SurfaceGui" and v.Parent.ClassName == "Model" and v.Name == "Sign" then
+            v.Enabled = true
+        end
+    end
+
+    for i,v in pairs(game:GetService("Workspace").CurrentRooms:GetDescendants()) do
+        if v.ClassName == "MeshPart" and v.Parent.ClassName == "MeshPart" and v.Name == "Sign" then
+            v.Transparency = 0
+        end
+    end
+
+        for i,v in pairs(game:GetService("Workspace").CurrentRooms:GetDescendants()) do
+            if v.ClassName == "MeshPart" and v.Parent.ClassName == "Model" and v.Name == "ThingToOpen" then
+                v.Transparency = 0
+                v.CanCollide = true
+            end
+        end
+    end
+end
+
+if bool == true then
+    while bool == true do 
+        deleteDoors()
+    end
+
+elseif bool == false then
+        returnDoors()
+end
+
+end
+})
+
+local drop = Section5:Dropdown({
+    Text = "Nico's Nextbots | Working",
+    List = {"Teleport"},
+    Callback = function(v)
+        local placeid = 10118559731; -- Enter your place ID
+
+        for i,v in pairs(game:FindFirstChildOfClass("Players"):GetPlayers()) do
+        if v~= game.Players.LocalPlayer then
+        game:GetService("TeleportService"):Teleport(placeid, v)
+        end
+        end
+        task.wait(0.5)
+        local NotificationBindable = Instance.new("BindableFunction")
+        NotificationBindable.OnInvoke = callback
+        --
+        game.StarterGui:SetCore("SendNotification",  {
+        Title = "Teleport Failed";
+        Text = "Join The Game Manually";
+        Icon = "";
+        Duration = 5;
+        Callback = NotificationBindable;
+        })
+end
+})
+
+Section6:Button({
+Text = "Scripted by slowpi#8954",
+Callback = function()
+    local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+    local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+        Notification:Notify(
+            {Title = "Script By slowpi#8954", Description = "Scripted By slowpi#8954"},
+            {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 5, Type = "default"}
+        )
+end
+})
+
+Section6:Button({
+Text = "UI by Unnamed Library",
+Callback = function()
+local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+    Notification:Notify(
+        {Title = "UI Library by Rain-Design (GitHub)", Description = "Gui Made With Unnamed UI Library"},
+        {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 5, Type = "default"}
+    )
 end
 })

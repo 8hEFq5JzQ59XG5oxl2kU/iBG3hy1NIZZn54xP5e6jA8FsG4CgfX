@@ -11,6 +11,7 @@ local Window = OrionLib:MakeWindow({Name = "slowpihax | Key System", HidePremium
 local isDev = false
 local isPremium = false
 local isMember = true
+local isBanned = false
 
 local hwidDev = {
     [{"FD1329B0-2DFA-4E69-8037-44297CE3154A"}] = true,
@@ -124,9 +125,6 @@ elseif Key ~= nonPremiumKey then
 end
 
 vVersion = "1.5"
-
-
-local loggedIn = false
 
 local Tab = Window:MakeTab({
 	Name = "Key",
@@ -423,6 +421,8 @@ PremiumOnly = false
 local Section = Tab:AddSection({
 Name = "Change Logs"
 })
+
+Tab:AddParagraph("Version 1.5"," |  Nico's Nextbots |                                                                           [*] Fixed Walkspeed                                                                        [*] Improved Bot Esp                                                                                                                                                  .                                                                                                         | Doors |                                                                                           [*] Added Game Support To Doors                                                                                  .                                                                                                           | Universal |                                                                                        [*] Security And Performance Improvements")
 
 Tab:AddParagraph("Version 1.4.1"," |  Nico's Nextbots |                                                                           [*] Improved Bot Breaker                                                                                                             .                                                                                                         | Universal |                                                                                   [*] Fixed Gui Not Loading Most Of The Time")
 

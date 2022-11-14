@@ -123,7 +123,7 @@ elseif Key ~= nonPremiumKey then
     isPremium = "true"
 end
 
-vVersion = "1.4.2 BETA"
+vVersion = "1.5"
 
 
 local loggedIn = false

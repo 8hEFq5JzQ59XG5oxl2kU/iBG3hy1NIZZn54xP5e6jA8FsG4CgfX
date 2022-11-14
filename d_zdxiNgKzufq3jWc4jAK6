@@ -134,7 +134,7 @@ Section:Slider({
         game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
 
         while true do
-            task.wait()
+            game:GetService("RunService").RenderStepped:Wait()
         if game.Players.LocalPlayer.Character.Humanoid.WalkSpeed ~= Value then
             game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
         end

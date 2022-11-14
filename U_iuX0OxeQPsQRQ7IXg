@@ -56,8 +56,6 @@ end
             elseif isDev == true then
                 title = "slowpihax | "..vVersion.." | Universal | Dev";
             end
-
-                        setclipboard("https://discord.com/invite/JN6wgVrUAr")
                 
                 
                     local Window = Library:Window({
@@ -136,7 +134,14 @@ end
                         Minimum = 0,
                         Maximum = 500,
                         Callback = function(Value)
-                        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed =(Value)
+                            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+
+                            while true do
+                                game:GetService("RunService").RenderStepped:Wait()
+                            if game.Players.LocalPlayer.Character.Humanoid.WalkSpeed ~= Value then
+                                game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+                            end
+                        end
                         end
                     })
                 
@@ -146,7 +151,15 @@ end
                         Minimum = 0,
                         Maximum = 500,
                         Callback = function(Value)
-                            game.Players.LocalPlayer.Character.Humanoid.JumpPower =(Value)
+                            game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+
+
+                            while true do
+                                game:GetService("RunService").RenderStepped:Wait()
+                            if game.Players.LocalPlayer.Character.Humanoid.JumpPower ~= Value then
+                                game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+                            end
+                        end
                         end
                     })
                 
@@ -1619,14 +1632,55 @@ end
                             end
                     })
                 
-                    if game.PlaceId == 10118559731 then
-                        Section4:Button({
-                            Text = "No Other Games Yet.",
-                            Callback = function()
-                                print("Theres No Other Supported Games Yet.")
+                    local drop = Section4:Dropdown({
+                        Text = "Nico's Nextbots | Working",
+                        List = {"Teleport"},
+                        Callback = function(v)
+                            local placeid = 10118559731; -- Enter your place ID
+                
+                            for i,v in pairs(game:FindFirstChildOfClass("Players"):GetPlayers()) do
+                            if v~= game.Players.LocalPlayer then
+                            game:GetService("TeleportService"):Teleport(placeid, v)
                             end
-                        })
+                            end
+                            task.wait(0.5)
+                            local NotificationBindable = Instance.new("BindableFunction")
+                            NotificationBindable.OnInvoke = callback
+                            --
+                            game.StarterGui:SetCore("SendNotification",  {
+                            Title = "Teleport Failed";
+                            Text = "Join The Game Manually";
+                            Icon = "";
+                            Duration = 5;
+                            Callback = NotificationBindable;
+                            })
                     end
+                   })
+
+                   local drop = Section4:Dropdown({
+                    Text = "Nico's Nextbots | Working",
+                    List = {"Teleport"},
+                    Callback = function(v)
+                        local placeid = 6516141723; -- Enter your place ID
+                
+                        for i,v in pairs(game:FindFirstChildOfClass("Players"):GetPlayers()) do
+                        if v~= game.Players.LocalPlayer then
+                        game:GetService("TeleportService"):Teleport(placeid, v)
+                        end
+                        end
+                        task.wait(0.5)
+                        local NotificationBindable = Instance.new("BindableFunction")
+                        NotificationBindable.OnInvoke = callback
+                        --
+                        game.StarterGui:SetCore("SendNotification",  {
+                        Title = "Teleport Failed";
+                        Text = "Join The Game Manually";
+                        Icon = "";
+                        Duration = 5;
+                        Callback = NotificationBindable;
+                        })
+                end
+                })
                 
                 Section5:Button({
                     Text = "Scripted by slowpi#8954",
@@ -1651,28 +1705,3 @@ end
                         )
                     end
                 })
-
-        local drop = Section4:Dropdown({
-        Text = "Nico's Nextbots | Working",
-        List = {"Teleport"},
-        Callback = function(v)
-            local placeid = 10118559731; -- Enter your place ID
-
-            for i,v in pairs(game:FindFirstChildOfClass("Players"):GetPlayers()) do
-            if v~= game.Players.LocalPlayer then
-            game:GetService("TeleportService"):Teleport(placeid, v)
-            end
-            end
-            task.wait(0.5)
-            local NotificationBindable = Instance.new("BindableFunction")
-            NotificationBindable.OnInvoke = callback
-            --
-            game.StarterGui:SetCore("SendNotification",  {
-            Title = "Teleport Failed";
-            Text = "Join The Game Manually";
-            Icon = "";
-            Duration = 5;
-            Callback = NotificationBindable;
-            })
-    end
-   })

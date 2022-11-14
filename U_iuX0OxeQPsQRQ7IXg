@@ -1657,31 +1657,6 @@ end
                     end
                    })
 
-                   local drop = Section4:Dropdown({
-                    Text = "Nico's Nextbots | Working",
-                    List = {"Teleport"},
-                    Callback = function(v)
-                        local placeid = 6516141723; -- Enter your place ID
-                
-                        for i,v in pairs(game:FindFirstChildOfClass("Players"):GetPlayers()) do
-                        if v~= game.Players.LocalPlayer then
-                        game:GetService("TeleportService"):Teleport(placeid, v)
-                        end
-                        end
-                        task.wait(0.5)
-                        local NotificationBindable = Instance.new("BindableFunction")
-                        NotificationBindable.OnInvoke = callback
-                        --
-                        game.StarterGui:SetCore("SendNotification",  {
-                        Title = "Teleport Failed";
-                        Text = "Join The Game Manually";
-                        Icon = "";
-                        Duration = 5;
-                        Callback = NotificationBindable;
-                        })
-                end
-                })
-
                 local drop = Section4:Dropdown({
                     Text = "Doors | Working",
                     List = {"Teleport"},

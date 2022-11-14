@@ -133,15 +133,15 @@ end)
         -- Sliders
     
 Section:Slider({
-    Text = "Walkspeed (Bugged)",
+    Text = "Walkspeed",
     Default = 22.5,
     Minimum = 1,
-    Maximum = 100,
+    Maximum = 200,
     Callback = function(Value)
         game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
 
         while true do
-            task.wait()
+            game:GetService("RunService").RenderStepped:Wait()
         if game.Players.LocalPlayer.Character.Humanoid.WalkSpeed ~= Value then
             game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
         end
@@ -993,12 +993,31 @@ local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/
                     )
         end})
     end
-        Section5:Button({
-            Text = "No Other Games Yet.",
-            Callback = function()
-                print("Theres No Other Supported Games Yet.")
+    
+    local drop = Section5:Dropdown({
+        Text = "Nico's Nextbots | Working",
+        List = {"Teleport"},
+        Callback = function(v)
+            local placeid = 6516141723; -- Enter your place ID
+    
+            for i,v in pairs(game:FindFirstChildOfClass("Players"):GetPlayers()) do
+            if v~= game.Players.LocalPlayer then
+            game:GetService("TeleportService"):Teleport(placeid, v)
             end
-        })
+            end
+            task.wait(0.5)
+            local NotificationBindable = Instance.new("BindableFunction")
+            NotificationBindable.OnInvoke = callback
+            --
+            game.StarterGui:SetCore("SendNotification",  {
+            Title = "Teleport Failed";
+            Text = "Join The Game Manually";
+            Icon = "";
+            Duration = 5;
+            Callback = NotificationBindable;
+            })
+    end
+    })
 
         Section5:Button({
             Text = "Load Universal",

@@ -816,7 +816,7 @@ end
                 local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
                 local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
                     Notification:Notify(
-                        {Title = "FPS Boost Disabled", Description = "Your FPS Should Now Be Back To Normal."},
+                        {Title = "Noclip", Description = "Your FPS Should Now Be Back To Normal."},
                         {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2.25, Type = "default"}
                     )
 
@@ -993,7 +993,7 @@ local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/
                     )
         end})
     end
-    
+
     local drop = Section5:Dropdown({
         Text = "Nico's Nextbots | Working",
         List = {"Teleport"},

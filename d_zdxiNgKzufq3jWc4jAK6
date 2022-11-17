@@ -55,7 +55,6 @@ Spoof = hookmetamethod(game, "__index", function(self, ...)
 return Spoof(self, ...) 
 end)
 
-
         -- UI Stuff
         local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/Rain-Design/Unnamed/main/Library.lua'))()
         Library.Theme = "Dark"
@@ -158,98 +157,123 @@ end
 Section2:Toggle({
     Text = "Item Esp",
     Callback = function(bool)
+        if bool == true then
+
+            local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+            local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Item Esp Enabled", Description = "You Can Now See All The Doors."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
+                )
         function doItemEsp()
             if bool == true then
-                local CurrentDoor = workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Door")
 
-                for _,object in ipairs(CurrentDoor.Parent:GetDescendants()) do
-                	if object.Name == "Key" and object.ClassName == "MeshPart" and object.Parent.Name == "Hitbox" then
+                local CurrentDoor = workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Assets")
 
-                    if object:FindFirstChild("ItemEsp_slowpihax") == nil then
-                local BillboardGui = Instance.new("BillboardGui")
-                local TextLabel = Instance.new("TextLabel")
+        getgenv().ItemESP = loadstring(game:HttpGet("https://kiriot22.com/releases/ESP.lua"))()
+
+        getgenv().ItemESP.Tracers = false
+        getgenv().ItemESP.Names = true
+        getgenv().ItemESP.Boxes = true
+        getgenv().ItemESP.Players = false
+        getgenv().ItemESP.FaceCamera = true
+        getgenv().ItemESP.BoxShift = CFrame.new(0,0,0)
+        getgenv().ItemESP.BoxSize = Vector3.new(1.75,1.75,1.75)
+
+        getgenv().ItemESP:AddObjectListener(CurrentDoor, {
+            Recursive = true,
+            Name = "Key",
+            Type = "MeshPart",
+            CustomName = "Key",
+            Color = Color3.fromRGB(0,255,0),
+            IsEnabled = "itemesp",
+            })
+
+            getgenv().ItemESP:AddObjectListener(CurrentDoor, {
+                Recursive = true,
+                Name = "LeverForGate",
+                Type = "Model",
+                CustomName = "Lever",
+                Color = Color3.fromRGB(0,255,0),
+                IsEnabled = "itemesp",
+                })
+
+                getgenv().ItemESP:AddObjectListener(CurrentDoor, {
+                    Recursive = true,
+                    Name = "LiveHintBook",
+                    Type = "Model",
+                    CustomName = "Book",
+                    Color = Color3.fromRGB(0,255,0),
+                    IsEnabled = "itemesp",
+                    })
+
+            workspace.CurrentRooms.ChildAdded:Connect(function(DescendantKey)
+                if DescendantKey:IsA("Model") then
+                    local CurrentDoor = workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Assets")
+            getgenv().ItemESP:AddObjectListener(CurrentDoor, {
+                Recursive = true,
+                Name = "Key",
+                Type = "MeshPart",
+                CustomName = "Key",
+                Color = Color3.fromRGB(0,255,0),
+                IsEnabled = "itemesp",
+                })
                 
-                BillboardGui.Name = "ItemEsp_slowpihax"
-                BillboardGui.Parent = object
-                BillboardGui.AlwaysOnTop = true
-                BillboardGui.LightInfluence = 1
-                BillboardGui.Size = UDim2.new(0, 1, 0, 1)
-                BillboardGui.StudsOffset = Vector3.new(0, -0.5, 0)
-                
-                TextLabel.Parent = BillboardGui
-                TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
-                TextLabel.BackgroundTransparency = 1
-                TextLabel.Size = UDim2.new(1, 0, 1, 0)
-                TextLabel.Text = "Key"
-                TextLabel.TextColor3 = Color3.new(0, 255, 0)
-                TextLabel.TextScaled = false
-                        end
-                    elseif object.ClassName == "MeshPart" and object.Name == "Main" and object.Parent.ClassName == "Model" and object.Parent.Name == "LeverForGate" then
-                                
-                                if object:FindFirstChild("ItemEsp_slowpihax") == nil then
-                                    local BillboardGui = Instance.new("BillboardGui")
-                                    local TextLabel = Instance.new("TextLabel")
-                                    
-                                    BillboardGui.Name = "ItemEsp_slowpihax"
-                                    BillboardGui.Parent = object
-                                    BillboardGui.AlwaysOnTop = true
-                                    BillboardGui.LightInfluence = 1
-                                    BillboardGui.Size = UDim2.new(0, 1, 0, 1)
-                                    BillboardGui.StudsOffset = Vector3.new(0, -0.5, 0)
-                                    
-                                    TextLabel.Parent = BillboardGui
-                                    TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
-                                    TextLabel.BackgroundTransparency = 1
-                                    TextLabel.Size = UDim2.new(1, 0, 1, 0)
-                                    TextLabel.Text = "Lever"
-                                    TextLabel.TextColor3 = Color3.new(0, 255, 0)
-                                    TextLabel.TextScaled = false
-                                end
-
-elseif object.ClassName == "Part" and object.Name == "Base" and object.Parent.ClassName == "Model" and object.Parent.Name == "LiveHintBook" then
-    if object:FindFirstChild("ItemEsp_slowpihax") == nil then
-        local BillboardGui = Instance.new("BillboardGui")
-        local TextLabel = Instance.new("TextLabel")
-        
-        BillboardGui.Name = "ItemEsp_slowpihax"
-        BillboardGui.Parent = object
-        BillboardGui.AlwaysOnTop = true
-        BillboardGui.LightInfluence = 1
-        BillboardGui.Size = UDim2.new(0, 1, 0, 1)
-        BillboardGui.StudsOffset = Vector3.new(0, -0.5, 0)
-        
-        TextLabel.Parent = BillboardGui
-        TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
-        TextLabel.BackgroundTransparency = 1
-        TextLabel.Size = UDim2.new(1, 0, 1, 0)
-        TextLabel.Text = "Book"
-        TextLabel.TextColor3 = Color3.new(0, 255, 0)
-        TextLabel.TextScaled = false
-                end
+            getgenv().ItemESP.itemesp = true
+            getgenv().ItemESP:Toggle(true)
             end
+    end)
+
+        workspace.CurrentRooms.ChildAdded:Connect(function(DescendantLever)
+            if DescendantLever:IsA("Model") then
+                local CurrentDoor = workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Assets")
+        getgenv().ItemESP:AddObjectListener(CurrentDoor, {
+            Recursive = true,
+            Name = "LeverForGate",
+            Type = "Model",
+            CustomName = "Lever",
+            Color = Color3.fromRGB(0,255,0),
+            IsEnabled = "itemesp",
+            })
         end
+    end)
+
+        workspace.CurrentRooms.ChildAdded:Connect(function(DescendantBook)
+            if DescendantBook:IsA("Model") then
+                local CurrentDoor = workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Assets")
+                getgenv().ItemESP:AddObjectListener(CurrentDoor, {
+                    Recursive = true,
+                    Name = "LiveHintBook",
+                    Type = "Model",
+                    CustomName = "Book",
+                    Color = Color3.fromRGB(0,255,0),
+                    IsEnabled = "itemesp",
+                    })
+        
+    getgenv().ItemESP.itemesp = true
+    getgenv().ItemESP:Toggle(true)
     end
+end)
+end
 end
 
-while bool == true do
-    task.wait()
-    if bool == true then
-    doItemEsp()
-    end
-end
+doItemEsp()
 
-if bool == false then
-    task.wait()
-    local DoorReplication = loadstring(game:HttpGet("https://raw.githubusercontent.com/RegularVynixu/Utilities/main/Doors/Door%20Replication/Source.lua"))()
+        getgenv().ItemESP.itemesp = true
+        getgenv().ItemESP:Toggle(true)
+                        
+elseif bool == false then
 
-    local CurrentDoor = workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Door")
+                local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                    Notification:Notify(
+                        {Title = "Item Esp Disabled", Description = "You Can No Longer See All The Items."},
+                        {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
+                    )
 
+        getgenv().ItemESP.itemesp = false
+        getgenv().ItemESP:Toggle(false)
 
-    for _,object in ipairs(CurrentDoor.Parent:GetDescendants()) do
-    if object.Name == "ItemEsp_slowpihax" then
-        object:Destroy()
-    end
-end
     end
 end
 })
@@ -257,149 +281,256 @@ end
 Section2:Toggle({
     Text = "Door Esp",
     Callback = function(bool)
+        if bool == true then
+
+            local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+            local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Door Esp Enabled", Description = "You Can Now See All The Doors."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
+                )
         function doDoorEsp()
             if bool == true then
 
-                local CurrentDoor = workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Door")
+        local CurrentDoor = workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)].Door.Door
 
+        getgenv().DoorESP = loadstring(game:HttpGet("https://kiriot22.com/releases/ESP.lua"))()
 
-            	for _,object in ipairs(CurrentDoor:GetDescendants()) do
-                	if object.Name == "Sign" and object.ClassName == "MeshPart" and  object.Parent.Name == "Door"then
-                if object:FindFirstChild("DoorEsp_slowpihax") == nil then
-                    local BillboardGui = Instance.new("BillboardGui")
-                    local TextLabel = Instance.new("TextLabel")
-                    
-                    BillboardGui.Name = "DoorEsp_slowpihax"
-                    BillboardGui.Parent = object
-                    BillboardGui.AlwaysOnTop = true
-                    BillboardGui.LightInfluence = 1
-                    BillboardGui.Size = UDim2.new(0, 1, 0, 1)
-                    BillboardGui.StudsOffset = Vector3.new(0, -2, 0)
-                    
-                    TextLabel.Parent = BillboardGui
-                    TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
-                    TextLabel.BackgroundTransparency = 1
-                    TextLabel.Size = UDim2.new(1, 0, 1, 0)
-                    TextLabel.Text = "Door"
-                    TextLabel.TextColor3 = Color3.new(0, 0, 255)
-                    TextLabel.TextScaled = false
-                            end
-                        end
-                    end
-                end
+        getgenv().DoorESP.Tracers = false
+        getgenv().DoorESP.Names = true
+        getgenv().DoorESP.Boxes = true
+        getgenv().DoorESP.Players = false
+        getgenv().DoorESP.BoxShift = CFrame.new(0,-2,0)
+        getgenv().DoorESP.BoxSize = Vector3.new(6,8.5,0)
+
+        getgenv().DoorESP:AddObjectListener(CurrentDoor, {
+            Recursive = true,
+            Name = "Sign",
+            Type = "MeshPart",
+            CustomName = "Door",
+            Color = Color3.fromRGB(0,0,255),
+            IsEnabled = "dooresp",
+            })
+
+            workspace.CurrentRooms.ChildAdded:Connect(function(Descendant)
+                if Descendant:IsA("Model") then
+            local CurrentDoor = workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)].Door.Door
+            getgenv().DoorESP:AddObjectListener(CurrentDoor, {
+                Recursive = true,
+                Name = "Sign",
+                Type = "MeshPart",
+                CustomName = "Door",
+                Color = Color3.fromRGB(0,0,255),
+                IsEnabled = "dooresp",
+                })
+                
+            getgenv().DoorESP.dooresp = true
+            getgenv().DoorESP:Toggle(true)
             end
+    end)
+end
+end
 
-        while bool == true do
-            task.wait(0.1)
-            doDoorEsp()
-        end
+doDoorEsp()
 
-        if bool == false then
-            for i,v in pairs(game:GetService("Workspace").CurrentRooms:GetDescendants()) do
-                if v.ClassName == "BillboardGui" and v.Name == "DoorEsp_slowpihax" then
-                        v:Destroy()
-                    end
-                end
-            end
+        getgenv().DoorESP.dooresp = true
+        getgenv().DoorESP:Toggle(true)
+                        
+elseif bool == false then
+
+                local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                    Notification:Notify(
+                        {Title = "Door Esp Disabled", Description = "You Can No Longer See All The Doors."},
+                        {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
+                    )
+
+        getgenv().DoorESP.dooresp = false
+        getgenv().DoorESP:Toggle(false)
+
+    end
 end
 })
 
 Section2:Toggle({
     Text = "Entity Esp",
     Callback = function(bool)
-                function doCommonEntityEsp()
-                    if bool == true then
-                        workspace.ChildAdded:Connect(function(Descendant)
-                            if Descendant:IsA("Model") then
-                            if Descendant:FindFirstChild("EntityEsp_slowpihax") == nil then
-                        local BillboardGui = Instance.new("BillboardGui")
-                        local TextLabel = Instance.new("TextLabel")
-                        local EntityName = "Rush"
-
-                        if Descendant.Name == "RushMoving" then EntityName = "Rush"
-                        elseif Descendant.Name == "AmbushMoving" then EntityName = "Ambush"
-                        elseif Descendant.Name == "Lookman" then EntityName = "Look Man"
-                        elseif Descendant.Name == "SeekMoving" then EntityName = "Seek"
-                        end
-                        
-                        BillboardGui.Name = "EntityEsp_slowpihax"
-                        BillboardGui.Parent = Descendant
-                        BillboardGui.AlwaysOnTop = true
-                        BillboardGui.LightInfluence = 1
-                        BillboardGui.Size = UDim2.new(0, 1, 0, 1)
-                        BillboardGui.StudsOffset = Vector3.new(0, -0.5, 0)
-                        
-                        TextLabel.Parent = BillboardGui
-                        TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
-                        TextLabel.BackgroundTransparency = 1
-                        TextLabel.Size = UDim2.new(1, 0, 1, 0)
-                        TextLabel.Text = EntityName
-                        TextLabel.TextColor3 = Color3.new(255, 0, 0)
-                        TextLabel.TextScaled = false
-                                end
-                            end
-                        end)
-                    end
-                    task.wait(0.01)
-                end
-
-    function doOtherEntityEsp()
         if bool == true then
 
-            local CurrentDoor = workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("FigureSetup")
+            local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+            local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Entity Esp Enabled", Description = "You Can Now See All The Entities."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
+                )
+        function doEntityEsp()
+            if bool == true then
 
+        getgenv().EntityESP = loadstring(game:HttpGet("https://kiriot22.com/releases/ESP.lua"))()
+
+        local CurrentDoor = workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("FigureSetup")
+
+        getgenv().EntityESP.Tracers = true
+        getgenv().EntityESP.Names = true
+        getgenv().EntityESP.Boxes = true
+        getgenv().EntityESP.Players = false
+        getgenv().EntityESP.FaceCamera = true
+        getgenv().EntityESP.BoxShift = CFrame.new(0,0,0)
+        getgenv().EntityESP.BoxSize = Vector3.new(6,8.5,0)
+        
+        getgenv().EntityESP:AddObjectListener(CurrentDoor, {
+            Recursive = true,
+            Name = "FigureRagdoll",
+            Type = "Model",
+            CustomName = "Figure",
+            Color = Color3.fromRGB(255,0,0),
+            IsEnabled = "entityesp",
+            })
         end
-        for i,v in pairs(CurrentDoor:GetDescendants()) do
-            if v.Name == "Torso" and v.ClassName == "MeshPart" then
-                if v:IsA("MeshPart") and v.Name == "Torso" then
-                if v:FindFirstChild("EntityEsp_slowpihax") == nil then
-                        local BillboardGui = Instance.new("BillboardGui")
-                        local TextLabel = Instance.new("TextLabel")
-                        local EntityName = "Figure"
+    end
+
+    if workspace:FindFirstChild("RushMoving") ~= nil then
+
+    getgenv().EntityESP:AddObjectListener(workspace, {
+        Recursive = true,
+        Name = "RushMoving",
+        Type = "Model",
+        CustomName = "Rush",
+        Color = Color3.fromRGB(255,0,0),
+        IsEnabled = "entityesp",
+        })
+
+        getgenv().EntityESP.entityesp = true
+        getgenv().EntityESP:Toggle(true)
+    end
+
+    if workspace:FindFirstChild("Lookman") ~= nil then
+
+        getgenv().EntityESP:AddObjectListener(workspace, {
+            Recursive = true,
+            Name = "Lookman",
+            Type = "Model",
+            CustomName = "Look Man",
+            Color = Color3.fromRGB(255,0,0),
+            IsEnabled = "entityesp",
+            })
+
+            getgenv().EntityESP.entityesp = true
+            getgenv().EntityESP:Toggle(true)
+    end
+
+    workspace.ChildAdded:Connect(function(Descendant)
+        if Descendant:IsA("Model") then
+            task.wait(0.15)
+
+            if workspace:FindFirstChild("RushMoving") ~= nil then
+
+                getgenv().EntityESP:AddObjectListener(workspace, {
+                    Recursive = true,
+                    Name = "RushMoving",
+                    Type = "Model",
+                    CustomName = "Rush",
+                    Color = Color3.fromRGB(255,0,0),
+                    IsEnabled = "entityesp",
+                    })
             
-            BillboardGui.Name = "EntityEsp_slowpihax"
-            BillboardGui.Parent = v
-            BillboardGui.AlwaysOnTop = true
-            BillboardGui.LightInfluence = 1
-            BillboardGui.Size = UDim2.new(0, 1, 0, 1)
-            BillboardGui.StudsOffset = Vector3.new(0, -0.5, 0)
-            
-            TextLabel.Parent = BillboardGui
-            TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
-            TextLabel.BackgroundTransparency = 1
-            TextLabel.Size = UDim2.new(1, 0, 1, 0)
-            TextLabel.Text = EntityName
-            TextLabel.TextColor3 = Color3.new(255, 0, 0)
-            TextLabel.TextScaled = false
-                            end
-                        end
-                    end
+                    getgenv().EntityESP.entityesp = true
+                    getgenv().EntityESP:Toggle(true)
                 end
+
+                if workspace:FindFirstChild("Lookman") ~= nil then
+
+                    getgenv().EntityESP:AddObjectListener(workspace, {
+                        Recursive = true,
+                        Name = "Lookman",
+                        Type = "Model",
+                        CustomName = "Look Man",
+                        Color = Color3.fromRGB(255,0,0),
+                        IsEnabled = "entityesp",
+                        })
+            
+                        getgenv().EntityESP.entityesp = true
+                        getgenv().EntityESP:Toggle(true)
+                end
+
+                if workspace:FindFirstChild("AmbushMoving") ~= nil then
+
+                    getgenv().EntityESP:AddObjectListener(workspace, {
+                        Recursive = true,
+                        Name = "AmbushMoving",
+                        Type = "Model",
+                        CustomName = "Ambush",
+                        Color = Color3.fromRGB(255,0,0),
+                        IsEnabled = "entityesp",
+                        })
+            
+                        getgenv().EntityESP.entityesp = true
+                        getgenv().EntityESP:Toggle(true)
+                end
+
+                if workspace:FindFirstChild("SeekMoving") ~= nil then
+
+                    getgenv().EntityESP:AddObjectListener(workspace, {
+                        Recursive = true,
+                        Name = "SeekMoving",
+                        Type = "Model",
+                        CustomName = "Seek",
+                        Color = Color3.fromRGB(255,0,0),
+                        IsEnabled = "entityesp",
+                        })
+            
+                        getgenv().EntityESP.entityesp = true
+                        getgenv().EntityESP:Toggle(true)
+                end
+            
+                            
+        getgenv().EntityESP.entityesp = true
+        getgenv().EntityESP:Toggle(true)
             end
+        end)
 
-function delSeekAndEyes()
-    if game:GetService("Workspace").Lookman ~= nil then
-        game:GetService("Workspace").Lookman:Destroy()
-    end
-    if game:GetService("Workspace").SeekMoving ~= nil then
-        game:GetService("Workspace").SeekMoving:Destroy()
+        workspace.CurrentRooms.ChildAdded:Connect(function(Descendant)
+            if Descendant:IsA("Model") then
+
+            getgenv().EntityESP.Tracers = true
+
+                local CurrentDoor = workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("FigureSetup")
+
+                getgenv().EntityESP:AddObjectListener(CurrentDoor, {
+                    Recursive = true,
+                    Name = "FigureRagdoll",
+                    Type = "Model",
+                    CustomName = "Figure",
+                    Color = Color3.fromRGB(255,0,0),
+                    IsEnabled = "entityesp",
+                    })
+
+                            
+        getgenv().EntityESP.entityesp = true
+        getgenv().EntityESP:Toggle(true)
+                end
+            end)
+
+
+            doEntityEsp()
+
+        getgenv().EntityESP.entityesp = true
+        getgenv().EntityESP:Toggle(true)
+                        
+elseif bool == false then
+
+                local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                    Notification:Notify(
+                        {Title = "Entity Esp Disabled", Description = "You Can No Longer See All The Entities."},
+                        {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
+                    )
+
+        getgenv().EntityESP.entityesp = false
+        getgenv().EntityESP:Toggle(false)
+
     end
 end
-
-while bool == true do
-    game:GetService("RunService").Heartbeat:Wait()
-    doCommonEntityEsp()
-end
-
-if bool == false then
-    for i,v in pairs(game:GetService("Workspace"):GetDescendants()) do
-        if v.Name == "EntityEsp_slowpihax"then
-            v:Destroy()
-        end
-    end
-    delSeekAndEyes()
-end
-    end
 })
 
 Section2:Toggle({

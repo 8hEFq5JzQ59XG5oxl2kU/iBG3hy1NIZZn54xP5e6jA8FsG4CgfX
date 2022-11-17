@@ -124,7 +124,7 @@ elseif Key ~= nonPremiumKey then
     isPremium = "true"
 end
 
-vVersion = "1.5"
+vVersion = "1.5.1"
 
 local Tab = Window:MakeTab({
 	Name = "Key",
@@ -423,6 +423,8 @@ PremiumOnly = false
 local Section = Tab:AddSection({
 Name = "Change Logs"
 })
+
+Tab:AddParagraph("Version 1.5.1"," |  Universal |                                                                                   [*] Improved ESP                                                                                                                                                  .                                                                                                         | Nico's Nexbots |                                                                                                                  [*] Improved ESP                                                                                         .                                                                                                           | Doors |                                                                                        [*] Improved ESP                                                                                                                   [*] Fixed Game Detection")
 
 Tab:AddParagraph("Version 1.5"," |  Nico's Nextbots |                                                                           [*] Fixed Walkspeed                                                                        [*] Improved Bot Esp                                                                                                                                                  .                                                                                                         | Doors |                                                                                           [*] Added Game Support To Doors                                                                                  .                                                                                                           | Universal |                                                                                        [*] Security And Performance Improvements                                                                                                                   [*] Improved Walkpeed and JumpPower")
 

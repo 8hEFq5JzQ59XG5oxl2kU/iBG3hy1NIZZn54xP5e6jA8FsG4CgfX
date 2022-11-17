@@ -293,7 +293,7 @@ end
 
 if game.PlaceId ~= 10118559731 then
 if game.PlaceId ~= 6516141723 then
-if game.Place ~= 6839171747 then
+if game.PlaceId ~= 6839171747 then
 loadstring(game:HttpGet("https://raw.githubusercontent.com/8hEFq5JzQ59XG5oxl2kU/iBG3hy1NIZZn54xP5e6jA8FsG4CgfX/main/U_iuX0OxeQPsQRQ7IXg"))()
 end
 end

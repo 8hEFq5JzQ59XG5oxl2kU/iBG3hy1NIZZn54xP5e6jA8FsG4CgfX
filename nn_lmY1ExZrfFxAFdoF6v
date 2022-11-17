@@ -75,8 +75,6 @@ end
         end
    return Spoof(self, ...) 
 end)
-
-        local DisableWalkSpeed = false
         
         -- Tabs
     
@@ -85,7 +83,7 @@ end)
         })
 
         local Tab2 = Window:Tab({
-            Text = "ESP"
+            Text = "Visual"
         })
 
         local Tab3 = Window:Tab({
@@ -111,7 +109,7 @@ end)
         })
 
         local Section2 = Tab2:Section({
-            Text = "ESP"
+            Text = "Visual"
         })
     
         local Section3 = Tab3:Section({
@@ -343,10 +341,171 @@ Section:Slider({
             game.Players.LocalPlayer.Character.Humanoid.Health = 0
             end
         })
+
         -- section 2
 
         Section2:Toggle({
-            Text = "Bot ESP",
+            Text = "Box Esp",
+            Callback = function(bool)
+                if bool == true then
+                    local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                    local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                        Notification:Notify(
+                            {Title = "Box Esp Enabled", Description = "You Can Now See Boxes On Other Players."},
+                            {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2.5, Type = "default"}
+                        )
+
+                    getgenv().BoxESP = loadstring(game:HttpGet("https://kiriot22.com/releases/ESP.lua"))()
+        
+                    getgenv().BoxESP.Tracers = false
+                    getgenv().BoxESP.Names = false
+                    getgenv().BoxESP.Boxes = true
+                    getgenv().BoxESP.Temporary = true
+                    getgenv().BoxESP.Color = Color3.new(0,255,0)
+                    getgenv().BoxESP.TeamColor = true
+                    getgenv().BoxESP.FaceCamera = true
+
+                        getgenv().BoxESP:Toggle(true)
+
+                else
+                    local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                    local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                        Notification:Notify(
+                            {Title = "Box Esp Disabled", Description = "You Can No Longer See Boxes On Other Players."},
+                            {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2.5, Type = "default"}
+                        )
+
+                        getgenv().BoxESP:Toggle(false)
+                end
+            end
+        })
+
+        Section2:Toggle({
+            Text = "Tracer Esp",
+            Callback = function(bool)
+                if bool == true then
+
+                    local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                    local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                        Notification:Notify(
+                            {Title = "Tracer Esp Enabled", Description = "You Can Now See Tracers To Other Players."},
+                            {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2.5, Type = "default"}
+                        )
+
+                    getgenv().TracerESP = loadstring(game:HttpGet("https://kiriot22.com/releases/ESP.lua"))()
+        
+                    getgenv().TracerESP.Tracers = true
+                    getgenv().TracerESP.Names = false
+                    getgenv().TracerESP.Boxes = false
+                    getgenv().TracerESP.Temporary = true
+                    getgenv().TracerESP.Color = Color3.new(0,255,0)
+                    getgenv().TracerESP.TeamColor = true
+        
+                    getgenv().TracerESP:Toggle(true)
+                else
+
+                    local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                    local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                        Notification:Notify(
+                            {Title = "Tracer Esp Disabled", Description = "You Can No Longer See Tracers To Other Players."},
+                            {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2.5, Type = "default"}
+                        )
+        
+                    getgenv().TracerESP:Toggle(false)
+                end
+            end
+        })
+    
+        Section2:Toggle({
+            Text = "Chams Esp",
+            Callback = function(bool)
+                if bool == true then
+
+                    local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                    local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                        Notification:Notify(
+                            {Title = "Chams Esp Enabled", Description = "You Can Now See Players Through Walls."},
+                            {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
+                        )
+        
+                    getgenv().espLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Sirius/request/library/esp/esp.lua'),true))()
+        
+                    
+                    getgenv().espLib.options.enabled = true
+                    getgenv().espLib.options.minScaleFactorX = 1
+                    getgenv().espLib.options.maxScaleFactorX = 10
+                    getgenv().espLib.options.minScaleFactorY = 1
+                    getgenv().espLib.options.maxScaleFactorY = 10
+                    getgenv().espLib.options.boundingBox = false -- WARNING | Significant Performance Decrease when true
+                    getgenv().espLib.options.boundingBoxDescending = true
+                    getgenv().espLib.options.font = 2
+                    getgenv().espLib.options.fontSize = 13
+                    getgenv().espLib.options.limitDistance = false
+                    getgenv().espLib.options.maxDistance = 99999
+                    getgenv().espLib.options.visibleOnly = false
+                    getgenv().espLib.options.teamCheck = false
+                    getgenv().espLib.options.teamColor = true
+                    getgenv().espLib.options.fillColor = nil
+                    getgenv().espLib.options.whitelistColor = Color3.new(1, 0, 0)
+                    getgenv().espLib.options.outOfViewArrows = false
+                    getgenv().espLib.options.outOfViewArrowsFilled = false
+                    getgenv().espLib.options.outOfViewArrowsSize = 25
+                    getgenv().espLib.options.outOfViewArrowsRadius = 100
+                    getgenv().espLib.options.outOfViewArrowsColor = Color3.new(1, 1, 1)
+                    getgenv().espLib.options.outOfViewArrowsTransparency = 0.5
+                    getgenv().espLib.options.outOfViewArrowsOutline = false
+                    getgenv().espLib.options.outOfViewArrowsOutlineFilled = false
+                    getgenv().espLib.options.outOfViewArrowsOutlineColor = Color3.new(1, 1, 1)
+                    getgenv().espLib.options.outOfViewArrowsOutlineTransparency = 1
+                    getgenv().espLib.options.names = false
+                    getgenv().espLib.options.nameTransparency = 1
+                    getgenv().espLib.options.nameColor = Color3.new(1, 1, 1)
+                    getgenv().espLib.options.boxes = false
+                    getgenv().espLib.options.boxesTransparency = 1
+                    getgenv().espLib.options.boxesColor = Color3.new(1, 0, 0)
+                    getgenv().espLib.options.boxFill = false
+                    getgenv().espLib.options.boxFillTransparency = 0.5
+                    getgenv().espLib.options.boxFillColor = Color3.new(1, 0, 0)
+                    getgenv().espLib.options.healthBars = false
+                    getgenv().espLib.options.healthBarsSize = 1
+                    getgenv().espLib.options.healthBarsTransparency = 1
+                    getgenv().espLib.options.healthBarsColor = Color3.new(0, 1, 0)
+                    getgenv().espLib.options.healthText = false
+                    getgenv().espLib.options.healthTextTransparency = 1
+                    getgenv().espLib.options.healthTextSuffix = "%"
+                    getgenv().espLib.options.healthTextColor = Color3.new(1, 1, 1)
+                    getgenv().espLib.options.distance = false
+                    getgenv().espLib.options.distanceTransparency = 1
+                    getgenv().espLib.options.distanceSuffix = " Studs"
+                    getgenv().espLib.options.distanceColor = Color3.new(1, 1, 1)
+                    getgenv().espLib.options.tracers = false
+                    getgenv().espLib.options.tracerTransparency = 1
+                    getgenv().espLib.options.tracerColor = Color3.new(1, 1, 1)
+                    getgenv().espLib.options.tracerOrigin = "Bottom" -- Available [Mouse, Top, Bottom]
+                    getgenv().espLib.options.chams = true
+                    getgenv().espLib.options.chamsFillColor = Color3.new(0, 255, 0)
+                    getgenv().espLib.options.chamsFillTransparency = 0.45
+                    getgenv().espLib.options.chamsOutlineColor = Color3.new()
+                    getgenv().espLib.options.chamsOutlineTransparency = 0.05
+        
+                    getgenv().espLib:Load()
+        
+                else
+
+                    local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                    local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                        Notification:Notify(
+                            {Title = "Chams Disabled", Description = "You Can No Longer See Players Through Walls."},
+                            {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
+                        )
+
+                    getgenv().espLib:Unload()
+                end
+            end
+        })
+
+        Section2:Toggle({
+            Text = "Bot Esp",
             Callback = function(bool)
 
                 if bool == true then
@@ -358,139 +517,63 @@ Section:Slider({
                             {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
             )
 
-                function doBotEsp_mall()
-                    if bool == true then
-                        for i,v in pairs(game:GetService("Workspace").bots["nn_mall"]:GetDescendants()) do
-                        if v.ClassName == "Humanoid" and v.Parent.Name ~= "slowpihax on top" then -- i am just wondering that the part u wanna esp have these properties u can change them if it doesnt work
-                        if v.Parent:FindFirstChild("BotEsp_slowpihax") == nil then
-                        local BillboardGui = Instance.new("BillboardGui")
-                        local TextLabel = Instance.new("TextLabel")
-                        local botName = v.Parent.Name
-                        
-                        BillboardGui.Name = "BotEsp_slowpihax"
-                        BillboardGui.Parent = v.Parent
-                        BillboardGui.AlwaysOnTop = true
-                        BillboardGui.LightInfluence = 1
-                        BillboardGui.Size = UDim2.new(0, 50, 0, 50)
-                        BillboardGui.StudsOffset = Vector3.new(0, 2, 0)
-                        
-                        TextLabel.Parent = BillboardGui
-                        TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
-                        TextLabel.BackgroundTransparency = 1
-                        TextLabel.Size = UDim2.new(1.25, 0, 1.25, 0)
-                        TextLabel.Text = botName
-                        TextLabel.TextColor3 = Color3.new(1, 0, 0)
-                        TextLabel.TextScaled = false
-                                end
-                            end
-                        end
-                        elseif bool == false then
-                    end
-                end
-                    
-                function doBotEsp_russia()
-                    if bool == true then
-                        for i,v in pairs(game:GetService("Workspace").bots["nn_russia"]:GetDescendants()) do
-                        if v.ClassName == "Humanoid" and v.Parent.Name ~= "slowpihax on top" then -- i am just wondering that the part u wanna esp have these properties u can change them if it doesnt work
-                            if v.Parent:FindFirstChild("BotEsp_slowpihax") == nil then
-                        local BillboardGui = Instance.new("BillboardGui")
-                        local TextLabel = Instance.new("TextLabel")
-                        local botName = v.Parent.Name
-                        
-                        BillboardGui.Name = "BotEsp_slowpihax"
-                        BillboardGui.Parent = v.Parent
-                        BillboardGui.Name = "BotEsp_slowpihax"
-                        BillboardGui.AlwaysOnTop = true
-                        BillboardGui.LightInfluence = 1
-                        BillboardGui.Size = UDim2.new(0, 50, 0, 50)
-                        BillboardGui.StudsOffset = Vector3.new(0, 2, 0)
-                        
-                        TextLabel.Parent = BillboardGui
-                        TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
-                        TextLabel.BackgroundTransparency = 1
-                        TextLabel.Size = UDim2.new(1.25, 0, 1.25, 0)
-                        TextLabel.Text = botName
-                        TextLabel.TextColor3 = Color3.new(1, 0, 0)
-                        TextLabel.TextScaled = false
-                                end
-                            end
-                        end
-                        elseif bool == false then
-                    end
-                end
-                    
-                function doBotEsp_flatgrass()
-                    if bool == true then
-                        for i,v in pairs(game:GetService("Workspace").bots["nn_flatgrass"]:GetDescendants()) do
-                        if v.ClassName == "Humanoid" and v.Parent.Name ~= "slowpihax on top" then -- i am just wondering that the part u wanna esp have these properties u can change them if it doesnt work
-                            if v.Parent:FindFirstChild("BotEsp_slowpihax") == nil then
-                        local BillboardGui = Instance.new("BillboardGui")
-                        local TextLabel = Instance.new("TextLabel")
-                        local botName = v.Parent.Name
-                        
-                        BillboardGui.Name = "BotEsp_slowpihax"
-                        BillboardGui.Parent = v.Parent
-                        BillboardGui.AlwaysOnTop = true
-                        BillboardGui.LightInfluence = 1
-                        BillboardGui.Size = UDim2.new(0, 50, 0, 50)
-                        BillboardGui.StudsOffset = Vector3.new(0, 2, 0)
-                        
-                        TextLabel.Parent = BillboardGui
-                        TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
-                        TextLabel.BackgroundTransparency = 1
-                        TextLabel.Size = UDim2.new(1.25, 0, 1.25, 0)
-                        TextLabel.Text = botName
-                        TextLabel.TextColor3 = Color3.new(1, 0, 0)
-                        TextLabel.TextScaled = false
-                                end
-                            end
-                        end
-                        elseif bool == false then
-                    end
-                end
-                    
-                function doBotEsp_backrooms()
-                        if bool == true then
-                        for i,v in pairs(game:GetService("Workspace").bots["nn_backrooms"]:GetDescendants()) do
-                        if v.ClassName == "Humanoid" and v.Parent.Name ~= "slowpihax on top" then -- i am just wondering that the part u wanna esp have these properties u can change them if it doesnt work
-                            if v.Parent:FindFirstChild("BotEsp_slowpihax") == nil then
-                        local BillboardGui = Instance.new("BillboardGui")
-                        local TextLabel = Instance.new("TextLabel")
-                        local botName = v.Parent.Name
-                        
-                        BillboardGui.Name = "BotEsp_slowpihax"
-                        BillboardGui.Parent = v.Parent
-                        BillboardGui.AlwaysOnTop = true
-                        BillboardGui.LightInfluence = 1
-                        BillboardGui.Size = UDim2.new(0, 50, 0, 50)
-                        BillboardGui.StudsOffset = Vector3.new(0, 2, 0)
-                        
-                        TextLabel.Parent = BillboardGui
-                        TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
-                        TextLabel.BackgroundTransparency = 1
-                        TextLabel.Size = UDim2.new(1.25, 0, 1.25, 0)
-                        TextLabel.Text = botName
-                        TextLabel.TextColor3 = Color3.new(1, 0, 0)
-                        TextLabel.TextScaled = false
-                                end
-                            end
-                        end
-                        elseif bool == false then
-                    end
-                end
-                        while bool == true do
-                            task.wait(0.1)
-                        doBotEsp_mall()
-                        task.wait(0.25)
-                        doBotEsp_russia()
-                        task.wait(0.25)
-                        doBotEsp_flatgrass()
-                        task.wait(0.25)
-                        doBotEsp_backrooms()
-                        end
+            function doBotEsp()
+                if bool == true then
 
+            getgenv().BotESP = loadstring(game:HttpGet("https://kiriot22.com/releases/ESP.lua"))()
+
+            getgenv().BotESP.Tracers = true
+            getgenv().BotESP.Names = true
+            getgenv().BotESP.Boxes = true
+            getgenv().BotESP.Players = false
+
+            getgenv().BotESP:AddObjectListener(workspace.bots, {
+                Recursive = true,
+                Type = "Model",
+                CustomName = function(obj)
+                return obj:FindFirstChild("bot") and obj.Name
+                end,
+                Color = Color3.fromRGB(255,0,0),
+                IsEnabled = "botesp",
+                })
+
+                workspace.bots.DescendantRemoving:Connect(function(Descendant)
+                    if Descendant:IsA("Model") then
+                getgenv().BotESP:AddObjectListener(workspace.bots, {
+                    Recursive = true,
+                    Type = "Model",
+                    CustomName = function(obj)
+                    return obj:FindFirstChild("bot") and obj.Name
+                end,
+                    Color = Color3.fromRGB(255,0,0),
+                    IsEnabled = "botesp",
+                        })
+                    end
+                end)
+
+
+            workspace.bots.DescendantAdded:Connect(function(Descendant)
+                if Descendant:IsA("Model") then
+            getgenv().BotESP:AddObjectListener(workspace.bots, {
+                Recursive = true,
+                Type = "Model",
+                CustomName = function(obj)
+                return obj:FindFirstChild("bot") and obj.Name
+            end,
+                Color = Color3.fromRGB(255,0,0),
+                IsEnabled = "botesp",
+                    })
+                end
+        end)
+    end
+end
+
+    doBotEsp()
+
+            getgenv().BotESP.botesp = true
+            getgenv().BotESP:Toggle(true)
                             
-                    else
+elseif bool == false then
 
                     local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
                     local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
@@ -499,131 +582,113 @@ Section:Slider({
                             {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
                         )
 
-                    for i,v in pairs(game:GetService("Workspace").bots:GetDescendants()) do
-                        if v.ClassName == "BillboardGui" and v.Name == "BotEsp_slowpihax" then
-                            v:Destroy()
-                        end
-                    end
+            getgenv().BotESP.botesp = false
+            getgenv().BotESP:Toggle(false)
 
-            end
+        end
     end
-        })
+})
         
-        Section2:Toggle({
-            Text = "Power Box ESP",
-            Callback = function(bool)
+Section2:Toggle({
+    Text = "Power Box ESP",
+    Callback = function(bool)
 
-                function doPowerBoxEsp_russia()
-                    if bool == true then
-                        for i,v in pairs(game:GetService("Workspace")["nn_russia"][".powerboxes"]:GetDescendants()) do
-                        if v.Name == "PowerInteract" and v.Parent.Name == "PowerBox" then -- i am just wondering that the part u wanna esp have these properties u can change them if it doesnt work
-                        local BillboardGui = Instance.new("BillboardGui")
-                        local TextLabel = Instance.new("TextLabel")
-                        local botName = v.Parent.Name
-                        
-                        BillboardGui.Name = "BoxEsp_slowpihax"
-                        BillboardGui.Parent = v.Parent
-                        BillboardGui.AlwaysOnTop = true
-                        BillboardGui.LightInfluence = 1
-                        BillboardGui.Size = UDim2.new(0, 50, 0, 50)
-                        BillboardGui.StudsOffset = Vector3.new(0, 2, 0)
-                        
-                        TextLabel.Parent = BillboardGui
-                        TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
-                        TextLabel.BackgroundTransparency = 1
-                        TextLabel.Size = UDim2.new(1.25, 0, 1.25, 0)
-                        TextLabel.Text = botName
-                        TextLabel.TextColor3 = Color3.new(0, 255, 0)
-                        TextLabel.TextScaled = false
-                                end
-                            end
-                        elseif bool == false then
-                    end
-                end
-
-                function doPowerBoxEsp_mall()
-                    if bool == true then
-                        for i,v in pairs(game:GetService("Workspace")["nn_mall"][".powerboxes"]:GetDescendants()) do
-                        if v.Name == "PowerInteract" and v.Parent.Name == "PowerBox" then -- i am just wondering that the part u wanna esp have these properties u can change them if it doesnt work
-                        local BillboardGui = Instance.new("BillboardGui")
-                        local TextLabel = Instance.new("TextLabel")
-                        
-                        BillboardGui.Name = "BoxEsp_slowpihax"
-                        BillboardGui.Parent = v.Parent
-                        BillboardGui.AlwaysOnTop = true
-                        BillboardGui.LightInfluence = 1
-                        BillboardGui.Size = UDim2.new(0, 50, 0, 50)
-                        BillboardGui.StudsOffset = Vector3.new(0, 1, 0)
-                        
-                        TextLabel.Parent = BillboardGui
-                        TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
-                        TextLabel.BackgroundTransparency = 1
-                        TextLabel.Size = UDim2.new(1.25, 0, 1.25, 0)
-                        TextLabel.Text = "Power Box"
-                        TextLabel.TextColor3 = Color3.new(0, 255, 0)
-                        TextLabel.TextScaled = false
-                                end
-                            end
-                        elseif bool == false then
-                    end
-                end
-
-                function doPowerBoxEsp_russia()
-                    if bool == true then
-                        for i,v in pairs(game:GetService("Workspace")["nn_russia"][".powerboxes"]:GetDescendants()) do
-                        if v.Name == "PowerInteract" and v.Parent.Name == "PowerBox" then -- i am just wondering that the part u wanna esp have these properties u can change them if it doesnt work
-                        local BillboardGui = Instance.new("BillboardGui")
-                        local TextLabel = Instance.new("TextLabel")
-                        
-                        BillboardGui.Name = "BoxEsp_slowpihax"
-                        BillboardGui.Parent = v.Parent
-                        BillboardGui.AlwaysOnTop = true
-                        BillboardGui.LightInfluence = 1
-                        BillboardGui.Size = UDim2.new(0, 50, 0, 50)
-                        BillboardGui.StudsOffset = Vector3.new(0, 1, 0)
-                        
-                        TextLabel.Parent = BillboardGui
-                        TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
-                        TextLabel.BackgroundTransparency = 1
-                        TextLabel.Size = UDim2.new(1.25, 0, 1.25, 0)
-                        TextLabel.Text = "Power Box"
-                        TextLabel.TextColor3 = Color3.new(0, 255, 0)
-                        TextLabel.TextScaled = false
-                                end
-                            end
-                        elseif bool == false then
-                    end
-                end
-
+        function doPowerBoxEsp_russia()
             if bool == true then
-
-                local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
-                local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
-                    Notification:Notify(
-                        {Title = "Power Box Enabled", Description = "You Can Now See All The Boxes."},
-                        {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
-                    )
-
-                    doPowerBoxEsp_mall()
-                    task.wait(0.25)
-                    doPowerBoxEsp_mall()
-
-                    if game:GetService("Workspace"):FindFirstChild("PowerInteract") == "nil" then
-
-                        for i,v in pairs(game:GetService("Workspace"):GetDescendants()) do
-                            if v.ClassName == "BillboardGui" and v.Name == "BoxEsp_slowpihax" then
-                                v:Destroy()
-                            end
+                for i,v in pairs(game:GetService("Workspace")["nn_russia"][".powerboxes"]:GetDescendants()) do
+                if v.Name == "PowerInteract" and v.Parent.Name == "PowerBox" then -- i am just wondering that the part u wanna esp have these properties u can change them if it doesnt work
+                local BillboardGui = Instance.new("BillboardGui")
+                local TextLabel = Instance.new("TextLabel")
+                local botName = v.Parent.Name
+                
+                BillboardGui.Name = "BoxEsp_slowpihax"
+                BillboardGui.Parent = v.Parent
+                BillboardGui.AlwaysOnTop = true
+                BillboardGui.LightInfluence = 1
+                BillboardGui.Size = UDim2.new(0, 50, 0, 50)
+                BillboardGui.StudsOffset = Vector3.new(0, 2, 0)
+                
+                TextLabel.Parent = BillboardGui
+                TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+                TextLabel.BackgroundTransparency = 1
+                TextLabel.Size = UDim2.new(1.25, 0, 1.25, 0)
+                TextLabel.Text = botName
+                TextLabel.TextColor3 = Color3.new(0, 255, 0)
+                TextLabel.TextScaled = false
                         end
                     end
-            elseif bool == false then
+                elseif bool == false then
+            end
+        end
 
-                local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
-                local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
-                    Notification:Notify(
-                        {Title = "Power Box Disabled", Description = "You Can No Longer See All The Boxes."},
-                        {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
-                    )
+        function doPowerBoxEsp_mall()
+            if bool == true then
+                for i,v in pairs(game:GetService("Workspace")["nn_mall"][".powerboxes"]:GetDescendants()) do
+                if v.Name == "PowerInteract" and v.Parent.Name == "PowerBox" then -- i am just wondering that the part u wanna esp have these properties u can change them if it doesnt work
+                local BillboardGui = Instance.new("BillboardGui")
+                local TextLabel = Instance.new("TextLabel")
+                
+                BillboardGui.Name = "BoxEsp_slowpihax"
+                BillboardGui.Parent = v.Parent
+                BillboardGui.AlwaysOnTop = true
+                BillboardGui.LightInfluence = 1
+                BillboardGui.Size = UDim2.new(0, 50, 0, 50)
+                BillboardGui.StudsOffset = Vector3.new(0, 1, 0)
+                
+                TextLabel.Parent = BillboardGui
+                TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+                TextLabel.BackgroundTransparency = 1
+                TextLabel.Size = UDim2.new(1.25, 0, 1.25, 0)
+                TextLabel.Text = "Power Box"
+                TextLabel.TextColor3 = Color3.new(0, 255, 0)
+                TextLabel.TextScaled = false
+                        end
+                    end
+                elseif bool == false then
+            end
+        end
+
+        function doPowerBoxEsp_russia()
+            if bool == true then
+                for i,v in pairs(game:GetService("Workspace")["nn_russia"][".powerboxes"]:GetDescendants()) do
+                if v.Name == "PowerInteract" and v.Parent.Name == "PowerBox" then -- i am just wondering that the part u wanna esp have these properties u can change them if it doesnt work
+                local BillboardGui = Instance.new("BillboardGui")
+                local TextLabel = Instance.new("TextLabel")
+                
+                BillboardGui.Name = "BoxEsp_slowpihax"
+                BillboardGui.Parent = v.Parent
+                BillboardGui.AlwaysOnTop = true
+                BillboardGui.LightInfluence = 1
+                BillboardGui.Size = UDim2.new(0, 50, 0, 50)
+                BillboardGui.StudsOffset = Vector3.new(0, 1, 0)
+                
+                TextLabel.Parent = BillboardGui
+                TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+                TextLabel.BackgroundTransparency = 1
+                TextLabel.Size = UDim2.new(1.25, 0, 1.25, 0)
+                TextLabel.Text = "Power Box"
+                TextLabel.TextColor3 = Color3.new(0, 255, 0)
+                TextLabel.TextScaled = false
+                        end
+                    end
+                elseif bool == false then
+            end
+        end
+
+    if bool == true then
+
+        local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+        local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+            Notification:Notify(
+                {Title = "Power Box Enabled", Description = "You Can Now See All The Boxes."},
+                {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
+            )
+
+            doPowerBoxEsp_mall()
+            task.wait(0.25)
+            doPowerBoxEsp_mall()
+
+            if game:GetService("Workspace"):FindFirstChild("PowerInteract") == "nil" then
 
                 for i,v in pairs(game:GetService("Workspace"):GetDescendants()) do
                     if v.ClassName == "BillboardGui" and v.Name == "BoxEsp_slowpihax" then
@@ -631,8 +696,23 @@ Section:Slider({
                     end
                 end
             end
+    elseif bool == false then
+
+        local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+        local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+            Notification:Notify(
+                {Title = "Power Box Disabled", Description = "You Can No Longer See All The Boxes."},
+                {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
+            )
+
+        for i,v in pairs(game:GetService("Workspace"):GetDescendants()) do
+            if v.ClassName == "BillboardGui" and v.Name == "BoxEsp_slowpihax" then
+                v:Destroy()
+            end
         end
-        })
+    end
+end
+})
     
         -- Section 3
 

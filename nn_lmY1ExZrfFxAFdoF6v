@@ -161,157 +161,153 @@ Section:Slider({
         -- Section 1
     
     
-        Section:Button({
-        Text = "Fly (G)",
-        Callback = function()
-                spawn(function()
-                    loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/LegitH3x0R/Roblox-Scripts/main/AEBypassing/RootAnchor.lua"))()
-            
-                    local UIS = game:GetService("UserInputService")
-                    local OnRender = game:GetService("RunService").RenderStepped
-                    
-                    local Player = game:GetService("Players").LocalPlayer
-                    local Character = Player.Character or Player.CharacterAdded:Wait()
-                    
-                    local Camera = workspace.CurrentCamera
-                    local Root = Character:WaitForChild("HumanoidRootPart")
-                    local C1, C2, C3;
-                    local Nav = {Flying = false, Forward = false, Backward = false, Left = false, Right = false}
-                    C1 = UIS.InputBegan:Connect(function(Input)
-                        if Input.UserInputType == Enum.UserInputType.Keyboard then
-                            if Input.KeyCode == Enum.KeyCode.G then
-                                Nav.Flying = not Nav.Flying
-                                Root.Anchored = Nav.Flying
-                            elseif Input.KeyCode == Enum.KeyCode.W then
-                                Nav.Forward = true
-                            elseif Input.KeyCode == Enum.KeyCode.S then
-                                Nav.Backward = true
-                            elseif Input.KeyCode == Enum.KeyCode.A then
-                                Nav.Left = true
-                            elseif Input.KeyCode == Enum.KeyCode.D then
-                                Nav.Right = true
-                            end
-                        end
-                    end)
-                    
-                    C2 = UIS.InputEnded:Connect(function(Input)
-                        if Input.UserInputType == Enum.UserInputType.Keyboard then
-                            if Input.KeyCode == Enum.KeyCode.W then
-                                Nav.Forward = false
-                            elseif Input.KeyCode == Enum.KeyCode.S then
-                                Nav.Backward = false
-                            elseif Input.KeyCode == Enum.KeyCode.A then
-                                Nav.Left = false
-                            elseif Input.KeyCode == Enum.KeyCode.D then
-                                Nav.Right = false
-                            end
-                        end
-                    end)
-                    
-                    C3 = Camera:GetPropertyChangedSignal("CFrame"):Connect(function()
-                        if Nav.Flying then
-                            Root.CFrame = CFrame.new(Root.CFrame.Position, Root.CFrame.Position + Camera.CFrame.LookVector)
-                        end
-                    end)
-                    
-                    while true do
-                        local Delta = OnRender:Wait()
-                        if Nav.Flying then
-                            if Nav.Forward then
-                                Root.CFrame = Root.CFrame + (Camera.CFrame.LookVector * (Delta * getgenv().FlySpeed))
-                            end
-                            if Nav.Backward then
-                                Root.CFrame = Root.CFrame + (-Camera.CFrame.LookVector * (Delta * getgenv().FlySpeed))
-                            end
-                            if Nav.Left then
-                                Root.CFrame = Root.CFrame + (-Camera.CFrame.RightVector * (Delta * getgenv().FlySpeed))
-                            end
-                            if Nav.Right then
-                                Root.CFrame = Root.CFrame + (Camera.CFrame.RightVector * (Delta * getgenv().FlySpeed))
-                            end
-                        end
-                    end
-                end)
+        Section:Toggle({
+            Text = "Fly",
+            Callback = function(bool)
+                _G.FLYING = false
 
-                local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
-                local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
-                    Notification:Notify(
-                        {Title = "Fly Enabled", Description = "Press G to toggle the fly."},
-                        {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
-                    )
+                if bool == true then
 
+                    local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                    local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                        Notification:Notify(
+                            {Title = "Fly Enabled", Description = "You Are Now Flying."},
+                            {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
+                        )
+        
+                _G.FLYING = true
+                local LP = game:service('Players').LocalPlayer
+                local T = LP.Character.UpperTorso
+                local CONTROL = {F = 0, B = 0, L = 0, R = 0}
+                local lCONTROL = {F = 0, B = 0, L = 0, R = 0}
+                local SPEED = getgenv().FlySpeed
+                local MOUSE = LP:GetMouse()
+                
+                
+                local function FLY()
+                   _G.FLYING = true
+                   local BG = Instance.new('BodyGyro', T)
+                   local BV = Instance.new('BodyVelocity', T)
+                   BG.P = 9e4
+                   BG.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+                   BG.cframe = T.CFrame
+                   BV.velocity = Vector3.new(0, 0.1, 0)
+                   BV.maxForce = Vector3.new(9e9, 9e9, 9e9)
+                
+                
+                   spawn(function()
+                     repeat wait()
+                       LP.Character.Humanoid.PlatformStand = true
+                       if CONTROL.L + CONTROL.R ~= 0 or CONTROL.F + CONTROL.B ~= 0 then
+                         SPEED = getgenv().FlySpeed
+                       elseif not (CONTROL.L + CONTROL.R ~= 0 or CONTROL.F + CONTROL.B ~= 0) and SPEED ~= 0 then
+                         SPEED = 0
+                       end
+                       if (CONTROL.L + CONTROL.R) ~= 0 or (CONTROL.F + CONTROL.B) ~= 0 then
+                         BV.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (CONTROL.F + CONTROL.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(CONTROL.L + CONTROL.R, (CONTROL.F + CONTROL.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
+                         lCONTROL = {F = CONTROL.F, B = CONTROL.B, L = CONTROL.L, R = CONTROL.R}
+                       elseif (CONTROL.L + CONTROL.R) == 0 and (CONTROL.F + CONTROL.B) == 0 and SPEED ~= 0 then
+                         BV.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (lCONTROL.F + lCONTROL.B)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(lCONTROL.L + lCONTROL.R, (lCONTROL.F + lCONTROL.B) * 0.2, 0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p)) * SPEED
+                       else
+                         BV.velocity = Vector3.new(0, 0.1, 0)
+                       end
+                       BG.cframe = game.Workspace.CurrentCamera.CoordinateFrame
+                     until not _G.FLYING
+                     CONTROL = {F = 0, B = 0, L = 0, R = 0}
+                     lCONTROL = {F = 0, B = 0, L = 0, R = 0}
+                     SPEED = 0
+                     BG:destroy()
+                     BV:destroy()
+                     LP.Character.Humanoid.PlatformStand = false
+                   end)
+                 end
+                 
+                 MOUSE.KeyDown:connect(function(KEY)
+                   if KEY:lower() == 'w' then
+                     CONTROL.F = 1
+                   elseif KEY:lower() == 's' then
+                     CONTROL.B = -1
+                   elseif KEY:lower() == 'a' then
+                     CONTROL.L = -1
+                   elseif KEY:lower() == 'd' then
+                     CONTROL.R = 1
+                   end
+                 end)
+                 
+                 MOUSE.KeyUp:connect(function(KEY)
+                   if KEY:lower() == 'w' then
+                     CONTROL.F = 0
+                   elseif KEY:lower() == 's' then
+                     CONTROL.B = 0
+                   elseif KEY:lower() == 'a' then
+                     CONTROL.L = 0
+                   elseif KEY:lower() == 'd' then
+                     CONTROL.R = 0
+                   end
+                 end)
+                
+                 FLY()
+                 else
+
+                    local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                    local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                        Notification:Notify(
+                            {Title = "Fly Disabled", Description = "You Are No Longer Flying."},
+                            {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
+                        )
+
+                     _G.FLYING = false
+                end
+        
         end
         })
 
-        Section:Button({
-        Text = "Inf Jumps",
-        Callback = function()
-            local UserInputService = game:GetService("UserInputService")
-            local localPlayer = game.Players.LocalPlayer
-            local character
-            local humanoid
-            
-            local canDoubleJump = false
-            local hasDoubleJumped = false
-            local oldPower
-            local TIME_BETWEEN_JUMPS = 0.05
-            local DOUBLE_JUMP_POWER_MULTIPLIER = 0.75
-            
-            function onJumpRequest()
-                if not character or not humanoid or not character:IsDescendantOf(workspace) or
-                humanoid:GetState() == Enum.HumanoidStateType.Dead then
-                    return
-                end
-                
-                if canDoubleJump and not hasDoubleJumped then
-                    hasDoubleJumped = false
-                    humanoid.JumpPower = oldPower * DOUBLE_JUMP_POWER_MULTIPLIER
-                    humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
-                end
-            end
-            
-            local function characterAdded(newCharacter)
-                character = newCharacter
-                humanoid = newCharacter:WaitForChild("Humanoid")
-                hasDoubleJumped = false
-                canDoubleJump = false
-                oldPower = humanoid.JumpPower
-                
-                humanoid.StateChanged:connect(function(old, new)
-                    if new == Enum.HumanoidStateType.Landed then
-                        canDoubleJump = false
-                        hasDoubleJumped = false
-                        humanoid.JumpPower = oldPower
-                    elseif new == Enum.HumanoidStateType.Freefall then
-                        wait(TIME_BETWEEN_JUMPS)
-                        canDoubleJump = true
-                    end
-                end)
-            end
-            
-            if localPlayer.Character then
-                characterAdded(localPlayer.Character)
-            end
-            
-            localPlayer.CharacterAdded:connect(characterAdded)
-            UserInputService.JumpRequest:connect(onJumpRequest)
+        Section:Toggle({
+            Text = "Inf Jumps",
+            Callback = function(bool)
+                if bool == true then
 
-            local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
-            local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
-                Notification:Notify(
-                    {Title = "Inf Jumps Enabled", Description = "You Can Now Have Infinite Jumps."},
-                    {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
-                )
+                    local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                    local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                        Notification:Notify(
+                            {Title = "Inf Jumps Enabled", Description = "You Now Have Infinite Jumps."},
+                            {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
+                        )
 
-            end
-        })
+                    getgenv().InfiniteJumpEnabled = true
+                else
+
+                    local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                    local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                        Notification:Notify(
+                            {Title = "Inf Jumps Disabled", Description = "You No Longer Have Infinite Jumps."},
+                            {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
+                        )
+
+                    getgenv().InfiniteJumpEnabled = false
+                end
+
+
+            game:GetService("UserInputService").JumpRequest:connect(function()
+                if getgenv().InfiniteJumpEnabled == true then
+                    game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
+                end
+            end)
+        end})
 
         if isDev or isPremium == true then
             Section:Toggle({
                 Text = "GodMode",
                 Callback = function(bool)
                     if bool == true then
-                        game.Players.LocalPlayer.Character.scripts.killed.kill:Destroy()
+                        game.Players.LocalPlayer.Character.scripts.misc.humanoidcheck:Destroy()
+                        task.wait(0.06)
+        
+                        local hrp  = game.Players.LocalPlayer.Character:FindFirstChild("Humanoid")
+                        hrp.Parent = nil;
+                        hrp:Clone()
+                        hrp.Parent =  game.Players.LocalPlayer.Character
+                        hrp.Name   = "Humanoid"
 
                         local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
                         local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
@@ -930,7 +926,7 @@ end
             Callback = function()
 
                 game.Players.LocalPlayer.Character.scripts.misc.humanoidcheck:Destroy()
-                task.wait(0.06)
+                task.wait(0.1)
 
                 local hrp  = game.Players.LocalPlayer.Character:FindFirstChild("Humanoid")
                 hrp.Parent = nil;
@@ -941,106 +937,45 @@ end
                 local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
                 local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
                     Notification:Notify(
-                        {Title = "Breaking Bots..", Description = "Please Wait Until You Have Respawned Before Moving! (Estimated Time - 30 Seconds)"},
-                        {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 33, Type = "default"}
+                        {Title = "Breaking Bots..", Description = "Please Wait Until You Have Respawned Before Moving! (Estimated Time - 8 Seconds)"},
+                        {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 8, Type = "default"}
                     )
 
                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1037.35498, 77.3840103, 283.325714)
-                    task.wait(0.25)
-                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-925.263916, 20.1675396, -48.7668152)
-                    task.wait(0.25)
-                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1042.047, 41.0977554, -407.763611)
-                    task.wait(0.25)
-                    for i,v in pairs(game:GetService("Workspace").bots["nn_mall"]:GetDescendants()) do
-                        if v.ClassName == "Part" and v.Name == "collision" then
-                            game.Players.LocalPlayer.Character.HumanoidRootPart.Position = v.Position
-                                task.wait(0.6)
-                            v:Destroy()
-                        end
-                    end
-                task.wait(0.3)
-                    for i,v in pairs(game:GetService("Workspace").bots["nn_mall"]:GetDescendants()) do
-                        if v.ClassName == "Part" and v.Name == "hitbox" then
-                            game.Players.LocalPlayer.Character.HumanoidRootPart.Position = v.Position
-                                task.wait(0.6)
-                            v:Destroy()
-                        end
-                    end
-                    task.wait(0.3)
-                    for i,v in pairs(game:GetService("Workspace").bots["nn_mall"]:GetDescendants()) do
-                        if v.ClassName == "Part" and v.Name == "collision" then
-                            game.Players.LocalPlayer.Character.HumanoidRootPart.Position = v.Position
-                                task.wait(0.6)
-                            v:Destroy()
-                        end
-                    end
-                        task.wait(0.3)
-                    for i,v in pairs(game:GetService("Workspace").bots["nn_mall"]:GetDescendants()) do
-                        if v.ClassName == "Part" and v.Name == "collision" then
-                            game.Players.LocalPlayer.Character.HumanoidRootPart.Position = v.Position
-                                task.wait(0.6)
-                            v:Destroy()
-                        end
-                    end
-                task.wait(2)
-
+                    task.wait(0.55)
                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1790.50854, -190.402008, 70.0791321)
-                task.wait(0.3)
-                    for i,v in pairs(game:GetService("Workspace").bots["nn_backrooms"]:GetDescendants()) do
-                        if v.ClassName == "Part" and v.Name == "collision" then
-                            game.Players.LocalPlayer.Character.HumanoidRootPart.Position = v.Position
-                                task.wait(0.5)
-                            v:Destroy()
-                        end
-                    end
-                        task.wait(0.3)
-                    for i,v in pairs(game:GetService("Workspace").bots["nn_backrooms"]:GetDescendants()) do
-                        if v.ClassName == "Part" and v.Name == "hitbox" then
-                            game.Players.LocalPlayer.Character.HumanoidRootPart.Position = v.Position
-                                task.wait(0.6)
-                            v:Destroy()
-                        end
-                    end
-                task.wait(2)
+                task.wait(0.55)
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1932.21558, -211.85199, 64.0356827)
+                task.wait(0.55)
+                game:GetService("ReplicatedStorage").events.player.char.respawnchar:FireServer()
+                    task.wait(1.5)
 
+                    game.Players.LocalPlayer.Character.scripts.misc.humanoidcheck:Destroy()
+                    task.wait(0.15)
+    
+                    local hrp  = game.Players.LocalPlayer.Character:FindFirstChild("Humanoid")
+                    hrp.Parent = nil;
+                    hrp:Clone()
+                    hrp.Parent =  game.Players.LocalPlayer.Character
+                    hrp.Name   = "Humanoid"
+                    task.wait(0.5)
                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-25.4209671, 105.998016, -535.584534)
-                    task.wait(0.5)
+                task.wait(0.25)
+                game:GetService("ReplicatedStorage").events.player.char.respawnchar:FireServer()
+                task.wait(1.5)
+                game.Players.LocalPlayer.Character.scripts.misc.humanoidcheck:Destroy()
+                task.wait(0.25)
+
+                local hrp  = game.Players.LocalPlayer.Character:FindFirstChild("Humanoid")
+                hrp.Parent = nil;
+                hrp:Clone()
+                hrp.Parent =  game.Players.LocalPlayer.Character
+                hrp.Name   = "Humanoid"
+                    task.wait(0.55)
                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(127.873535, 60.3152008, -1107.16602)
-                    task.wait(0.5)
+                    task.wait(0.6)
                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-434.908691, 79.6428833, -868.759399)
-                    task.wait(0.5)
-                    for i,v in pairs(game:GetService("Workspace").bots["nn_russia"]:GetDescendants()) do
-                        if v.ClassName == "Part" and v.Name == "collision" then
-                            game.Players.LocalPlayer.Character.HumanoidRootPart.Position = v.Position
-                            task.wait(0.6)
-                            v:Destroy()
-                        end
-                    end
-                    task.wait(0.3)
-                    for i,v in pairs(game:GetService("Workspace").bots["nn_russia"]:GetDescendants()) do
-                        if v.ClassName == "Part" and v.Name == "hitbox" then
-                            game.Players.LocalPlayer.Character.HumanoidRootPart.Position = v.Position
-                            task.wait(0.6)
-                            v:Destroy()
-                        end
-                    end
-                        task.wait(0.3)
-                    for i,v in pairs(game:GetService("Workspace").bots["nn_russia"]:GetDescendants()) do
-                        if v.ClassName == "Part" and v.Name == "collision" then
-                            game.Players.LocalPlayer.Character.HumanoidRootPart.Position = v.Position
-                                task.wait(0.6)
-                            v:Destroy()
-                        end
-                    end
-                        task.wait(0.3)
-                    for i,v in pairs(game:GetService("Workspace").bots["nn_russia"]:GetDescendants()) do
-                        if v.ClassName == "Part" and v.Name == "collision" then
-                            game.Players.LocalPlayer.Character.HumanoidRootPart.Position = v.Position
-                                task.wait(0.6)
-                            v:Destroy()
-                        end
-                    end
-            task.wait(3)
+                    task.wait(0.69)
 game:GetService("ReplicatedStorage").events.player.char.respawnchar:FireServer()
 
 local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()

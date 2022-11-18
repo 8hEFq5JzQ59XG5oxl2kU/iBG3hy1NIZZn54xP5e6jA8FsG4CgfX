@@ -124,7 +124,7 @@ elseif Key ~= nonPremiumKey then
     isPremium = "true"
 end
 
-vVersion = "1.5.1"
+vVersion = "1.5.2"
 
 local Tab = Window:MakeTab({
 	Name = "Key",
@@ -423,6 +423,8 @@ PremiumOnly = false
 local Section = Tab:AddSection({
 Name = "Change Logs"
 })
+
+Tab:AddParagraph("Version 1.5.2"," |  Universal |                                                                                   [*] Made Fly Toggleable                                                                                                                                                  [*] Made Inf Jumps Toggleable                                                                                                                                                  .                                                                                                         | Nico's Nexbots |                                                                                                                  [*] Made Fly Toggleable                                                                                         [*] Made Inf Jumps Toggleable                                                                                                                       [*] Improved Bot Breaker")
 
 Tab:AddParagraph("Version 1.5.1"," |  Universal |                                                                                   [*] Improved ESP                                                                                                                                                  .                                                                                                         | Nico's Nexbots |                                                                                                                  [*] Improved ESP                                                                                         .                                                                                                           | Doors |                                                                                        [*] Improved ESP                                                                                                                   [*] Fixed Game Detection")
 

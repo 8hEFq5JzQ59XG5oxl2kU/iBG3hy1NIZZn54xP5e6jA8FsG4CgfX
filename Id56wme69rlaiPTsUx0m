@@ -25,6 +25,7 @@ end
 
 local hwidPremium = {
     [{"2505425C-E11A-4D77-A3E5-F06C21EB6FD5"}] = true,
+    [{"F1505BA2-6A20-46FD-A519-804A3033E998"}] = true,
 }
 
 for idPremium, statePremium in next, hwidPremium do

@@ -290,6 +290,8 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqs
 setclipboard("https://discord.com/invite/JN6wgVrUAr")
 
 
+if isPremium == false then
+    if isDev == false then
     if identifyexecutor() == "Synapse X" then
         (syn and syn.request or http_request or http.request)
    {
@@ -311,6 +313,8 @@ setclipboard("https://discord.com/invite/JN6wgVrUAr")
     elseif identifyexecutor() ~= "Synapse X" then
         print("100% of the features might not work since your not using synapse.")
     end
+end
+end
 end
 
 if KeyInput == bannedKey then

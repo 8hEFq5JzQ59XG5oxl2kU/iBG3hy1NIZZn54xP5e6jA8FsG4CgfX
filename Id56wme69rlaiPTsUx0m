@@ -124,7 +124,7 @@ elseif Key ~= nonPremiumKey then
     isPremium = "true"
 end
 
-vVersion = "1.5.2"
+vVersion = "v1.5.2"
 
 local Tab = Window:MakeTab({
 	Name = "Key",

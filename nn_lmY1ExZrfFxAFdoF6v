@@ -300,14 +300,7 @@ Section:Slider({
                 Text = "GodMode",
                 Callback = function(bool)
                     if bool == true then
-                        game.Players.LocalPlayer.Character.scripts.misc.humanoidcheck:Destroy()
-                        task.wait(0.06)
-        
-                        local hrp  = game.Players.LocalPlayer.Character:FindFirstChild("Humanoid")
-                        hrp.Parent = nil;
-                        hrp:Clone()
-                        hrp.Parent =  game.Players.LocalPlayer.Character
-                        hrp.Name   = "Humanoid"
+                        game.Players.LocalPlayer.Character.scripts.killed.kill:Destroy()
 
                         local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
                         local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()

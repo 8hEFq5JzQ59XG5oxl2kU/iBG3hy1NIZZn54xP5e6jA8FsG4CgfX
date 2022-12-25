@@ -1,22 +1,5 @@
 loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/d_title"))()
 
-local plr = game:GetService("Players").LocalPlayer
-local Spoof
-Spoof =
-    hookmetamethod(
-    game,
-    "__index",
-    function(self, ...)
-        if ... == "WalkSpeed" then
-            return 15
-        end
-        if ... == "JumpPower" then
-            return 25
-        end
-        return Spoof(self, ...)
-    end
-)
-
 getgenv().Tab =
     getgenv().Window:Tab(
     {

@@ -1,8 +1,5 @@
 loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/d_title"))()
 
-local sped = game.Players.LocalPlayer.Character.Humanoid.WalkSpeed
-local jmp = game.Players.LocalPlayer.Character.Humanoid.JumpPower
-
 local plr = game:GetService("Players").LocalPlayer
 local Spoof
 Spoof =
@@ -11,10 +8,10 @@ Spoof =
     "__index",
     function(self, ...)
         if ... == "WalkSpeed" then
-            return sped
+            return 15
         end
         if ... == "JumpPower" then
-            return jmp
+            return 25
         end
         return Spoof(self, ...)
     end

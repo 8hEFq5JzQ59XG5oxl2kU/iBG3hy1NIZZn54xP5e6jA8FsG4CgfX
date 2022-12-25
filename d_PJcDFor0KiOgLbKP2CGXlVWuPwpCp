@@ -94,7 +94,7 @@ getgenv().Section6 =
 getgenv().Section:Slider(
     {
         Text = "Walkspeed",
-        Default = 22.5,
+        Default = games.Players.LocalPlayer.Character.Humanoid.WalkSpeed,
         Minimum = 1,
         Maximum = 200,
         Callback = function(Value)

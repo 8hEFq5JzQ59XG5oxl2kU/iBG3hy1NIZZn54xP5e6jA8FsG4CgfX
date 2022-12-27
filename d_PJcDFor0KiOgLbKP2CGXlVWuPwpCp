@@ -1,4 +1,4 @@
-loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/d_title"))()
+loadstring(game:httpGetAsync("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/d_title"))()
 
 getgenv().Tab =
     getgenv().Window:Tab(
@@ -66,26 +66,61 @@ getgenv().Section4 =
 getgenv().Tab5 =
     getgenv().Window:Tab(
     {
-        Text = "Games"
+        Text = "Keybinds"
     }
 )
 
 getgenv().Section5 =
     getgenv().Tab5:Section(
     {
-        Text = "Games"
+        Text = "Character Keybinds"
+    }
+)
+
+getgenv().Section5_1 =
+    getgenv().Tab5:Section(
+    {
+        Text = "Visual Keybinds"
+    }
+)
+
+getgenv().Section5_2 =
+    getgenv().Tab5:Section(
+    {
+        Text = "Room Keybinds"
+    }
+)
+
+getgenv().Section5_3 =
+    getgenv().Tab5:Section(
+    {
+        Text = "Miscellaneous Keybinds"
     }
 )
 
 getgenv().Tab6 =
     getgenv().Window:Tab(
     {
-        Text = "Credits"
+        Text = "Games"
     }
 )
 
 getgenv().Section6 =
     getgenv().Tab6:Section(
+    {
+        Text = "Games"
+    }
+)
+
+getgenv().Tab7 =
+    getgenv().Window:Tab(
+    {
+        Text = "Credits"
+    }
+)
+
+getgenv().Section7 =
+    getgenv().Tab7:Section(
     {
         Text = "Credits"
     }
@@ -94,30 +129,41 @@ getgenv().Section6 =
 getgenv().Section:Slider(
     {
         Text = "Walkspeed",
-        Default = games.Players.LocalPlayer.Character.Humanoid.WalkSpeed,
+        Default = 22.5,
         Minimum = 1,
         Maximum = 200,
         Callback = function(Value)
-        local Services = setmetatable({}, {__index = function(Self, Index)
-                local NewService = game.GetService(game, Index)
-                if NewService then
-                    Self[Index] = NewService
-                end
-                return NewService
-            end})
-            
+            local Services =
+                setmetatable(
+                {},
+                {
+                    __index = function(Self, Index)
+                        local NewService = game.GetService(game, Index)
+                        if NewService then
+                            Self[Index] = NewService
+                        end
+                        return NewService
+                    end
+                }
+            )
+
             local RunningSpeed = Value
-            
-            
+
             local function SetWalkspeed(Speed)
-                pcall(function()
-                    Services.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").WalkSpeed = Speed
-                end)
+                pcall(
+                    function()
+                        Services.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").WalkSpeed = Speed
+                    end
+                )
             end
-            
-                    Services.RunService:BindToRenderStep("LoopSpeed", Enum.RenderPriority.Character.Value + 1, function()
-                        SetWalkspeed(RunningSpeed)
-                    end)
+
+            Services.RunService:BindToRenderStep(
+                "LoopSpeed",
+                Enum.RenderPriority.Character.Value + 1,
+                function()
+                    SetWalkspeed(RunningSpeed)
+                end
+            )
         end
     }
 )
@@ -597,146 +643,6 @@ getgenv().Section2:Toggle(
                 getgenv().EntityESP.entityesp = false
                 getgenv().EntityESP:Toggle(false)
             end
-        end
-    }
-)
-
-getgenv().Section2:Toggle(
-    {
-        Text = "Fullbright",
-        Callback = function(bool)
-            if not _G.FullBrightExecuted then
-                _G.FullBrightEnabled = false
-
-                _G.NormalLightingSettings = {
-                    Brightness = game:GetService("Lighting").Brightness,
-                    ClockTime = game:GetService("Lighting").ClockTime,
-                    FogEnd = game:GetService("Lighting").FogEnd,
-                    GlobalShadows = game:GetService("Lighting").GlobalShadows,
-                    Ambient = game:GetService("Lighting").Ambient
-                }
-
-                game:GetService("Lighting"):GetPropertyChangedSignal("Brightness"):Connect(
-                    function()
-                        if
-                            game:GetService("Lighting").Brightness ~= 1 and
-                                game:GetService("Lighting").Brightness ~= _G.NormalLightingSettings.Brightness
-                         then
-                            _G.NormalLightingSettings.Brightness = game:GetService("Lighting").Brightness
-                            if not _G.FullBrightEnabled then
-                                repeat
-                                    wait()
-                                until _G.FullBrightEnabled
-                            end
-                            game:GetService("Lighting").Brightness = 1
-                        end
-                    end
-                )
-
-                game:GetService("Lighting"):GetPropertyChangedSignal("ClockTime"):Connect(
-                    function()
-                        if
-                            game:GetService("Lighting").ClockTime ~= 12 and
-                                game:GetService("Lighting").ClockTime ~= _G.NormalLightingSettings.ClockTime
-                         then
-                            _G.NormalLightingSettings.ClockTime = game:GetService("Lighting").ClockTime
-                            if not _G.FullBrightEnabled then
-                                repeat
-                                    wait()
-                                until _G.FullBrightEnabled
-                            end
-                            game:GetService("Lighting").ClockTime = 12
-                        end
-                    end
-                )
-
-                game:GetService("Lighting"):GetPropertyChangedSignal("FogEnd"):Connect(
-                    function()
-                        if
-                            game:GetService("Lighting").FogEnd ~= 786543 and
-                                game:GetService("Lighting").FogEnd ~= _G.NormalLightingSettings.FogEnd
-                         then
-                            _G.NormalLightingSettings.FogEnd = game:GetService("Lighting").FogEnd
-                            if not _G.FullBrightEnabled then
-                                repeat
-                                    wait()
-                                until _G.FullBrightEnabled
-                            end
-                            game:GetService("Lighting").FogEnd = 786543
-                        end
-                    end
-                )
-
-                game:GetService("Lighting"):GetPropertyChangedSignal("GlobalShadows"):Connect(
-                    function()
-                        if
-                            game:GetService("Lighting").GlobalShadows ~= false and
-                                game:GetService("Lighting").GlobalShadows ~= _G.NormalLightingSettings.GlobalShadows
-                         then
-                            _G.NormalLightingSettings.GlobalShadows = game:GetService("Lighting").GlobalShadows
-                            if not _G.FullBrightEnabled then
-                                repeat
-                                    wait()
-                                until _G.FullBrightEnabled
-                            end
-                            game:GetService("Lighting").GlobalShadows = false
-                        end
-                    end
-                )
-
-                game:GetService("Lighting"):GetPropertyChangedSignal("Ambient"):Connect(
-                    function()
-                        if
-                            game:GetService("Lighting").Ambient ~= Color3.fromRGB(178, 178, 178) and
-                                game:GetService("Lighting").Ambient ~= _G.NormalLightingSettings.Ambient
-                         then
-                            _G.NormalLightingSettings.Ambient = game:GetService("Lighting").Ambient
-                            if not _G.FullBrightEnabled then
-                                repeat
-                                    wait()
-                                until _G.FullBrightEnabled
-                            end
-                            game:GetService("Lighting").Ambient = Color3.fromRGB(178, 178, 178)
-                        end
-                    end
-                )
-
-                game:GetService("Lighting").Brightness = 1
-                game:GetService("Lighting").ClockTime = 12
-                game:GetService("Lighting").FogEnd = 786543
-                game:GetService("Lighting").GlobalShadows = false
-                game:GetService("Lighting").Ambient = Color3.fromRGB(178, 178, 178)
-
-                local LatestValue = true
-                spawn(
-                    function()
-                        repeat
-                            wait()
-                        until _G.FullBrightEnabled
-                        while wait() do
-                            if _G.FullBrightEnabled ~= LatestValue then
-                                if not _G.FullBrightEnabled then
-                                    game:GetService("Lighting").Brightness = _G.NormalLightingSettings.Brightness
-                                    game:GetService("Lighting").ClockTime = _G.NormalLightingSettings.ClockTime
-                                    game:GetService("Lighting").FogEnd = _G.NormalLightingSettings.FogEnd
-                                    game:GetService("Lighting").GlobalShadows = _G.NormalLightingSettings.GlobalShadows
-                                    game:GetService("Lighting").Ambient = _G.NormalLightingSettings.Ambient
-                                else
-                                    game:GetService("Lighting").Brightness = 1
-                                    game:GetService("Lighting").ClockTime = 12
-                                    game:GetService("Lighting").FogEnd = 786543
-                                    game:GetService("Lighting").GlobalShadows = false
-                                    game:GetService("Lighting").Ambient = Color3.fromRGB(178, 178, 178)
-                                end
-                                LatestValue = not LatestValue
-                            end
-                        end
-                    end
-                )
-            end
-
-            _G.FullBrightExecuted = true
-            _G.FullBrightEnabled = not _G.FullBrightEnabled
         end
     }
 )
@@ -1232,13 +1138,956 @@ getgenv().Section4:Toggle(
     }
 )
 
+getgenv().KeybindNoclip = 0
+getgenv().KeybindItemEsp = 0
+getgenv().KeybindDoorEsp = 0
+getgenv().KeybindEntityEsp = 0
+getgenv().KeybindFullbright = 0
+getgenv().KeybindAutoSkip = 0
+getgenv().KeybindRemoveDoors = 0
+
+getgenv().Section5:Keybind(
+    {
+        Text = "Noclip Keybind",
+        Default = Enum.KeyCode.Clear,
+        Callback = function()
+            if getgenv().KeybindNoclip == 0 then
+                getgenv().KeybindNoclip = getgenv().KeybindNoclip + 1
+            elseif getgenv().KeybindNoclip == 1 then
+                getgenv().KeybindNoclip = getgenv().KeybindNoclip - 1
+            end
+            if getgenv().KeybindNoclip == 1 then
+                function doNoclip()
+                    if getgenv().KeybindNoclip == 1 then
+                        game.Players.LocalPlayer.Character.Collision.CanCollide = false
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CanCollide = false
+                    end
+                end
+
+                while getgenv().KeybindNoclip == 1 do
+                    game:GetService("RunService").RenderStepped:Wait()
+                    doNoclip()
+                end
+                if getgenv().KeybindNoclip == 0 then
+                    game.Players.LocalPlayer.Character.Collision.CanCollide = true
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CanCollide = true
+                end
+            end
+        end
+    }
+)
+
+getgenv().Section5_1:Keybind(
+    {
+        Text = "Item Esp Keybind",
+        Default = Enum.KeyCode.Clear,
+        Callback = function()
+            if getgenv().KeybindItemEsp == 0 then
+                getgenv().KeybindItemEsp = getgenv().KeybindItemEsp + 1
+            elseif getgenv().KeybindItemEsp == 1 then
+                getgenv().KeybindItemEsp = getgenv().KeybindItemEsp - 1
+            end
+            if getgenv().KeybindItemEsp == 1 then
+                local NotificationHolder =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Item Esp Enabled", Description = "You Can Now See All The Doors."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
+                )
+                function doItemEsp()
+                    if getgenv().KeybindItemEsp == 1 then
+                        local CurrentDoor =
+                            workspace.CurrentRooms[
+                            tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)
+                        ]:WaitForChild("Assets")
+
+                        getgenv().ItemESP = loadstring(game:HttpGet("https://kiriot22.com/releases/ESP.lua"))()
+
+                        getgenv().ItemESP.Tracers = false
+                        getgenv().ItemESP.Names = true
+                        getgenv().ItemESP.Boxes = true
+                        getgenv().ItemESP.Players = false
+                        getgenv().ItemESP.FaceCamera = true
+                        getgenv().ItemESP.BoxShift = CFrame.new(0, 0, 0)
+                        getgenv().ItemESP.BoxSize = Vector3.new(1.75, 1.75, 1.75)
+
+                        getgenv().ItemESP:AddObjectListener(
+                            CurrentDoor,
+                            {
+                                Recursive = true,
+                                Name = "Key",
+                                Type = "MeshPart",
+                                CustomName = "Key",
+                                Color = Color3.fromRGB(0, 255, 0),
+                                IsEnabled = "itemesp"
+                            }
+                        )
+
+                        getgenv().ItemESP:AddObjectListener(
+                            CurrentDoor,
+                            {
+                                Recursive = true,
+                                Name = "LeverForGate",
+                                Type = "Model",
+                                CustomName = "Lever",
+                                Color = Color3.fromRGB(0, 255, 0),
+                                IsEnabled = "itemesp"
+                            }
+                        )
+
+                        getgenv().ItemESP:AddObjectListener(
+                            CurrentDoor,
+                            {
+                                Recursive = true,
+                                Name = "LiveHintBook",
+                                Type = "Model",
+                                CustomName = "Book",
+                                Color = Color3.fromRGB(0, 255, 0),
+                                IsEnabled = "itemesp"
+                            }
+                        )
+
+                        workspace.CurrentRooms.ChildAdded:Connect(
+                            function(DescendantKey)
+                                if DescendantKey:IsA("Model") then
+                                    local CurrentDoor =
+                                        workspace.CurrentRooms[
+                                        tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)
+                                    ]:WaitForChild("Assets")
+                                    getgenv().ItemESP:AddObjectListener(
+                                        CurrentDoor,
+                                        {
+                                            Recursive = true,
+                                            Name = "Key",
+                                            Type = "MeshPart",
+                                            CustomName = "Key",
+                                            Color = Color3.fromRGB(0, 255, 0),
+                                            IsEnabled = "itemesp"
+                                        }
+                                    )
+
+                                    getgenv().ItemESP.itemesp = true
+                                    getgenv().ItemESP:Toggle(true)
+                                end
+                            end
+                        )
+
+                        workspace.CurrentRooms.ChildAdded:Connect(
+                            function(DescendantLever)
+                                if DescendantLever:IsA("Model") then
+                                    local CurrentDoor =
+                                        workspace.CurrentRooms[
+                                        tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)
+                                    ]:WaitForChild("Assets")
+                                    getgenv().ItemESP:AddObjectListener(
+                                        CurrentDoor,
+                                        {
+                                            Recursive = true,
+                                            Name = "LeverForGate",
+                                            Type = "Model",
+                                            CustomName = "Lever",
+                                            Color = Color3.fromRGB(0, 255, 0),
+                                            IsEnabled = "itemesp"
+                                        }
+                                    )
+                                end
+                            end
+                        )
+
+                        workspace.CurrentRooms.ChildAdded:Connect(
+                            function(DescendantBook)
+                                if DescendantBook:IsA("Model") then
+                                    local CurrentDoor =
+                                        workspace.CurrentRooms[
+                                        tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)
+                                    ]:WaitForChild("Assets")
+                                    getgenv().ItemESP:AddObjectListener(
+                                        CurrentDoor,
+                                        {
+                                            Recursive = true,
+                                            Name = "LiveHintBook",
+                                            Type = "Model",
+                                            CustomName = "Book",
+                                            Color = Color3.fromRGB(0, 255, 0),
+                                            IsEnabled = "itemesp"
+                                        }
+                                    )
+
+                                    getgenv().ItemESP.itemesp = true
+                                    getgenv().ItemESP:Toggle(true)
+                                end
+                            end
+                        )
+                    end
+                end
+
+                doItemEsp()
+
+                getgenv().ItemESP.itemesp = true
+                getgenv().ItemESP:Toggle(true)
+            else
+                local NotificationHolder =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Item Esp Disabled", Description = "You Can No Longer See All The Items."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
+                )
+
+                getgenv().ItemESP.itemesp = false
+                getgenv().ItemESP:Toggle(false)
+            end
+        end
+    }
+)
+
+getgenv().Section5_1:Keybind(
+    {
+        Text = "Door Esp Keybind",
+        Default = Enum.KeyCode.Clear,
+        Callback = function()
+            if getgenv().KeybindDoorEsp == 0 then
+                getgenv().KeybindDoorEsp = getgenv().KeybindDoorEsp + 1
+            elseif getgenv().KeybindDoorEsp == 1 then
+                getgenv().KeybindDoorEsp = getgenv().KeybindDoorEsp - 1
+            end
+
+            if getgenv().KeybindDoorEsp == 1 then
+                local NotificationHolder =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Door Esp Enabled", Description = "You Can Now See All The Doors."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
+                )
+                function doDoorEsp()
+                    if getgenv().KeybindDoorEsp == 1 then
+                        local CurrentDoor =
+                            workspace.CurrentRooms[
+                            tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)
+                        ].Door.Door
+
+                        getgenv().DoorESP = loadstring(game:HttpGet("https://kiriot22.com/releases/ESP.lua"))()
+
+                        getgenv().DoorESP.Tracers = false
+                        getgenv().DoorESP.Names = true
+                        getgenv().DoorESP.Boxes = true
+                        getgenv().DoorESP.Players = false
+                        getgenv().DoorESP.BoxShift = CFrame.new(0, -2, 0)
+                        getgenv().DoorESP.BoxSize = Vector3.new(6, 8.5, 0)
+
+                        getgenv().DoorESP:AddObjectListener(
+                            CurrentDoor,
+                            {
+                                Recursive = true,
+                                Name = "Sign",
+                                Type = "MeshPart",
+                                CustomName = "Door",
+                                Color = Color3.fromRGB(0, 0, 255),
+                                IsEnabled = "dooresp"
+                            }
+                        )
+
+                        workspace.CurrentRooms.ChildAdded:Connect(
+                            function(Descendant)
+                                if Descendant:IsA("Model") then
+                                    local CurrentDoor =
+                                        workspace.CurrentRooms[
+                                        tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)
+                                    ].Door.Door
+                                    getgenv().DoorESP:AddObjectListener(
+                                        CurrentDoor,
+                                        {
+                                            Recursive = true,
+                                            Name = "Sign",
+                                            Type = "MeshPart",
+                                            CustomName = "Door",
+                                            Color = Color3.fromRGB(0, 0, 255),
+                                            IsEnabled = "dooresp"
+                                        }
+                                    )
+
+                                    getgenv().DoorESP.dooresp = true
+                                    getgenv().DoorESP:Toggle(true)
+                                end
+                            end
+                        )
+                    end
+                end
+
+                doDoorEsp()
+
+                getgenv().DoorESP.dooresp = true
+                getgenv().DoorESP:Toggle(true)
+            else
+                local NotificationHolder =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Door Esp Disabled", Description = "You Can No Longer See All The Doors."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
+                )
+
+                getgenv().DoorESP.dooresp = false
+                getgenv().DoorESP:Toggle(false)
+            end
+        end
+    }
+)
+
+getgenv().Section5_1:Keybind(
+    {
+        Text = "Entity Esp Keybind",
+        Default = Enum.KeyCode.Clear,
+        Callback = function()
+            if getgenv().KeybindEntityEsp == 0 then
+                getgenv().KeybindEntityEsp = getgenv().KeybindEntityEsp + 1
+            elseif getgenv().KeybindEntityEsp == 1 then
+                getgenv().KeybindEntityEsp = getgenv().KeybindEntityEsp - 1
+            end
+
+            if getgenv().KeybindEntityEsp == 1 then
+                local NotificationHolder =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Entity Esp Enabled", Description = "You Can Now See All The Entities."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
+                )
+                function doEntityEsp()
+                    if getgenv().KeybindEntityEsp == 1 then
+                        getgenv().EntityESP = loadstring(game:HttpGet("https://kiriot22.com/releases/ESP.lua"))()
+
+                        local CurrentDoor =
+                            workspace.CurrentRooms[
+                            tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)
+                        ]:WaitForChild("FigureSetup")
+
+                        getgenv().EntityESP.Tracers = true
+                        getgenv().EntityESP.Names = true
+                        getgenv().EntityESP.Boxes = true
+                        getgenv().EntityESP.Players = false
+                        getgenv().EntityESP.FaceCamera = true
+                        getgenv().EntityESP.BoxShift = CFrame.new(0, 0, 0)
+                        getgenv().EntityESP.BoxSize = Vector3.new(6, 8.5, 0)
+
+                        getgenv().EntityESP:AddObjectListener(
+                            CurrentDoor,
+                            {
+                                Recursive = true,
+                                Name = "FigureRagdoll",
+                                Type = "Model",
+                                CustomName = "Figure",
+                                Color = Color3.fromRGB(255, 0, 0),
+                                IsEnabled = "entityesp"
+                            }
+                        )
+                    end
+                end
+
+                if workspace:FindFirstChild("RushMoving") ~= nil then
+                    getgenv().EntityESP:AddObjectListener(
+                        workspace,
+                        {
+                            Recursive = true,
+                            Name = "RushMoving",
+                            Type = "Model",
+                            CustomName = "Rush",
+                            Color = Color3.fromRGB(255, 0, 0),
+                            IsEnabled = "entityesp"
+                        }
+                    )
+
+                    getgenv().EntityESP.entityesp = true
+                    getgenv().EntityESP:Toggle(true)
+                end
+
+                if workspace:FindFirstChild("Lookman") ~= nil then
+                    getgenv().EntityESP:AddObjectListener(
+                        workspace,
+                        {
+                            Recursive = true,
+                            Name = "Lookman",
+                            Type = "Model",
+                            CustomName = "Look Man",
+                            Color = Color3.fromRGB(255, 0, 0),
+                            IsEnabled = "entityesp"
+                        }
+                    )
+
+                    getgenv().EntityESP.entityesp = true
+                    getgenv().EntityESP:Toggle(true)
+                end
+
+                workspace.ChildAdded:Connect(
+                    function(Descendant)
+                        if Descendant:IsA("Model") then
+                            task.wait(0.15)
+
+                            if workspace:FindFirstChild("RushMoving") ~= nil then
+                                getgenv().EntityESP:AddObjectListener(
+                                    workspace,
+                                    {
+                                        Recursive = true,
+                                        Name = "RushMoving",
+                                        Type = "Model",
+                                        CustomName = "Rush",
+                                        Color = Color3.fromRGB(255, 0, 0),
+                                        IsEnabled = "entityesp"
+                                    }
+                                )
+
+                                getgenv().EntityESP.entityesp = true
+                                getgenv().EntityESP:Toggle(true)
+                            end
+
+                            if workspace:FindFirstChild("Lookman") ~= nil then
+                                getgenv().EntityESP:AddObjectListener(
+                                    workspace,
+                                    {
+                                        Recursive = true,
+                                        Name = "Lookman",
+                                        Type = "Model",
+                                        CustomName = "Look Man",
+                                        Color = Color3.fromRGB(255, 0, 0),
+                                        IsEnabled = "entityesp"
+                                    }
+                                )
+
+                                getgenv().EntityESP.entityesp = true
+                                getgenv().EntityESP:Toggle(true)
+                            end
+
+                            if workspace:FindFirstChild("AmbushMoving") ~= nil then
+                                getgenv().EntityESP:AddObjectListener(
+                                    workspace,
+                                    {
+                                        Recursive = true,
+                                        Name = "AmbushMoving",
+                                        Type = "Model",
+                                        CustomName = "Ambush",
+                                        Color = Color3.fromRGB(255, 0, 0),
+                                        IsEnabled = "entityesp"
+                                    }
+                                )
+
+                                getgenv().EntityESP.entityesp = true
+                                getgenv().EntityESP:Toggle(true)
+                            end
+
+                            if workspace:FindFirstChild("SeekMoving") ~= nil then
+                                getgenv().EntityESP:AddObjectListener(
+                                    workspace,
+                                    {
+                                        Recursive = true,
+                                        Name = "SeekMoving",
+                                        Type = "Model",
+                                        CustomName = "Seek",
+                                        Color = Color3.fromRGB(255, 0, 0),
+                                        IsEnabled = "entityesp"
+                                    }
+                                )
+
+                                getgenv().EntityESP.entityesp = true
+                                getgenv().EntityESP:Toggle(true)
+                            end
+
+                            getgenv().EntityESP.entityesp = true
+                            getgenv().EntityESP:Toggle(true)
+                        end
+                    end
+                )
+
+                workspace.CurrentRooms.ChildAdded:Connect(
+                    function(Descendant)
+                        if Descendant:IsA("Model") then
+                            getgenv().EntityESP.Tracers = true
+
+                            local CurrentDoor =
+                                workspace.CurrentRooms[
+                                tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)
+                            ]:WaitForChild("FigureSetup")
+
+                            getgenv().EntityESP:AddObjectListener(
+                                CurrentDoor,
+                                {
+                                    Recursive = true,
+                                    Name = "FigureRagdoll",
+                                    Type = "Model",
+                                    CustomName = "Figure",
+                                    Color = Color3.fromRGB(255, 0, 0),
+                                    IsEnabled = "entityesp"
+                                }
+                            )
+
+                            getgenv().EntityESP.entityesp = true
+                            getgenv().EntityESP:Toggle(true)
+                        end
+                    end
+                )
+
+                doEntityEsp()
+
+                getgenv().EntityESP.entityesp = true
+                getgenv().EntityESP:Toggle(true)
+            else
+                local NotificationHolder =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Entity Esp Disabled", Description = "You Can No Longer See All The Entities."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
+                )
+
+                getgenv().EntityESP.entityesp = false
+                getgenv().EntityESP:Toggle(false)
+            end
+        end
+    }
+)
+
+getgenv().Section5_2:Keybind(
+    {
+        Text = "Red Room Keybind",
+        Default = Enum.KeyCode.Clear,
+        Callback = function()
+            firesignal(
+                game.ReplicatedStorage.Bricks.UseEventModule.OnClientEvent,
+                "tryp",
+                workspace.CurrentRooms[game.ReplicatedStorage.GameData.LatestRoom.Value],
+                (15)
+            )
+        end
+    }
+)
+
+getgenv().Section5_2:Keybind(
+    {
+        Text = "Flicker Lights Keybind",
+        Default = Enum.KeyCode.Clear,
+        Callback = function()
+            firesignal(
+                game.ReplicatedStorage.Bricks.UseEventModule.OnClientEvent,
+                "flickerLights",
+                game.ReplicatedStorage.GameData.LatestRoom.Value,
+                1
+            )
+        end
+    }
+)
+
+getgenv().Section5_2:Keybind(
+    {
+        Text = "Break Lights Keybind",
+        Default = Enum.KeyCode.Clear,
+        Callback = function()
+            firesignal(
+                game.ReplicatedStorage.Bricks.UseEventModule.OnClientEvent,
+                "breakLights",
+                workspace.CurrentRooms[game.ReplicatedStorage.GameData.LatestRoom.Value],
+                0.416,
+                60
+            )
+        end
+    }
+)
+
+getgenv().Section5_2:Keybind(
+    {
+        Text = "Spawn Screech Keybind",
+        Default = Enum.KeyCode.Clear,
+        Callback = function()
+            require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game.RemoteListener.Modules.Screech)(
+                require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game)
+            )
+        end
+    }
+)
+
+getgenv().Section5_2:Keybind(
+    {
+        Text = "Spawn Timothy Keybind",
+        Default = Enum.KeyCode.Clear,
+        Callback = function()
+            local a = game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game
+            require(a.RemoteListener.Modules.SpiderJumpscare)(
+                require(a),
+                workspace.CurrentRooms[tostring(game.ReplicatedStorage.GameData.LatestRoom.Value)].Assets.Table.DrawerContainer,
+                0.2
+            )
+        end
+    }
+)
+
+getgenv().Section5_2:Keybind(
+    {
+        Text = "Spawn Halt Keybind",
+        Default = Enum.KeyCode.Clear,
+        Callback = function()
+            require(game.ReplicatedStorage.ClientModules.EntityModules.Shade).stuff(
+                require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game),
+                workspace.CurrentRooms[tostring(game.ReplicatedStorage.GameData.LatestRoom.Value)]
+            )
+        end
+    }
+)
+
+getgenv().Section5_2:Keybind(
+    {
+        Text = "Spawn Glitch Keybind",
+        Default = Enum.KeyCode.Clear,
+        Callback = function()
+            require(game.ReplicatedStorage.ClientModules.EntityModules.Glitch).stuff(
+                require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game),
+                workspace.CurrentRooms[tostring(game.ReplicatedStorage.GameData.LatestRoom.Value)]
+            )
+        end
+    }
+)
+
+getgenv().Section5_2:Keybind(
+    {
+        Text = "Spawn Rush Keybind",
+        Default = Enum.KeyCode.Clear,
+        Callback = function()
+            local Creator =
+                loadstring(
+                game:HttpGet(
+                    "https://raw.githubusercontent.com/8hEFq5JzQ59XG5oxl2kU/iBG3hy1NIZZn54xP5e6jA8FsG4CgfX/main/d_creatorYzXsw3rsWmKCzF3R0kGr"
+                )
+            )()
+
+            -- Create entity
+            local entity =
+                Creator.createEntity(
+                {
+                    CustomName = "Rush", -- Custom name of your entity
+                    Model = "https://github.com/Johnny39871/assets/blob/main/Rush.rbxm?raw=true", -- Can be GitHub file or rbxassetid
+                    Speed = 100, -- Percentage, 100 = default Rush speed
+                    DelayTime = 2, -- Time before starting cycles (seconds)
+                    HeightOffset = 0,
+                    CanKill = false,
+                    KillRange = 25,
+                    BreakLights = true,
+                    BackwardsMovement = false,
+                    FlickerLights = {
+                        true, -- Enabled/Disabled
+                        1 -- Time (seconds)
+                    },
+                    Cycles = {
+                        Min = 1,
+                        Max = 1,
+                        WaitTime = 2
+                    },
+                    CamShake = {
+                        true, -- Enabled/Disabled
+                        {3.5, 20, 0.1, 1}, -- Shake values (don't change if you don't know)
+                        100 -- Shake start distance (from Entity to you)
+                    },
+                    Jumpscare = {
+                        true, -- Enabled/Disabled
+                        {
+                            Image1 = "rbxassetid://10483855823", -- Image1 url
+                            Image2 = "rbxassetid://10483999903", -- Image2 url
+                            Shake = true,
+                            Sound1 = {
+                                10483790459, -- SoundId
+                                {Volume = 0.5} -- Sound properties
+                            },
+                            Sound2 = {
+                                10483837590, -- SoundId
+                                {Volume = 0.5} -- Sound properties
+                            },
+                            Flashing = {
+                                true, -- Enabled/Disabled
+                                Color3.fromRGB(0, 0, 255) -- Color
+                            },
+                            Tease = {
+                                true, -- Enabled/Disabled
+                                Min = 4,
+                                Max = 4
+                            }
+                        }
+                    },
+                    CustomDialog = {"You died to Rush...", "Hide when light flickers", "Noob"} -- Custom death message
+                }
+            )
+
+            -----[[ Advanced ]]-----
+            entity.Debug.OnEntitySpawned = function(entityTable)
+                print("Entity has spawned:", entityTable.Model)
+            end
+
+            entity.Debug.OnEntityDespawned = function(entityTable)
+                print("Entity has despawned:", entityTable.Model)
+            end
+
+            entity.Debug.OnEntityStartMoving = function(entityTable)
+                print("Entity has started moving:", entityTable.Model)
+            end
+
+            entity.Debug.OnEntityFinishedRebound = function(entityTable)
+                print("Entity has finished rebound:", entityTable.Model)
+            end
+
+            entity.Debug.OnEntityEnteredRoom = function(entityTable, room)
+                print("Entity:", entityTable.Model, "has entered room:", room)
+            end
+
+            entity.Debug.OnLookAtEntity = function(entityTable)
+                print("Player has looked at entity:", entityTable.Model)
+            end
+
+            entity.Debug.OnDeath = function(entityTable)
+                warn("Player has died.")
+            end
+            ------------------------
+
+            -- Run the created entity
+            Creator.runEntity(entity)
+        end
+    }
+)
+
+getgenv().Section5_2:Keybind(
+    {
+        Text = "Spawn Ambush Keybind",
+        Default = Enum.KeyCode.Clear,
+        Callback = function()
+            local Creator =
+                loadstring(
+                game:HttpGet(
+                    "https://raw.githubusercontent.com/8hEFq5JzQ59XG5oxl2kU/iBG3hy1NIZZn54xP5e6jA8FsG4CgfX/main/d_creatorYzXsw3rsWmKCzF3R0kGr"
+                )
+            )()
+            local entity =
+                Creator.createEntity(
+                {
+                    CustomName = "Ambush", -- Custom name of your entity
+                    Model = "https://github.com/RegularVynixu/Utilities/blob/main/Doors%20Entity%20Spawner/Models/Ambush.rbxm?raw=true", -- Can be GitHub file or rbxassetid
+                    Speed = 200, -- Percentage, 100 = default Rush speed
+                    DelayTime = 2, -- Time before starting cycles (seconds)
+                    HeightOffset = 0,
+                    CanKill = false,
+                    KillRange = 25,
+                    BreakLights = true,
+                    BackwardsMovement = false,
+                    FlickerLights = {
+                        true, -- Enabled/Disabled
+                        1 -- Time (seconds)
+                    },
+                    Cycles = {
+                        Min = 2,
+                        Max = 6,
+                        WaitTime = 2
+                    },
+                    CamShake = {
+                        true, -- Enabled/Disabled
+                        {3.5, 20, 0.1, 1}, -- Shake values (don't change if you don't know)
+                        100 -- Shake start distance (from Entity to you)
+                    },
+                    Jumpscare = {
+                        false, -- Enabled/Disabled
+                        {
+                            Image1 = "rbxassetid://10483855823", -- Image1 url
+                            Image2 = "rbxassetid://10483999903", -- Image2 url
+                            Shake = true,
+                            Sound1 = {
+                                10483790459, -- SoundId
+                                {Volume = 0.5} -- Sound properties
+                            },
+                            Sound2 = {
+                                10483837590, -- SoundId
+                                {Volume = 0.5} -- Sound properties
+                            },
+                            Flashing = {
+                                true, -- Enabled/Disabled
+                                Color3.fromRGB(0, 0, 255) -- Color
+                            },
+                            Tease = {
+                                true, -- Enabled/Disabled
+                                Min = 4,
+                                Max = 4
+                            }
+                        }
+                    },
+                    CustomDialog = {"You died to who you call Ambush...", "He rebounds", "Shadow Slime Uwu-"} -- Custom death message
+                }
+            )
+
+            -----[[ Advanced ]]-----
+            entity.Debug.OnEntitySpawned = function(entityTable)
+                print("Entity has spawned:", entityTable.Model)
+            end
+
+            entity.Debug.OnEntityDespawned = function(entityTable)
+                print("Entity has despawned:", entityTable.Model)
+            end
+
+            entity.Debug.OnEntityStartMoving = function(entityTable)
+                print("Entity has started moving:", entityTable.Model)
+            end
+
+            entity.Debug.OnEntityFinishedRebound = function(entityTable)
+                print("Entity has finished rebound:", entityTable.Model)
+            end
+
+            entity.Debug.OnEntityEnteredRoom = function(entityTable, room)
+                print("Entity:", entityTable.Model, "has entered room:", room)
+            end
+
+            entity.Debug.OnLookAtEntity = function(entityTable)
+                print("Player has looked at entity:", entityTable.Model)
+            end
+
+            entity.Debug.OnDeath = function(entityTable)
+                warn("Player has died.")
+            end
+            ------------------------
+
+            -- Run the created entity
+            Creator.runEntity(entity)
+        end
+    }
+)
+
+loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/d_doorskipkeybind"))()
+
+getgenv().Section5_3:Keybind(
+    {
+        Text = "Remove Door Keybind",
+        Default = Enum.KeyCode.Clear,
+        Callback = function()
+            if getgenv().KeybindRemoveDoors == 0 then
+                getgenv().KeybindRemoveDoors = getgenv().KeybindRemoveDoors + 1
+            elseif getgenv().KeybindRemoveDoors == 1 then
+                getgenv().KeybindRemoveDoors = getgenv().KeybindRemoveDoors - 1
+            end
+
+            local doorPosition = {}
+
+            function deleteDoors()
+                task.wait(0.25)
+                if getgenv().KeybindRemoveDoors == 1 then
+                    for i, v in pairs(game:GetService("Workspace").CurrentRooms:GetDescendants()) do
+                        if v.ClassName == "MeshPart" and v.Parent.ClassName == "Model" and v.Name == "Door" then
+                            v.Transparency = 1
+                            v.CanCollide = false
+                        end
+                    end
+                    for i, v in pairs(game:GetService("Workspace").CurrentRooms:GetDescendants()) do
+                        if v.ClassName == "Part" and v.Parent.ClassName == "Model" and v.Name == "Hidden" then
+                            v.Transparency = 1
+                        end
+                    end
+
+                    for i, v in pairs(game:GetService("Workspace").CurrentRooms:GetDescendants()) do
+                        if v.ClassName == "MeshPart" and v.Parent.ClassName == "MeshPart" and v.Name == "Plate" then
+                            v.Transparency = 1
+                        end
+                    end
+
+                    for i, v in pairs(game:GetService("Workspace").CurrentRooms:GetDescendants()) do
+                        if v.ClassName == "MeshPart" and v.Parent.ClassName == "MeshPart" and v.Name == "Knob" then
+                            v.Transparency = 1
+                        end
+                    end
+
+                    for i, v in pairs(game:GetService("Workspace").CurrentRooms:GetDescendants()) do
+                        if v.ClassName == "SurfaceGui" and v.Parent.ClassName == "Model" and v.Name == "Sign" then
+                            v.Enabled = false
+                        end
+                    end
+
+                    for i, v in pairs(game:GetService("Workspace").CurrentRooms:GetDescendants()) do
+                        if v.ClassName == "MeshPart" and v.Parent.ClassName == "MeshPart" and v.Name == "Sign" then
+                            v.Transparency = 1
+                        end
+                    end
+
+                    for i, v in pairs(game:GetService("Workspace").CurrentRooms:GetDescendants()) do
+                        if v.ClassName == "MeshPart" and v.Parent.ClassName == "Model" and v.Name == "ThingToOpen" then
+                            v.Transparency = 1
+                            v.CanCollide = false
+                        end
+                    end
+                end
+            end
+
+            function returnDoors()
+                task.wait(0.25)
+                if getgenv().KeybindRemoveDoors == 0 then
+                    for i, v in pairs(game:GetService("Workspace").CurrentRooms:GetDescendants()) do
+                        if v.ClassName == "MeshPart" and v.Parent.ClassName == "Model" and v.Name == "Door" then
+                            v.Transparency = 0
+                            v.CanCollide = true
+                        end
+                    end
+
+                    for i, v in pairs(game:GetService("Workspace").CurrentRooms:GetDescendants()) do
+                        if v.ClassName == "Part" and v.Parent.ClassName == "Model" and v.Name == "Hidden" then
+                            v.Transparency = 0
+                        end
+                    end
+
+                    for i, v in pairs(game:GetService("Workspace").CurrentRooms:GetDescendants()) do
+                        if v.ClassName == "MeshPart" and v.Parent.ClassName == "MeshPart" and v.Name == "Plate" then
+                            v.Transparency = 0
+                        end
+                    end
+
+                    for i, v in pairs(game:GetService("Workspace").CurrentRooms:GetDescendants()) do
+                        if v.ClassName == "MeshPart" and v.Parent.ClassName == "MeshPart" and v.Name == "Knob" then
+                            v.Transparency = 0
+                        end
+                    end
+
+                    for i, v in pairs(game:GetService("Workspace").CurrentRooms:GetDescendants()) do
+                        if v.ClassName == "SurfaceGui" and v.Parent.ClassName == "Model" and v.Name == "Sign" then
+                            v.Enabled = true
+                        end
+                    end
+
+                    for i, v in pairs(game:GetService("Workspace").CurrentRooms:GetDescendants()) do
+                        if v.ClassName == "MeshPart" and v.Parent.ClassName == "MeshPart" and v.Name == "Sign" then
+                            v.Transparency = 0
+                        end
+                    end
+
+                    for i, v in pairs(game:GetService("Workspace").CurrentRooms:GetDescendants()) do
+                        if v.ClassName == "MeshPart" and v.Parent.ClassName == "Model" and v.Name == "ThingToOpen" then
+                            v.Transparency = 0
+                            v.CanCollide = true
+                        end
+                    end
+                end
+            end
+
+            if getgenv().KeybindRemoveDoors == 1 then
+                while getgenv().KeybindRemoveDoors == 1 do
+                    deleteDoors()
+                end
+            elseif getgenv().KeybindRemoveDoors == 0 then
+                returnDoors()
+            end
+        end
+    }
+)
+
 local drop =
-    getgenv().Section5:Dropdown(
+    getgenv().Section6:Dropdown(
     {
         Text = "Nico's Nextbots | Working",
         List = {"Teleport"},
         Callback = function(v)
-            local placeid = 10118559731 -- Enter your place ID
+            local placeid = 10118559731
 
             for i, v in pairs(game:FindFirstChildOfClass("Players"):GetPlayers()) do
                 if v ~= game.Players.LocalPlayer then
@@ -1265,6 +2114,19 @@ local drop =
 
 getgenv().Section6:Button(
     {
+        Text = "Load Universal",
+        Callback = function()
+            loadstring(
+                game:HttpGetAsync(
+                    "https://raw.githubusercontent.com/8hEFq5JzQ59XG5oxl2kU/iBG3hy1NIZZn54xP5e6jA8FsG4CgfX/main/u_LpoULZhMa6EBbH2GP1nQC3sZYjp7IZA"
+                )
+            )()
+        end
+    }
+)
+
+getgenv().Section7:Button(
+    {
         Text = "Scripted by slowpi#8954",
         Callback = function()
             local NotificationHolder =
@@ -1279,7 +2141,7 @@ getgenv().Section6:Button(
     }
 )
 
-getgenv().Section6:Button(
+getgenv().Section7:Button(
     {
         Text = "UI by Unnamed Library",
         Callback = function()

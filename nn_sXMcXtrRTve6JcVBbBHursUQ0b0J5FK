@@ -54,11 +54,18 @@ getgenv().Tab4 =
 getgenv().Tab5 =
     getgenv().Window:Tab(
     {
-        Text = "Games"
+        Text = "Keybinds"
     }
 )
 
 getgenv().Tab6 =
+    getgenv().Window:Tab(
+    {
+        Text = "Games"
+    }
+)
+
+getgenv().Tab7 =
     getgenv().Window:Tab(
     {
         Text = "Credits"
@@ -98,12 +105,33 @@ getgenv().Section4 =
 getgenv().Section5 =
     getgenv().Tab5:Section(
     {
-        Text = "Games"
+        Text = "Character Keybinds"
+    }
+)
+
+getgenv().Section5_1 =
+    getgenv().Tab5:Section(
+    {
+        Text = "Visual Keybinds"
+    }
+)
+
+getgenv().Section5_2 =
+    getgenv().Tab5:Section(
+    {
+        Text = "Miscellaneous Keybinds"
     }
 )
 
 getgenv().Section6 =
     getgenv().Tab6:Section(
+    {
+        Text = "Games"
+    }
+)
+
+getgenv().Section7 =
+    getgenv().Tab7:Section(
     {
         Text = "Credits"
     }
@@ -118,26 +146,68 @@ getgenv().Section:Slider(
         Minimum = 1,
         Maximum = 200,
         Callback = function(Value)
-        local Services = setmetatable({}, {__index = function(Self, Index)
-                local NewService = game.GetService(game, Index)
-                if NewService then
-                    Self[Index] = NewService
-                end
-                return NewService
-            end})
-            
+            local Services =
+                setmetatable(
+                {},
+                {
+                    __index = function(Self, Index)
+                        local NewService = game.GetService(game, Index)
+                        if NewService then
+                            Self[Index] = NewService
+                        end
+                        return NewService
+                    end
+                }
+            )
+
             local RunningSpeed = Value
-            
-            
+
             local function SetWalkspeed(Speed)
-                pcall(function()
-                    Services.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").WalkSpeed = Speed
-                end)
+                pcall(
+                    function()
+                        Services.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").WalkSpeed = Speed
+                    end
+                )
             end
-            
-                    Services.RunService:BindToRenderStep("LoopSpeed", Enum.RenderPriority.Character.Value + 1, function()
-                        SetWalkspeed(RunningSpeed)
-                    end)
+
+            Services.RunService:BindToRenderStep(
+                "LoopSpeed",
+                Enum.RenderPriority.Character.Value + 1,
+                function()
+                    SetWalkspeed(RunningSpeed)
+                end
+            )
+        end
+    }
+)
+
+getgenv().Section:Slider(
+    {
+        Text = "JumpPower",
+        Default = game.Players.LocalPlayer.Character.Humanoid.JumpPower,
+        Minimum = 0,
+        Maximum = 500,
+        Callback = function(Value)
+            game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+
+            while true do
+                game:GetService("RunService").RenderStepped:Wait()
+                if game.Players.LocalPlayer.Character.Humanoid.JumpPower ~= Value then
+                    game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+                end
+            end
+        end
+    }
+)
+
+getgenv().Section:Slider(
+    {
+        Text = "Gravity",
+        Default = game.Workspace.Gravity,
+        Minimum = 0,
+        Maximum = 720,
+        Callback = function(Value)
+            game.Workspace.Gravity = Value
         end
     }
 )
@@ -329,7 +399,7 @@ getgenv().Section:Button(
     }
 )
 
---getgenv().Section 2
+-- Section 2
 
 getgenv().Section2:Toggle(
     {
@@ -732,7 +802,7 @@ Section2:Toggle(
     }
 )
 
---getgenv().Section 3
+-- Section 3
 
 getgenv().Section3:Toggle(
     {
@@ -1061,22 +1131,36 @@ getgenv().Section3:Toggle(
     }
 )
 
---getgenv().Section 4
+-- Section 4
 
-getgenv().Section4:Button(
+getgenv().Section4:Toggle(
     {
         Text = "Get Btools",
-        Callback = function()
-            local NotificationHolder =
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
-            local Notification =
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
-            Notification:Notify(
-                {Title = "Btools Enabled", Description = "You Now Have Client Sided Btools"},
-                {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
-            )
+        Callback = function(bool)
+            if bool == true then
+                loadstring(game:HttpGet("https://pastebin.com/raw/PSeXEvEc"))()
 
-            loadstring(game:HttpGet("https://pastebin.com/raw/PSeXEvEc"))()
+                local NotificationHolder =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Btools Enabled", Description = "You Now Have Client Sided Btools."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
+                )
+            else
+                game:GetService("Players").LocalPlayer.Backpack.Move:Destroy()
+                game:GetService("Players").LocalPlayer.Backpack.Delete:Destroy()
+                game:GetService("Players").LocalPlayer.Backpack.Undo:Destroy()
+                local NotificationHolder =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Btools Disabled", Description = "You No Longer Have Client Sided Btools."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
+                )
+            end
         end
     }
 )
@@ -1148,20 +1232,739 @@ getgenv().Section4:Toggle(
     }
 )
 
-getgenv().Section4:Toggle(
+loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/nn_breakbots"))()
+
+getgenv().KeybindFly = 0
+getgenv().KeybindInfJumps = 0
+getgenv().KeybindGodmode = 0
+getgenv().KeybindBoxEsp = 0
+getgenv().KeybindTracerEsp = 0
+getgenv().KeybindChamsEsp = 0
+getgenv().KeybindBotEsp = 0
+getgenv().KeybindBoxEsp = 0
+getgenv().KeybindGetBtools = 0
+getgenv().KeybindFPSBoost = 0
+
+getgenv().Section5:Keybind(
     {
-        Text = "No Shadows",
-        Callback = function(bool)
-            game.Lighting.GlobalShadows = not (bool)
+        Text = "Fly (R15) Keybind",
+        Default = Enum.KeyCode.Clear,
+        Callback = function()
+            if getgenv().KeybindFly == 0 then
+                getgenv().KeybindFly = getgenv().KeybindFly + 1
+            elseif getgenv().KeybindFly == 1 then
+                getgenv().KeybindFly = getgenv().KeybindFly - 1
+            end
+
+            if getgenv().KeybindFly == 1 then
+                _G.FLYING = true
+                local NotificationHolder =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Fly Enabled", Description = "You Are Now Flying."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
+                )
+                local LP = game:service("Players").LocalPlayer
+                local T = LP.Character.UpperTorso
+                local CONTROL = {F = 0, B = 0, L = 0, R = 0}
+                local lCONTROL = {F = 0, B = 0, L = 0, R = 0}
+                local SPEED = getgenv().FlySpeed
+                local MOUSE = LP:GetMouse()
+
+                local function FLY()
+                    _G.FLYING = true
+                    local BG = Instance.new("BodyGyro", T)
+                    local BV = Instance.new("BodyVelocity", T)
+                    BG.P = 9e4
+                    BG.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+                    BG.cframe = T.CFrame
+                    BV.velocity = Vector3.new(0, 0.1, 0)
+                    BV.maxForce = Vector3.new(9e9, 9e9, 9e9)
+
+                    spawn(
+                        function()
+                            repeat
+                                wait()
+                                LP.Character.Humanoid.PlatformStand = true
+                                if CONTROL.L + CONTROL.R ~= 0 or CONTROL.F + CONTROL.B ~= 0 then
+                                    SPEED = getgenv().FlySpeed
+                                elseif not (CONTROL.L + CONTROL.R ~= 0 or CONTROL.F + CONTROL.B ~= 0) and SPEED ~= 0 then
+                                    SPEED = 0
+                                end
+                                if (CONTROL.L + CONTROL.R) ~= 0 or (CONTROL.F + CONTROL.B) ~= 0 then
+                                    BV.velocity =
+                                        ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector *
+                                        (CONTROL.F + CONTROL.B)) +
+                                        ((game.Workspace.CurrentCamera.CoordinateFrame *
+                                            CFrame.new(CONTROL.L + CONTROL.R, (CONTROL.F + CONTROL.B) * 0.2, 0).p) -
+                                            game.Workspace.CurrentCamera.CoordinateFrame.p)) *
+                                        SPEED
+                                    lCONTROL = {F = CONTROL.F, B = CONTROL.B, L = CONTROL.L, R = CONTROL.R}
+                                elseif (CONTROL.L + CONTROL.R) == 0 and (CONTROL.F + CONTROL.B) == 0 and SPEED ~= 0 then
+                                    BV.velocity =
+                                        ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector *
+                                        (lCONTROL.F + lCONTROL.B)) +
+                                        ((game.Workspace.CurrentCamera.CoordinateFrame *
+                                            CFrame.new(lCONTROL.L + lCONTROL.R, (lCONTROL.F + lCONTROL.B) * 0.2, 0).p) -
+                                            game.Workspace.CurrentCamera.CoordinateFrame.p)) *
+                                        SPEED
+                                else
+                                    BV.velocity = Vector3.new(0, 0.1, 0)
+                                end
+                                BG.cframe = game.Workspace.CurrentCamera.CoordinateFrame
+                            until not _G.FLYING
+                            CONTROL = {F = 0, B = 0, L = 0, R = 0}
+                            lCONTROL = {F = 0, B = 0, L = 0, R = 0}
+                            SPEED = 0
+                            BG:destroy()
+                            BV:destroy()
+                            LP.Character.Humanoid.PlatformStand = false
+                        end
+                    )
+                end
+
+                MOUSE.KeyDown:connect(
+                    function(KEY)
+                        if KEY:lower() == "w" then
+                            CONTROL.F = 1
+                        elseif KEY:lower() == "s" then
+                            CONTROL.B = -1
+                        elseif KEY:lower() == "a" then
+                            CONTROL.L = -1
+                        elseif KEY:lower() == "d" then
+                            CONTROL.R = 1
+                        end
+                    end
+                )
+
+                MOUSE.KeyUp:connect(
+                    function(KEY)
+                        if KEY:lower() == "w" then
+                            CONTROL.F = 0
+                        elseif KEY:lower() == "s" then
+                            CONTROL.B = 0
+                        elseif KEY:lower() == "a" then
+                            CONTROL.L = 0
+                        elseif KEY:lower() == "d" then
+                            CONTROL.R = 0
+                        end
+                    end
+                )
+
+                FLY()
+            else
+                local NotificationHolder =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Fly Disabled", Description = "You Are No Longer Flying."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
+                )
+                _G.FLYING = false
+            end
         end
     }
 )
 
-loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/nn_breakbots"))()
+getgenv().Section5:Keybind(
+    {
+        Text = "Inf Jumps Keybind",
+        Default = Enum.KeyCode.Clear,
+        Callback = function()
+            if getgenv().KeybindInfJumps == 0 then
+                getgenv().KeybindInfJumps = getgenv().KeybindInfJumps + 1
+            elseif getgenv().KeybindInfJumps == 1 then
+                getgenv().KeybindInfJumps = getgenv().KeybindInfJumps - 1
+            end
+            if getgenv().KeybindInfJumps == 1 then
+                local NotificationHolder =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Inf Jumps Enabled", Description = "You Now Have Infinite Jumps."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
+                )
+
+                getgenv().InfiniteJumpEnabled = true
+            else
+                local NotificationHolder =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Inf Jumps Disabled", Description = "You No Longer Have Infinite Jumps."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
+                )
+
+                getgenv().InfiniteJumpEnabled = false
+            end
+
+            game:GetService("UserInputService").JumpRequest:connect(
+                function()
+                    if getgenv().InfiniteJumpEnabled == true then
+                        game:GetService "Players".LocalPlayer.Character:FindFirstChildOfClass "Humanoid":ChangeState(
+                            "Jumping"
+                        )
+                    end
+                end
+            )
+        end
+    }
+)
+
+loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/nn_godmodekeybind"))()
+
+getgenv().Section5_1:Keybind(
+    {
+        Text = "Box Esp Keybind",
+        Default = Enum.KeyCode.Clear,
+        Callback = function()
+            if getgenv().KeybindBoxEsp == 0 then
+                getgenv().KeybindBoxEsp = getgenv().KeybindBoxEsp + 1
+            elseif getgenv().KeybindBoxEsp == 1 then
+                getgenv().KeybindBoxEsp = getgenv().KeybindBoxEsp - 1
+            end
+
+            if getgenv().KeybindBoxEsp == 1 then
+                local NotificationHolder =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Box Esp Enabled", Description = "You Can Now See Boxes On Other Players."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2.5, Type = "default"}
+                )
+
+                getgenv().BoxESP = loadstring(game:HttpGet("https://kiriot22.com/releases/ESP.lua"))()
+
+                getgenv().BoxESP.Tracers = false
+                getgenv().BoxESP.Names = false
+                getgenv().BoxESP.Boxes = true
+                getgenv().BoxESP.Temporary = true
+                getgenv().BoxESP.Color = Color3.new(0, 255, 0)
+                getgenv().BoxESP.TeamColor = true
+                getgenv().BoxESP.FaceCamera = true
+
+                getgenv().BoxESP:Toggle(true)
+            else
+                local NotificationHolder =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Box Esp Disabled", Description = "You Can No Longer See Boxes On Other Players."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2.5, Type = "default"}
+                )
+
+                getgenv().BoxESP:Toggle(false)
+            end
+        end
+    }
+)
+
+getgenv().Section5_1:Keybind(
+    {
+        Text = "Tracer Esp Keybind",
+        Default = Enum.KeyCode.Clear,
+        Callback = function()
+            if getgenv().KeybindTracerEsp == 0 then
+                getgenv().KeybindTracerEsp = getgenv().KeybindTracerEsp + 1
+            elseif getgenv().KeybindTracerEsp == 1 then
+                getgenv().KeybindTracerEsp = getgenv().KeybindTracerEsp - 1
+            end
+
+            if getgenv().KeybindTracerEsp == 1 then
+                local NotificationHolder =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Tracer Esp Enabled", Description = "You Can Now See Tracers To Other Players."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2.5, Type = "default"}
+                )
+
+                getgenv().TracerESP = loadstring(game:HttpGet("https://kiriot22.com/releases/ESP.lua"))()
+
+                getgenv().TracerESP.Tracers = true
+                getgenv().TracerESP.Names = false
+                getgenv().TracerESP.Boxes = false
+                getgenv().TracerESP.Temporary = true
+                getgenv().TracerESP.Color = Color3.new(0, 255, 0)
+                getgenv().TracerESP.TeamColor = true
+
+                getgenv().TracerESP:Toggle(true)
+            else
+                local NotificationHolder =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Tracer Esp Disabled", Description = "You Can No Longer See Tracers To Other Players."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2.5, Type = "default"}
+                )
+                getgenv().TracerESP:Toggle(false)
+            end
+        end
+    }
+)
+
+getgenv().Section5_1:Keybind(
+    {
+        Text = "Chams Esp Keybind",
+        Default = Enum.KeyCode.Clear,
+        Callback = function()
+            if getgenv().KeybindChamsEsp == 0 then
+                getgenv().KeybindChamsEsp = getgenv().KeybindChamsEsp + 1
+            elseif getgenv().KeybindChamsEsp == 1 then
+                getgenv().KeybindChamsEsp = getgenv().KeybindChamsEsp - 1
+            end
+
+            if getgenv().KeybindChamsEsp == 1 then
+                local NotificationHolder =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Chams Esp Enabled", Description = "You Can Now See Players Through Walls."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
+                )
+
+                getgenv().espLib =
+                    loadstring(
+                    game:HttpGet(
+                        ("https://raw.githubusercontent.com/shlexware/Sirius/request/library/esp/esp.lua"),
+                        true
+                    )
+                )()
+
+                getgenv().espLib.options.enabled = true
+                getgenv().espLib.options.minScaleFactorX = 1
+                getgenv().espLib.options.maxScaleFactorX = 10
+                getgenv().espLib.options.minScaleFactorY = 1
+                getgenv().espLib.options.maxScaleFactorY = 10
+                getgenv().espLib.options.boundingBox = false -- WARNING | Significant Performance Decrease when true
+                getgenv().espLib.options.boundingBoxDescending = true
+                getgenv().espLib.options.font = 2
+                getgenv().espLib.options.fontSize = 13
+                getgenv().espLib.options.limitDistance = false
+                getgenv().espLib.options.maxDistance = 99999
+                getgenv().espLib.options.visibleOnly = false
+                getgenv().espLib.options.teamCheck = false
+                getgenv().espLib.options.teamColor = true
+                getgenv().espLib.options.fillColor = nil
+                getgenv().espLib.options.whitelistColor = Color3.new(1, 0, 0)
+                getgenv().espLib.options.outOfViewArrows = false
+                getgenv().espLib.options.outOfViewArrowsFilled = false
+                getgenv().espLib.options.outOfViewArrowsSize = 25
+                getgenv().espLib.options.outOfViewArrowsRadius = 100
+                getgenv().espLib.options.outOfViewArrowsColor = Color3.new(1, 1, 1)
+                getgenv().espLib.options.outOfViewArrowsTransparency = 0.5
+                getgenv().espLib.options.outOfViewArrowsOutline = false
+                getgenv().espLib.options.outOfViewArrowsOutlineFilled = false
+                getgenv().espLib.options.outOfViewArrowsOutlineColor = Color3.new(1, 1, 1)
+                getgenv().espLib.options.outOfViewArrowsOutlineTransparency = 1
+                getgenv().espLib.options.names = false
+                getgenv().espLib.options.nameTransparency = 1
+                getgenv().espLib.options.nameColor = Color3.new(1, 1, 1)
+                getgenv().espLib.options.boxes = false
+                getgenv().espLib.options.boxesTransparency = 1
+                getgenv().espLib.options.boxesColor = Color3.new(1, 0, 0)
+                getgenv().espLib.options.boxFill = false
+                getgenv().espLib.options.boxFillTransparency = 0.5
+                getgenv().espLib.options.boxFillColor = Color3.new(1, 0, 0)
+                getgenv().espLib.options.healthBars = false
+                getgenv().espLib.options.healthBarsSize = 1
+                getgenv().espLib.options.healthBarsTransparency = 1
+                getgenv().espLib.options.healthBarsColor = Color3.new(0, 1, 0)
+                getgenv().espLib.options.healthText = false
+                getgenv().espLib.options.healthTextTransparency = 1
+                getgenv().espLib.options.healthTextSuffix = "%"
+                getgenv().espLib.options.healthTextColor = Color3.new(1, 1, 1)
+                getgenv().espLib.options.distance = false
+                getgenv().espLib.options.distanceTransparency = 1
+                getgenv().espLib.options.distanceSuffix = " Studs"
+                getgenv().espLib.options.distanceColor = Color3.new(1, 1, 1)
+                getgenv().espLib.options.tracers = false
+                getgenv().espLib.options.tracerTransparency = 1
+                getgenv().espLib.options.tracerColor = Color3.new(1, 1, 1)
+                getgenv().espLib.options.tracerOrigin = "Bottom" -- Available [Mouse, Top, Bottom]
+                getgenv().espLib.options.chams = true
+                getgenv().espLib.options.chamsFillColor = Color3.new(0, 255, 0)
+                getgenv().espLib.options.chamsFillTransparency = 0.45
+                getgenv().espLib.options.chamsOutlineColor = Color3.new()
+                getgenv().espLib.options.chamsOutlineTransparency = 0.05
+
+                getgenv().espLib:Load()
+            else
+                local NotificationHolder =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Chams Disabled", Description = "You Can No Longer See Players Through Walls."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
+                )
+
+                getgenv().espLib:Unload()
+            end
+        end
+    }
+)
+
+getgenv().Section5_1:Keybind(
+    {
+        Text = "Bot Esp Keybind",
+        Default = Enum.KeyCode.Clear,
+        Callback = function()
+            if getgenv().KeybindBotEsp == 0 then
+                getgenv().KeybindBotEsp = getgenv().KeybindBotEsp + 1
+            elseif getgenv().KeybindBotEsp == 1 then
+                getgenv().KeybindBotEsp = getgenv().KeybindBotEsp - 1
+            end
+            if getgenv().KeybindBotEsp == 1 then
+                local NotificationHolder =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Bot Esp Enabled", Description = "You Can Now See All The Bots."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
+                )
+
+                function doBotEsp()
+                    if getgenv().KeybindBotEsp == 1 then
+                        getgenv().BotESP = loadstring(game:HttpGet("https://kiriot22.com/releases/ESP.lua"))()
+
+                        getgenv().BotESP.Tracers = true
+                        getgenv().BotESP.Names = true
+                        getgenv().BotESP.Boxes = true
+                        getgenv().BotESP.Players = false
+
+                        getgenv().BotESP:AddObjectListener(
+                            workspace.bots,
+                            {
+                                Recursive = true,
+                                Type = "Model",
+                                CustomName = function(obj)
+                                    return obj:FindFirstChild("bot") and obj.Name
+                                end,
+                                Color = Color3.fromRGB(255, 0, 0),
+                                IsEnabled = "botesp"
+                            }
+                        )
+
+                        workspace.bots.DescendantRemoving:Connect(
+                            function(Descendant)
+                                if Descendant:IsA("Model") then
+                                    getgenv().BotESP:AddObjectListener(
+                                        workspace.bots,
+                                        {
+                                            Recursive = true,
+                                            Type = "Model",
+                                            CustomName = function(obj)
+                                                return obj:FindFirstChild("bot") and obj.Name
+                                            end,
+                                            Color = Color3.fromRGB(255, 0, 0),
+                                            IsEnabled = "botesp"
+                                        }
+                                    )
+                                end
+                            end
+                        )
+
+                        workspace.bots.DescendantAdded:Connect(
+                            function(Descendant)
+                                if Descendant:IsA("Model") then
+                                    getgenv().BotESP:AddObjectListener(
+                                        workspace.bots,
+                                        {
+                                            Recursive = true,
+                                            Type = "Model",
+                                            CustomName = function(obj)
+                                                return obj:FindFirstChild("bot") and obj.Name
+                                            end,
+                                            Color = Color3.fromRGB(255, 0, 0),
+                                            IsEnabled = "botesp"
+                                        }
+                                    )
+                                end
+                            end
+                        )
+                    end
+                end
+
+                doBotEsp()
+
+                getgenv().BotESP.botesp = true
+                getgenv().BotESP:Toggle(true)
+            else
+                local NotificationHolder =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Bot Esp Disabled", Description = "You Can No Longer See All The Bots."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
+                )
+
+                getgenv().BotESP.botesp = false
+                getgenv().BotESP:Toggle(false)
+            end
+        end
+    }
+)
+
+getgenv().Section5_1:Keybind(
+    {
+        Text = "Powerbox Esp Keybind",
+        Default = Enum.KeyCode.Clear,
+        Callback = function()
+            if getgenv().KeybindboxEsp == 0 then
+                getgenv().KeybindboxEsp = getgenv().KeybindboxEsp + 1
+            elseif getgenv().KeybindboxEsp == 1 then
+                getgenv().KeybindboxEsp = getgenv().KeybindboxEsp - 1
+            end
+            if getgenv().KeybindboxEsp == 1 then
+                for i, v in pairs(game:GetService("Workspace")["nn_russia"][".powerboxes"]:GetDescendants()) do
+                    if v.Name == "PowerInteract" and v.Parent.Name == "PowerBox" then -- i am just wondering that the part u wanna esp have these properties u can change them if it doesnt work
+                        local BillboardGui = Instance.new("BillboardGui")
+                        local TextLabel = Instance.new("TextLabel")
+                        local botName = v.Parent.Name
+
+                        BillboardGui.Name = "BoxEsp_slowpihax"
+                        BillboardGui.Parent = v.Parent
+                        BillboardGui.AlwaysOnTop = true
+                        BillboardGui.LightInfluence = 1
+                        BillboardGui.Size = UDim2.new(0, 50, 0, 50)
+                        BillboardGui.StudsOffset = Vector3.new(0, 2, 0)
+
+                        TextLabel.Parent = BillboardGui
+                        TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+                        TextLabel.BackgroundTransparency = 1
+                        TextLabel.Size = UDim2.new(1.25, 0, 1.25, 0)
+                        TextLabel.Text = botName
+                        TextLabel.TextColor3 = Color3.new(0, 255, 0)
+                        TextLabel.TextScaled = false
+                    end
+                end
+            else
+            end
+
+            function doPowerBoxEsp_mall()
+                if getgenv().KeybindboxEsp == 1 then
+                    for i, v in pairs(game:GetService("Workspace")["nn_mall"][".powerboxes"]:GetDescendants()) do
+                        if v.Name == "PowerInteract" and v.Parent.Name == "PowerBox" then -- i am just wondering that the part u wanna esp have these properties u can change them if it doesnt work
+                            local BillboardGui = Instance.new("BillboardGui")
+                            local TextLabel = Instance.new("TextLabel")
+
+                            BillboardGui.Name = "BoxEsp_slowpihax"
+                            BillboardGui.Parent = v.Parent
+                            BillboardGui.AlwaysOnTop = true
+                            BillboardGui.LightInfluence = 1
+                            BillboardGui.Size = UDim2.new(0, 50, 0, 50)
+                            BillboardGui.StudsOffset = Vector3.new(0, 1, 0)
+
+                            TextLabel.Parent = BillboardGui
+                            TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+                            TextLabel.BackgroundTransparency = 1
+                            TextLabel.Size = UDim2.new(1.25, 0, 1.25, 0)
+                            TextLabel.Text = "Power Box"
+                            TextLabel.TextColor3 = Color3.new(0, 255, 0)
+                            TextLabel.TextScaled = false
+                        end
+                    end
+                else
+                end
+            end
+
+            function doPowerBoxEsp_russia()
+                if getgenv().KeybindboxEsp == 1 then
+                    for i, v in pairs(game:GetService("Workspace")["nn_russia"][".powerboxes"]:GetDescendants()) do
+                        if v.Name == "PowerInteract" and v.Parent.Name == "PowerBox" then -- i am just wondering that the part u wanna esp have these properties u can change them if it doesnt work
+                            local BillboardGui = Instance.new("BillboardGui")
+                            local TextLabel = Instance.new("TextLabel")
+
+                            BillboardGui.Name = "BoxEsp_slowpihax"
+                            BillboardGui.Parent = v.Parent
+                            BillboardGui.AlwaysOnTop = true
+                            BillboardGui.LightInfluence = 1
+                            BillboardGui.Size = UDim2.new(0, 50, 0, 50)
+                            BillboardGui.StudsOffset = Vector3.new(0, 1, 0)
+
+                            TextLabel.Parent = BillboardGui
+                            TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+                            TextLabel.BackgroundTransparency = 1
+                            TextLabel.Size = UDim2.new(1.25, 0, 1.25, 0)
+                            TextLabel.Text = "Power Box"
+                            TextLabel.TextColor3 = Color3.new(0, 255, 0)
+                            TextLabel.TextScaled = false
+                        end
+                    end
+                else
+                end
+            end
+
+            if getgenv().KeybindboxEsp == 1 then
+                local NotificationHolder =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Power Box Enabled", Description = "You Can Now See All The Boxes."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
+                )
+
+                doPowerBoxEsp_mall()
+                task.wait(0.25)
+                doPowerBoxEsp_mall()
+
+                if game:GetService("Workspace"):FindFirstChild("PowerInteract") == "nil" then
+                    for i, v in pairs(game:GetService("Workspace"):GetDescendants()) do
+                        if v.ClassName == "BillboardGui" and v.Name == "BoxEsp_slowpihax" then
+                            v:Destroy()
+                        end
+                    end
+                end
+            else
+                local NotificationHolder =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Power Box Disabled", Description = "You Can No Longer See All The Boxes."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
+                )
+
+                for i, v in pairs(game:GetService("Workspace"):GetDescendants()) do
+                    if v.ClassName == "BillboardGui" and v.Name == "BoxEsp_slowpihax" then
+                        v:Destroy()
+                    end
+                end
+            end
+        end
+    }
+)
+
+getgenv().Section5_2:Keybind(
+    {
+        Text = "Get Btools Keybind",
+        Default = Enum.KeyCode.Clear,
+        Callback = function()
+            if getgenv().KeybindGetBtools == 0 then
+                getgenv().KeybindGetBtools = getgenv().KeybindGetBtools + 1
+            elseif getgenv().KeybindGetBtools == 1 then
+                getgenv().KeybindGetBtools = getgenv().KeybindGetBtools - 1
+            end
+            if getgenv().KeybindGetBtools == 1 then
+                loadstring(game:HttpGet("https://pastebin.com/raw/PSeXEvEc"))()
+
+                local NotificationHolder =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Btools Enabled", Description = "You Now Have Client Sided Btools."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
+                )
+            else
+                game:GetService("Players").LocalPlayer.Backpack.Move:Destroy()
+                game:GetService("Players").LocalPlayer.Backpack.Delete:Destroy()
+                game:GetService("Players").LocalPlayer.Backpack.Undo:Destroy()
+                local NotificationHolder =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Btools Disabled", Description = "You No Longer Have Client Sided Btools."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
+                )
+            end
+        end
+    }
+)
+
+getgenv().Section5_2:Keybind(
+    {
+        Text = "FPS Boost Keybind",
+        Default = Enum.KeyCode.Clear,
+        Callback = function()
+            if getgenv().KeybindFPSBoost == 0 then
+                getgenv().KeybindFPSBoost = getgenv().KeybindFPSBoost + 1
+            elseif getgenv().KeybindFPSBoost == 1 then
+                getgenv().KeybindFPSBoost = getgenv().KeybindFPSBoost - 1
+            end
+            if getgenv().KeybindFPSBoost == 1 then
+                local NotificationHolder =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "FPS Boost Enabled", Description = "Your FPS Should Now Be Higher."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
+                )
+
+                local a = game
+                local b = a.Workspace
+                local c = a.Lighting
+                local d = b.Terrain
+                d.WaterWaveSize = 0
+                d.WaterWaveSpeed = 0
+                d.WaterReflectance = 0
+                d.WaterTransparency = 0
+                c.GlobalShadows = false
+                c.FogEnd = 9e9
+                settings().Rendering.QualityLevel = "Level01"
+
+                while task.wait() do
+                    if iswindowactive() then
+                        setfpscap(144)
+                    else
+                        setfpscap(25)
+                    end
+                end
+            elseif bool == false then
+                local NotificationHolder =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Noclip", Description = "Your FPS Should Now Be Back To Normal."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2.25, Type = "default"}
+                )
+
+                local a = game
+                local b = a.Workspace
+                local c = a.Lighting
+                local d = b.Terrain
+                d.WaterWaveSize = 0.15
+                d.WaterWaveSpeed = 10
+                d.WaterReflectance = 1
+                d.WaterTransparency = 1
+                c.GlobalShadows = true
+                c.FogEnd = 100000
+                settings().Rendering.QualityLevel = "Level20"
+            end
+
+            while task.wait() do
+                if iswindowactive() then
+                    setfpscap(144)
+                else
+                    setfpscap(60)
+                end
+            end
+        end
+    }
+)
+
+loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/nn_breakbotskeybind"))()
 
 if game.PlaceId ~= 10118559731 then
     local drop =
-        getgenv().Section5:Dropdown(
+        getgenv().Section6:Dropdown(
         {
             Text = "Nico's Nextbots | Working",
             List = {"Teleport"},
@@ -1188,7 +1991,7 @@ if game.PlaceId ~= 10118559731 then
 end
 
 local drop =
-    getgenv().Section5:Dropdown(
+    getgenv().Section6:Dropdown(
     {
         Text = "Doors | Working",
         List = {"Teleport"},
@@ -1218,20 +2021,20 @@ local drop =
     }
 )
 
-getgenv().Section5:Button(
+getgenv().Section6:Button(
     {
         Text = "Load Universal",
         Callback = function()
             loadstring(
-                game:HttpGet(
-                    "https://raw.githubusercontent.com/8hEFq5JzQ59XG5oxl2kU/iBG3hy1NIZZn54xP5e6jA8FsG4CgfX/main/U_iuX0OxeQPsQRQ7IXg"
+                game:HttpGetAsync(
+                    "https://raw.githubusercontent.com/8hEFq5JzQ59XG5oxl2kU/iBG3hy1NIZZn54xP5e6jA8FsG4CgfX/main/u_LpoULZhMa6EBbH2GP1nQC3sZYjp7IZA"
                 )
             )()
         end
     }
 )
 
-getgenv().Section6:Button(
+getgenv().Section7:Button(
     {
         Text = "Scripted by slowpi#8954",
         Callback = function()
@@ -1247,7 +2050,7 @@ getgenv().Section6:Button(
     }
 )
 
-getgenv().Section6:Button(
+getgenv().Section7:Button(
     {
         Text = "UI by Unnamed Library",
         Callback = function()

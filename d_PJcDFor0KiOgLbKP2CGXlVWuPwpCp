@@ -1,4 +1,4 @@
-loadstring(game:httpGetAsync("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/d_title"))()
+loadstring(game:httpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/d_title"))()
 
 getgenv().Tab =
     getgenv().Window:Tab(
@@ -1022,7 +1022,7 @@ getgenv().Section4:Button(
     }
 )
 
-loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/d_autoskipdoor"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/d_autoskipdoor"))()
 
 getgenv().Section4:Toggle(
     {
@@ -1958,7 +1958,7 @@ getgenv().Section5_2:Keybind(
     }
 )
 
-loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/d_doorskipkeybind"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/d_doorskipkeybind"))()
 
 getgenv().Section5_3:Keybind(
     {

@@ -1,4 +1,4 @@
-loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/u_title"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/u_title"))()
 
 -- Values
 

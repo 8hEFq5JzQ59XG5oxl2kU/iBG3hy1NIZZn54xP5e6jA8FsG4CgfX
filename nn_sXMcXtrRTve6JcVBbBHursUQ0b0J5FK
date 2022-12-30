@@ -1,4 +1,4 @@
-loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/nn_title"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/nn_title"))()
 
 -- Values
 
@@ -388,7 +388,7 @@ getgenv().Section:Toggle(
     }
 )
 
-loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/nn_godmode"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/nn_godmode"))()
 
 getgenv().Section:Button(
     {
@@ -1232,7 +1232,7 @@ getgenv().Section4:Toggle(
     }
 )
 
-loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/nn_breakbots"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/nn_breakbots"))()
 
 getgenv().KeybindFly = 0
 getgenv().KeybindInfJumps = 0
@@ -1416,7 +1416,7 @@ getgenv().Section5:Keybind(
     }
 )
 
-loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/nn_godmodekeybind"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/nn_godmodekeybind"))()
 
 getgenv().Section5_1:Keybind(
     {
@@ -1960,7 +1960,7 @@ getgenv().Section5_2:Keybind(
     }
 )
 
-loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/nn_breakbotskeybind"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/nn_breakbotskeybind"))()
 
 if game.PlaceId ~= 10118559731 then
     local drop =

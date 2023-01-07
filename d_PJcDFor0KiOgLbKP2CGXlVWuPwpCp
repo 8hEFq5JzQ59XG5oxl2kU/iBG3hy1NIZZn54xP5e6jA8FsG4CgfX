@@ -1,4 +1,4 @@
-loadstring(game:httpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/d_title"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/d_title"))()
 
 getgenv().Tab =
     getgenv().Window:Tab(

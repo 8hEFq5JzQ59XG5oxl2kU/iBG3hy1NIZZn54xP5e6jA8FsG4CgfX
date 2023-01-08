@@ -164,10 +164,15 @@ getgenv().Section:Slider(
     }
 )
 
+
+local jumpstring = tostring(game.Players.LocalPlayer.Character.Humanoid.JumpPower):sub(1, 4)
+
+local jumppower = tonumber(jumpstring)
+
 getgenv().Section:Slider(
     {
         Text = "JumpPower",
-        Default = game.Players.LocalPlayer.Character.Humanoid.JumpPower,
+        Default = jumpstring,
         Minimum = 0,
         Maximum = 500,
         Callback = function(Value)
@@ -207,7 +212,7 @@ getgenv().Section:Slider(
     }
 )
 
---Section 1
+-- Section 1
 
 getgenv().Section:Toggle(
     {

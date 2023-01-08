@@ -4,23 +4,6 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqs
 
 getgenv().FlySpeed = 50
 
-local plr = game:GetService("Players").LocalPlayer
-local Spoof
-Spoof =
-    hookmetamethod(
-    game,
-    "__index",
-    function(self, ...)
-        if ... == "WalkSpeed" then
-            return 22.5
-        end
-        if ... == "JumpPower" then
-            return 40
-        end
-        return Spoof(self, ...)
-    end
-)
-
 -- Tabs
 
 getgenv().Tab =

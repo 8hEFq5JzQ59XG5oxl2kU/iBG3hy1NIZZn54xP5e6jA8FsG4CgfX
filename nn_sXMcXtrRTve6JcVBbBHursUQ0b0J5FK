@@ -806,9 +806,6 @@ getgenv().Section3:Toggle(
                     {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
                 )
 
-                autofarm = true
-                autofarmreturn = true
-
                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                     CFrame.new(
                     -121.19397,
@@ -825,120 +822,10 @@ getgenv().Section3:Toggle(
                     -0.0171290636
                 )
 
-                local TS = game:GetService("TweenService")
-                while autofarmreturn == true do
-                    local tween =
-                        TS:Create(
-                        game.Players.LocalPlayer.Character.HumanoidRootPart,
-                        TweenInfo.new(2),
-                        {CFrame = CFrame.new(237.068024, 145.547531, -433.277161)}
-                    )
-                    tween:Play()
-                    tween.Completed:wait()
-                    game.Players.LocalPlayer.Character.Humanoid.Jump = true
-                    task.wait(0.4)
-
-                    if autofarm == true then
-                        local tween =
-                            TS:Create(
-                            game.Players.LocalPlayer.Character.HumanoidRootPart,
-                            TweenInfo.new(2),
-                            {CFrame = CFrame.new(-765.508301, 66.498024, 100.494644)}
-                        )
-                        tween:Play()
-                        tween.Completed:wait()
-                        game.Players.LocalPlayer.Character.Humanoid.Jump = true
-                        task.wait(0.4)
-                    end
-                    if autofarm == true then
-                        local tween =
-                            TS:Create(
-                            game.Players.LocalPlayer.Character.HumanoidRootPart,
-                            TweenInfo.new(2),
-                            {CFrame = CFrame.new(-996.701904, 77.3839951, 314.132507)}
-                        )
-                        tween:Play()
-                        tween.Completed:wait()
-                        game.Players.LocalPlayer.Character.Humanoid.Jump = true
-                        task.wait(0.4)
-                    end
-                    if autofarm == true then
-                        local tween =
-                            TS:Create(
-                            game.Players.LocalPlayer.Character.HumanoidRootPart,
-                            TweenInfo.new(2),
-                            {CFrame = CFrame.new(-1191.66199, 77.3840103, 314.631927)}
-                        )
-                        tween:Play()
-                        tween.Completed:wait()
-                        game.Players.LocalPlayer.Character.Humanoid.Jump = true
-                        task.wait(0.4)
-                    end
-                    if autofarm == true then
-                        local tween =
-                            TS:Create(
-                            game.Players.LocalPlayer.Character.HumanoidRootPart,
-                            TweenInfo.new(2),
-                            {CFrame = CFrame.new(-1295.64136, 67.998024, -72.0887909)}
-                        )
-                        tween:Play()
-                        tween.Completed:wait()
-                        game.Players.LocalPlayer.Character.Humanoid.Jump = true
-                        task.wait(0.4)
-                    end
-                    if autofarm == true then
-                        local tween =
-                            TS:Create(
-                            game.Players.LocalPlayer.Character.HumanoidRootPart,
-                            TweenInfo.new(2),
-                            {CFrame = CFrame.new(-1168.98181, 67.9980011, -801.711914)}
-                        )
-                        tween:Play()
-                        tween.Completed:wait()
-                        game.Players.LocalPlayer.Character.Humanoid.Jump = true
-                        task.wait(0.4)
-                    end
-                    if autofarm == true then
-                        local tween =
-                            TS:Create(
-                            game.Players.LocalPlayer.Character.HumanoidRootPart,
-                            TweenInfo.new(2),
-                            {CFrame = CFrame.new(-821.609009, 19.9980259, -1416.73657)}
-                        )
-                        tween:Play()
-                        tween.Completed:wait()
-                        game.Players.LocalPlayer.Character.Humanoid.Jump = true
-                        task.wait(0.4)
-                    end
-                    if autofarm == true then
-                        local tween =
-                            TS:Create(
-                            game.Players.LocalPlayer.Character.HumanoidRootPart,
-                            TweenInfo.new(2),
-                            {CFrame = CFrame.new(396.152283, 25.99802303, -1416.4646)}
-                        )
-                        tween:Play()
-                        tween.Completed:wait()
-                        game.Players.LocalPlayer.Character.Humanoid.Jump = true
-                        task.wait(0.4)
-                    end
-                    if autofarm == true then
-                        local tween =
-                            TS:Create(
-                            game.Players.LocalPlayer.Character.HumanoidRootPart,
-                            TweenInfo.new(2),
-                            {CFrame = CFrame.new(390.887268, 30.99802589, -1410.612066)}
-                        )
-                        tween:Play()
-                        tween.Completed:wait()
-                        game.Players.LocalPlayer.Character.Humanoid.Jump = true
-                        task.wait(0.4)
-                    end
-                end
+                autofarm = true
+                autofarmreturn = true
+                dopartloop = true
             elseif bool == false then
-                autofarm = false
-                autofarmreturn = false
-
                 local NotificationHolder =
                     loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
                 local Notification =
@@ -946,13 +833,37 @@ getgenv().Section3:Toggle(
                 Notification:Notify(
                     {
                         Title = "Autofarm Disabled",
-                        Description = "Autofarm Is Now Disabled, Please Wait 5 Seconds Before Moving."
+                        Description = "Autofarm Is Now Disabled, Please Wait 7 Seconds Before Moving."
                     },
-                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 5.1, Type = "default"}
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 7.1, Type = "default"}
                 )
+
+                autofarm = false
+                autofarmreturn = false
+
+                for i, v in pairs(game.Workspace:GetChildren()) do
+                    if v:IsA("Part") and v.Name == "slowpihax-autofarm" then
+                        task.wait(3)
+                        local character = game.Players.LocalPlayer.Character
+                        local humanoid = character:WaitForChild("Humanoid")
+                        local startCFrame = character.HumanoidRootPart.CFrame
+                        local endCFrame = CFrame.new(Vector3.new(237.068024, 145.547531, -433.277161))
+                        local duration = 0.15
+                        local startTime = tick()
+
+                        while tick() - startTime < duration do
+                            local t = (tick() - startTime) / duration
+                            character.HumanoidRootPart.CFrame = startCFrame:lerp(endCFrame, t)
+                            v:Destroy()
+                            task.wait()
+                        end
+                        task.wait(0.01)
+                        v:Destroy()
+                    end
+                end
+
                 local randomteleport = math.random(1, 10)
 
-                task.wait(5)
                 if randomteleport == 1 then
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                         CFrame.new(
@@ -1115,6 +1026,181 @@ getgenv().Section3:Toggle(
                     )
                 end
             end
+
+            local player = game.Players.LocalPlayer
+            local part = Instance.new("Part")
+            part.Anchored = true
+            part.BottomSurface = Enum.SurfaceType.Smooth
+            part.TopSurface = Enum.SurfaceType.Smooth
+            part.Color = Color3.fromRGB(255, 0, 0)
+            part.Material = Enum.Material.Neon
+            part.Size = Vector3.new(6, 1, 6)
+            part.Parent = workspace
+            part.Name = "slowpihax-autofarm"
+
+            local partloop =
+                coroutine.wrap(
+                function()
+                    while dopartloop == true do
+                        if dopartloop == true then
+                            if bool == true then
+                                task.wait()
+                                part.CFrame =
+                                    CFrame.new(player.Character.HumanoidRootPart.Position - Vector3.new(0, 3.348115, 0))
+                            elseif bool == false then
+                                task.wait()
+                                dopartloop = false
+                            end
+                        end
+                    end
+                end
+            )
+
+            local autofarmloop =
+                coroutine.wrap(
+                function()
+                    while autofarmreturn == true do
+                        local character = game.Players.LocalPlayer.Character
+                        local humanoid = character:WaitForChild("Humanoid")
+                        local startCFrame = character.HumanoidRootPart.CFrame
+                        local endCFrame = CFrame.new(Vector3.new(237.068024, 145.547531, -433.277161))
+                        local duration = 2
+                        local startTime = tick()
+
+                        while tick() - startTime < duration do
+                            local t = (tick() - startTime) / duration
+                            character.HumanoidRootPart.CFrame = startCFrame:lerp(endCFrame, t)
+                            task.wait()
+                        end
+
+                        game.Players.LocalPlayer.Character.Humanoid.Jump = true
+
+                        if autofarm == true then
+                            local character = game.Players.LocalPlayer.Character
+                            local humanoid = character:WaitForChild("Humanoid")
+                            local startCFrame = character.HumanoidRootPart.CFrame
+                            local endCFrame = CFrame.new(Vector3.new(-765.508301, 66.498024, 100.494644))
+                            local duration = 2
+                            local startTime = tick()
+
+                            while tick() - startTime < duration do
+                                local t = (tick() - startTime) / duration
+                                character.HumanoidRootPart.CFrame = startCFrame:lerp(endCFrame, t)
+                                task.wait()
+                            end
+                            game.Players.LocalPlayer.Character.Humanoid.Jump = true
+                        end
+                        if autofarm == true then
+                            local character = game.Players.LocalPlayer.Character
+                            local humanoid = character:WaitForChild("Humanoid")
+                            local startCFrame = character.HumanoidRootPart.CFrame
+                            local endCFrame = CFrame.new(Vector3.new(-996.701904, 77.3839951, 314.132507))
+                            local duration = 1
+                            local startTime = tick()
+
+                            while tick() - startTime < duration do
+                                local t = (tick() - startTime) / duration
+                                character.HumanoidRootPart.CFrame = startCFrame:lerp(endCFrame, t)
+                                task.wait()
+                            end
+                            game.Players.LocalPlayer.Character.Humanoid.Jump = true
+                        end
+                        if autofarm == true then
+                            local character = game.Players.LocalPlayer.Character
+                            local humanoid = character:WaitForChild("Humanoid")
+                            local startCFrame = character.HumanoidRootPart.CFrame
+                            local endCFrame = CFrame.new(Vector3.new(-1191.66199, 77.3840103, 314.631927))
+                            local duration = 1
+                            local startTime = tick()
+
+                            while tick() - startTime < duration do
+                                local t = (tick() - startTime) / duration
+                                character.HumanoidRootPart.CFrame = startCFrame:lerp(endCFrame, t)
+                                task.wait()
+                            end
+                            game.Players.LocalPlayer.Character.Humanoid.Jump = true
+                        end
+                        if autofarm == true then
+                            local character = game.Players.LocalPlayer.Character
+                            local humanoid = character:WaitForChild("Humanoid")
+                            local startCFrame = character.HumanoidRootPart.CFrame
+                            local endCFrame = CFrame.new(Vector3.new(-1295.64136, 67.998024, -72.0887909))
+                            local duration = 2
+                            local startTime = tick()
+
+                            while tick() - startTime < duration do
+                                local t = (tick() - startTime) / duration
+                                character.HumanoidRootPart.CFrame = startCFrame:lerp(endCFrame, t)
+                                task.wait()
+                            end
+                            game.Players.LocalPlayer.Character.Humanoid.Jump = true
+                        end
+                        if autofarm == true then
+                            local character = game.Players.LocalPlayer.Character
+                            local humanoid = character:WaitForChild("Humanoid")
+                            local startCFrame = character.HumanoidRootPart.CFrame
+                            local endCFrame = CFrame.new(Vector3.new(-1168.98181, 67.9980011, -801.711914))
+                            local duration = 2
+                            local startTime = tick()
+
+                            while tick() - startTime < duration do
+                                local t = (tick() - startTime) / duration
+                                character.HumanoidRootPart.CFrame = startCFrame:lerp(endCFrame, t)
+                                task.wait()
+                            end
+                            game.Players.LocalPlayer.Character.Humanoid.Jump = true
+                        end
+                        if autofarm == true then
+                            local character = game.Players.LocalPlayer.Character
+                            local humanoid = character:WaitForChild("Humanoid")
+                            local startCFrame = character.HumanoidRootPart.CFrame
+                            local endCFrame = CFrame.new(Vector3.new(-821.609009, 19.9980259, -1416.73657))
+                            local duration = 2
+                            local startTime = tick()
+
+                            while tick() - startTime < duration do
+                                local t = (tick() - startTime) / duration
+                                character.HumanoidRootPart.CFrame = startCFrame:lerp(endCFrame, t)
+                                task.wait()
+                            end
+                            game.Players.LocalPlayer.Character.Humanoid.Jump = true
+                        end
+                        if autofarm == true then
+                            local character = game.Players.LocalPlayer.Character
+                            local humanoid = character:WaitForChild("Humanoid")
+                            local startCFrame = character.HumanoidRootPart.CFrame
+                            local endCFrame = CFrame.new(Vector3.new(396.152283, 25.99802303, -1416.4646))
+                            local duration = 3
+                            local startTime = tick()
+
+                            while tick() - startTime < duration do
+                                local t = (tick() - startTime) / duration
+                                character.HumanoidRootPart.CFrame = startCFrame:lerp(endCFrame, t)
+                                task.wait()
+                            end
+                            game.Players.LocalPlayer.Character.Humanoid.Jump = true
+                        end
+                        if autofarm == true then
+                            local character = game.Players.LocalPlayer.Character
+                            local humanoid = character:WaitForChild("Humanoid")
+                            local startCFrame = character.HumanoidRootPart.CFrame
+                            local endCFrame = CFrame.new(Vector3.new(369.216003, 86.6812973, -1383.78796))
+                            local duration = 2
+                            local startTime = tick()
+
+                            while tick() - startTime < duration do
+                                local t = (tick() - startTime) / duration
+                                character.HumanoidRootPart.CFrame = startCFrame:lerp(endCFrame, t)
+                                task.wait()
+                            end
+                            game.Players.LocalPlayer.Character.Humanoid.Jump = true
+                        end
+                    end
+                end
+            )
+
+            partloop()
+            autofarmloop()
         end
     }
 )

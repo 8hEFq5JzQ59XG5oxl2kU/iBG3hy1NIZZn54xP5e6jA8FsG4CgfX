@@ -37,18 +37,25 @@ getgenv().Tab4 =
 getgenv().Tab5 =
     getgenv().Window:Tab(
     {
-        Text = "Keybinds"
+        Text = "Teleports"
     }
 )
 
 getgenv().Tab6 =
     getgenv().Window:Tab(
     {
-        Text = "Games"
+        Text = "Keybinds"
     }
 )
 
 getgenv().Tab7 =
+    getgenv().Window:Tab(
+    {
+        Text = "Games"
+    }
+)
+
+getgenv().Tab8 =
     getgenv().Window:Tab(
     {
         Text = "Credits"
@@ -88,39 +95,71 @@ getgenv().Section4 =
 getgenv().Section5 =
     getgenv().Tab5:Section(
     {
-        Text = "Character Keybinds"
+        Text = "nn_Mall Teleports"
     }
 )
 
 getgenv().Section5_1 =
     getgenv().Tab5:Section(
     {
-        Text = "Visual Keybinds"
+        Text = "nn_Backrooms Teleports"
     }
 )
 
 getgenv().Section5_2 =
     getgenv().Tab5:Section(
     {
-        Text = "Miscellaneous Keybinds"
+        Text = "nn_Russia Teleports"
+    }
+)
+
+getgenv().Section5_3 =
+    getgenv().Tab5:Section(
+    {
+        Text = "Other Teleports"
     }
 )
 
 getgenv().Section6 =
     getgenv().Tab6:Section(
     {
-        Text = "Games"
+        Text = "Character Keybinds"
+    }
+)
+
+getgenv().Section6_1 =
+    getgenv().Tab6:Section(
+    {
+        Text = "Visual Keybinds"
+    }
+)
+
+getgenv().Section6_2 =
+    getgenv().Tab6:Section(
+    {
+        Text = "Miscellaneous Keybinds"
     }
 )
 
 getgenv().Section7 =
     getgenv().Tab7:Section(
     {
+        Text = "Games"
+    }
+)
+
+getgenv().Section8 =
+    getgenv().Tab8:Section(
+    {
         Text = "Credits"
     }
 )
 
 -- Sliders
+
+getgenv().DoWalkSpeed = false
+getgenv().DoJumpPower = false
+getgenv().DoGravity = false
 
 getgenv().Section:Slider(
     {
@@ -148,7 +187,9 @@ getgenv().Section:Slider(
             local function SetWalkspeed(Speed)
                 pcall(
                     function()
-                        Services.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").WalkSpeed = Speed
+                        if getgenv().DoWalkSpeed == true then
+                            Services.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").WalkSpeed = Speed
+                        end
                     end
                 )
             end
@@ -164,10 +205,22 @@ getgenv().Section:Slider(
     }
 )
 
+getgenv().Section:Toggle(
+    {
+        Text = "Walkspeed Toggle",
+        Callback = function(bool)
+            if bool == true then
+                getgenv().DoWalkSpeed = true
+            else
+                getgenv().DoWalkSpeed = false
+            end
+        end
+    }
+)
 
 local jumpstring = tostring(game.Players.LocalPlayer.Character.Humanoid.JumpPower):sub(1, 4)
-
 local jumppower = tonumber(jumpstring)
+local oldjump = tonumber(game.Players.LocalPlayer.Character.Humanoid.JumpPower)
 
 getgenv().Section:Slider(
     {
@@ -178,7 +231,7 @@ getgenv().Section:Slider(
         Callback = function(Value)
             game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
 
-            while true do
+            while getgenv().DoJumpPower == true do
                 game:GetService("RunService").RenderStepped:Wait()
                 if game.Players.LocalPlayer.Character.Humanoid.JumpPower ~= Value then
                     game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
@@ -188,14 +241,46 @@ getgenv().Section:Slider(
     }
 )
 
+getgenv().Section:Toggle(
+    {
+        Text = "JumpPower Toggle",
+        Callback = function(bool)
+            if bool == true then
+                getgenv().DoJumpPower = true
+            else
+                getgenv().DoJumpPower = false
+                game.Players.LocalPlayer.Character.Humanoid.JumpPower = oldjump
+            end
+        end
+    }
+)
+
+local oldgravity = tonumber(game.Workspace.Gravity)
+
 getgenv().Section:Slider(
     {
         Text = "Gravity",
         Default = game.Workspace.Gravity,
         Minimum = 0,
-        Maximum = 720,
+        Maximum = 540,
         Callback = function(Value)
-            game.Workspace.Gravity = Value
+            if getgenv().DoGravity == true then
+                game.Workspace.Gravity = Value
+            end
+        end
+    }
+)
+
+getgenv().Section:Toggle(
+    {
+        Text = "Gravity Toggle",
+        Callback = function(bool)
+            if bool == true then
+                getgenv().DoGravity = true
+            else
+                getgenv().DoGravity = false
+                game.Workspace.Gravity = oldgravity
+            end
         end
     }
 )
@@ -212,7 +297,7 @@ getgenv().Section:Slider(
     }
 )
 
--- Section 1
+--Section 1
 
 getgenv().Section:Toggle(
     {
@@ -883,18 +968,18 @@ getgenv().Section3:Toggle(
                 elseif randomteleport == 2 then
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                         CFrame.new(
-                        242.445496,
-                        15.998024,
-                        -1026.53479,
-                        0.00635796785,
-                        0,
-                        0.999979913,
-                        0,
+                        229.713181,
+                        10.8481226,
+                        -1027.81384,
+                        -0.107249357,
+                        2.23174919e-08,
+                        0.994232178,
+                        3.3805609e-08,
                         1,
-                        0,
-                        -0.999979913,
-                        0,
-                        0.00635796785
+                        -1.88003e-08,
+                        -0.994232178,
+                        3.15943041e-08,
+                        -0.107249357
                     )
                 elseif randomteleport == 3 then
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
@@ -1306,7 +1391,335 @@ getgenv().Section4:Toggle(
     }
 )
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/nn_breakbots"))()
+getgenv().Section4:Toggle(
+    {
+        Text = "Fullbright",
+        Callback = function(bool)
+            if not _G.FullBrightExecuted then
+                _G.FullBrightEnabled = false
+
+                _G.NormalLightingSettings = {
+                    Brightness = game:GetService("Lighting").Brightness,
+                    ClockTime = game:GetService("Lighting").ClockTime,
+                    FogEnd = game:GetService("Lighting").FogEnd,
+                    GlobalShadows = game:GetService("Lighting").GlobalShadows,
+                    Ambient = game:GetService("Lighting").Ambient
+                }
+
+                game:GetService("Lighting"):GetPropertyChangedSignal("Brightness"):Connect(
+                    function()
+                        if
+                            game:GetService("Lighting").Brightness ~= 1 and
+                                game:GetService("Lighting").Brightness ~= _G.NormalLightingSettings.Brightness
+                         then
+                            _G.NormalLightingSettings.Brightness = game:GetService("Lighting").Brightness
+                            if not _G.FullBrightEnabled then
+                                repeat
+                                    wait()
+                                until _G.FullBrightEnabled
+                            end
+                            game:GetService("Lighting").Brightness = 1
+                        end
+                    end
+                )
+
+                game:GetService("Lighting"):GetPropertyChangedSignal("ClockTime"):Connect(
+                    function()
+                        if
+                            game:GetService("Lighting").ClockTime ~= 12 and
+                                game:GetService("Lighting").ClockTime ~= _G.NormalLightingSettings.ClockTime
+                         then
+                            _G.NormalLightingSettings.ClockTime = game:GetService("Lighting").ClockTime
+                            if not _G.FullBrightEnabled then
+                                repeat
+                                    wait()
+                                until _G.FullBrightEnabled
+                            end
+                            game:GetService("Lighting").ClockTime = 12
+                        end
+                    end
+                )
+
+                game:GetService("Lighting"):GetPropertyChangedSignal("FogEnd"):Connect(
+                    function()
+                        if
+                            game:GetService("Lighting").FogEnd ~= 786543 and
+                                game:GetService("Lighting").FogEnd ~= _G.NormalLightingSettings.FogEnd
+                         then
+                            _G.NormalLightingSettings.FogEnd = game:GetService("Lighting").FogEnd
+                            if not _G.FullBrightEnabled then
+                                repeat
+                                    wait()
+                                until _G.FullBrightEnabled
+                            end
+                            game:GetService("Lighting").FogEnd = 786543
+                        end
+                    end
+                )
+
+                game:GetService("Lighting"):GetPropertyChangedSignal("GlobalShadows"):Connect(
+                    function()
+                        if
+                            game:GetService("Lighting").GlobalShadows ~= false and
+                                game:GetService("Lighting").GlobalShadows ~= _G.NormalLightingSettings.GlobalShadows
+                         then
+                            _G.NormalLightingSettings.GlobalShadows = game:GetService("Lighting").GlobalShadows
+                            if not _G.FullBrightEnabled then
+                                repeat
+                                    wait()
+                                until _G.FullBrightEnabled
+                            end
+                            game:GetService("Lighting").GlobalShadows = false
+                        end
+                    end
+                )
+
+                game:GetService("Lighting"):GetPropertyChangedSignal("Ambient"):Connect(
+                    function()
+                        if
+                            game:GetService("Lighting").Ambient ~= Color3.fromRGB(178, 178, 178) and
+                                game:GetService("Lighting").Ambient ~= _G.NormalLightingSettings.Ambient
+                         then
+                            _G.NormalLightingSettings.Ambient = game:GetService("Lighting").Ambient
+                            if not _G.FullBrightEnabled then
+                                repeat
+                                    wait()
+                                until _G.FullBrightEnabled
+                            end
+                            game:GetService("Lighting").Ambient = Color3.fromRGB(178, 178, 178)
+                        end
+                    end
+                )
+
+                game:GetService("Lighting").Brightness = 1
+                game:GetService("Lighting").ClockTime = 12
+                game:GetService("Lighting").FogEnd = 786543
+                game:GetService("Lighting").GlobalShadows = false
+                game:GetService("Lighting").Ambient = Color3.fromRGB(178, 178, 178)
+
+                local LatestValue = true
+                spawn(
+                    function()
+                        repeat
+                            wait()
+                        until _G.FullBrightEnabled
+                        while wait() do
+                            if _G.FullBrightEnabled ~= LatestValue then
+                                if not _G.FullBrightEnabled then
+                                    game:GetService("Lighting").Brightness = _G.NormalLightingSettings.Brightness
+                                    game:GetService("Lighting").ClockTime = _G.NormalLightingSettings.ClockTime
+                                    game:GetService("Lighting").FogEnd = _G.NormalLightingSettings.FogEnd
+                                    game:GetService("Lighting").GlobalShadows = _G.NormalLightingSettings.GlobalShadows
+                                    game:GetService("Lighting").Ambient = _G.NormalLightingSettings.Ambient
+                                else
+                                    game:GetService("Lighting").Brightness = 1
+                                    game:GetService("Lighting").ClockTime = 12
+                                    game:GetService("Lighting").FogEnd = 786543
+                                    game:GetService("Lighting").GlobalShadows = false
+                                    game:GetService("Lighting").Ambient = Color3.fromRGB(178, 178, 178)
+                                end
+                                LatestValue = not LatestValue
+                            end
+                        end
+                    end
+                )
+            end
+
+            _G.FullBrightExecuted = true
+            _G.FullBrightEnabled = not _G.FullBrightEnabled
+        end
+    }
+)
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/nn_b-aks-ak"))()
+
+getgenv().Section5:Button(
+    {
+        Text = "Safezone 1",
+        Callback = function()
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                CFrame.new(-1193.636474609375, 10.947853088378906, -41.517642974853516)
+        end
+    }
+)
+
+getgenv().Section5:Button(
+    {
+        Text = "Safezone 2",
+        Callback = function()
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                CFrame.new(-1147.0692138671875, 80.94786071777344, 133.0210723876953)
+        end
+    }
+)
+
+getgenv().Section5:Button(
+    {
+        Text = "Safezone 3",
+        Callback = function()
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                CFrame.new(-796.4456176757812, -3.551644802093506, -69.36172485351562)
+        end
+    }
+)
+
+getgenv().Section5:Button(
+    {
+        Text = "Safezone 4",
+        Callback = function()
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                CFrame.new(-860.5006713867188, 10.941093444824219, -258.46514892578125)
+        end
+    }
+)
+
+getgenv().Section5:Button(
+    {
+        Text = "Safezone 5",
+        Callback = function()
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                CFrame.new(-1291.4190673828125, 25.94784927368164, 49.5816535949707)
+        end
+    }
+)
+
+getgenv().Section5_1:Button(
+    {
+        Text = "Safezone 1",
+        Callback = function()
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                CFrame.new(-1373.6168212890625, -210.00192260742188, 109.6145248413086)
+        end
+    }
+)
+
+getgenv().Section5_1:Button(
+    {
+        Text = "Safezone 2",
+        Callback = function()
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                CFrame.new(-1390.869140625, -210.00192260742188, 96.177490234375)
+        end
+    }
+)
+
+getgenv().Section5_1:Button(
+    {
+        Text = "Safezone 3",
+        Callback = function()
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                CFrame.new(-1939.1170654296875, -210.00192260742188, 56.25541687011719)
+        end
+    }
+)
+
+getgenv().Section5_2:Button(
+    {
+        Text = "Safezone 1",
+        Callback = function()
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                CFrame.new(-452.449432, 20.9481182, -1111.93152)
+        end
+    }
+)
+
+getgenv().Section5_2:Button(
+    {
+        Text = "Safezone 2",
+        Callback = function()
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                CFrame.new(-57.934993743896484, 12.848140716552734, -1199.6781005859375)
+        end
+    }
+)
+
+getgenv().Section5_2:Button(
+    {
+        Text = "Safezone 3",
+        Callback = function()
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                CFrame.new(231.8864288330078, 11.84812068939209, -1026.161865234375)
+        end
+    }
+)
+
+getgenv().Section5_2:Button(
+    {
+        Text = "Safezone 4",
+        Callback = function()
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                CFrame.new(-138.176025390625, 13.29802417755127, -422.5591125488281)
+        end
+    }
+)
+
+getgenv().Section5_2:Button(
+    {
+        Text = "Safezone 5",
+        Callback = function()
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                CFrame.new(-17.797344207763672, 12.848140716552734, -604.1474609375)
+        end
+    }
+)
+
+getgenv().Section5_2:Button(
+    {
+        Text = "Club",
+        Callback = function()
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                CFrame.new(-103.3435287475586, 14.948122024536133, -556.2715454101562)
+        end
+    }
+)
+
+getgenv().Section5_3:Button(
+    {
+        Text = "nn_dreammaze",
+        Callback = function()
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                CFrame.new(-1139.48999, 110.402229, -1246.37402)
+        end
+    }
+)
+
+getgenv().Section5_3:Button(
+    {
+        Text = "nn_bigmaze",
+        Callback = function()
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-506.384735, 145.763321, 38.3121796)
+        end
+    }
+)
+
+getgenv().Section5_3:Button(
+    {
+        Text = "Shop",
+        Callback = function()
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                CFrame.new(-615.165771, -7.03712606, -27.4582939)
+        end
+    }
+)
+
+getgenv().Section5_3:Button(
+    {
+        Text = "Shop 2(?)",
+        Callback = function()
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                CFrame.new(-470.181671, 19.9990406, -1116.04822)
+        end
+    }
+)
+
+getgenv().Section5_3:Button(
+    {
+        Text = "nn_flatgrass",
+        Callback = function()
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(183.25, 643.6281127929688, -1157.25)
+        end
+    }
+)
 
 getgenv().KeybindFly = 0
 getgenv().KeybindInfJumps = 0
@@ -1318,8 +1731,9 @@ getgenv().KeybindBotEsp = 0
 getgenv().KeybindBoxEsp = 0
 getgenv().KeybindGetBtools = 0
 getgenv().KeybindFPSBoost = 0
+getgenv().KeybindAutoKill = 0
 
-getgenv().Section5:Keybind(
+getgenv().Section6:Keybind(
     {
         Text = "Fly (R15) Keybind",
         Default = Enum.KeyCode.Clear,
@@ -1443,7 +1857,7 @@ getgenv().Section5:Keybind(
     }
 )
 
-getgenv().Section5:Keybind(
+getgenv().Section6:Keybind(
     {
         Text = "Inf Jumps Keybind",
         Default = Enum.KeyCode.Clear,
@@ -1490,9 +1904,46 @@ getgenv().Section5:Keybind(
     }
 )
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/nn_godmodekeybind"))()
+if getgenv().xw0DLBPTqZkzEWOXx6qCScoNKSoBhGh or getgenv().UtlpHuOwhroliTt4DRSwzv4qdQYuK9M == true then
+    getgenv().Section6:Keybind(
+        {
+            Text = "GodMode Keybind",
+            Default = Enum.KeyCode.Clear,
+            Callback = function()
+                if getgenv().KeybindGodmode == 0 then
+                    getgenv().KeybindGodmode = getgenv().KeybindGodmode + 1
+                elseif getgenv().KeybindGodmode == 1 then
+                    getgenv().KeybindGodmode = getgenv().KeybindGodmode - 1
+                end
+                if getgenv().KeybindGodmode == 1 then
+                    game.Players.LocalPlayer.Character.scripts.killed.kill:Destroy()
 
-getgenv().Section5_1:Keybind(
+                    local NotificationHolder =
+                        loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                    local Notification =
+                        loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                    Notification:Notify(
+                        {Title = "GodMode Enabled", Description = "You Wont Die From The Bots."},
+                        {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
+                    )
+                else
+                    game:GetService("ReplicatedStorage").events.player.char.respawnchar:FireServer()
+
+                    local NotificationHolder =
+                        loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                    local Notification =
+                        loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                    Notification:Notify(
+                        {Title = "GodMode Disabled", Description = "You Will Now Die From The Bots."},
+                        {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
+                    )
+                end
+            end
+        }
+    )
+end
+
+getgenv().Section6_1:Keybind(
     {
         Text = "Box Esp Keybind",
         Default = Enum.KeyCode.Clear,
@@ -1540,7 +1991,7 @@ getgenv().Section5_1:Keybind(
     }
 )
 
-getgenv().Section5_1:Keybind(
+getgenv().Section6_1:Keybind(
     {
         Text = "Tracer Esp Keybind",
         Default = Enum.KeyCode.Clear,
@@ -1586,7 +2037,7 @@ getgenv().Section5_1:Keybind(
     }
 )
 
-getgenv().Section5_1:Keybind(
+getgenv().Section6_1:Keybind(
     {
         Text = "Chams Esp Keybind",
         Default = Enum.KeyCode.Clear,
@@ -1689,7 +2140,7 @@ getgenv().Section5_1:Keybind(
     }
 )
 
-getgenv().Section5_1:Keybind(
+getgenv().Section6_1:Keybind(
     {
         Text = "Bot Esp Keybind",
         Default = Enum.KeyCode.Clear,
@@ -1792,7 +2243,7 @@ getgenv().Section5_1:Keybind(
     }
 )
 
-getgenv().Section5_1:Keybind(
+getgenv().Section6_1:Keybind(
     {
         Text = "Powerbox Esp Keybind",
         Default = Enum.KeyCode.Clear,
@@ -1923,7 +2374,7 @@ getgenv().Section5_1:Keybind(
     }
 )
 
-getgenv().Section5_2:Keybind(
+getgenv().Section6_2:Keybind(
     {
         Text = "Get Btools Keybind",
         Default = Enum.KeyCode.Clear,
@@ -1961,7 +2412,7 @@ getgenv().Section5_2:Keybind(
     }
 )
 
-getgenv().Section5_2:Keybind(
+getgenv().Section6_2:Keybind(
     {
         Text = "FPS Boost Keybind",
         Default = Enum.KeyCode.Clear,
@@ -2034,11 +2485,11 @@ getgenv().Section5_2:Keybind(
     }
 )
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/nn_breakbotskeybind"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/nn_b-akkeybind"))()
 
 if game.PlaceId ~= 10118559731 then
     local drop =
-        getgenv().Section6:Dropdown(
+        getgenv().Section7:Dropdown(
         {
             Text = "Nico's Nextbots | Working",
             List = {"Teleport"},
@@ -2065,7 +2516,7 @@ if game.PlaceId ~= 10118559731 then
 end
 
 local drop =
-    getgenv().Section6:Dropdown(
+    getgenv().Section7:Dropdown(
     {
         Text = "Doors | Working",
         List = {"Teleport"},
@@ -2095,7 +2546,7 @@ local drop =
     }
 )
 
-getgenv().Section6:Button(
+getgenv().Section7:Button(
     {
         Text = "Load Universal",
         Callback = function()
@@ -2108,7 +2559,7 @@ getgenv().Section6:Button(
     }
 )
 
-getgenv().Section7:Button(
+getgenv().Section8:Button(
     {
         Text = "Scripted by slowpi#8954",
         Callback = function()
@@ -2124,7 +2575,7 @@ getgenv().Section7:Button(
     }
 )
 
-getgenv().Section7:Button(
+getgenv().Section8:Button(
     {
         Text = "UI by Unnamed Library",
         Callback = function()

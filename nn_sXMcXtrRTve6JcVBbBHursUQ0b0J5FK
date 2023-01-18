@@ -915,28 +915,6 @@ getgenv().Section2:Toggle(
     {
         Text = "Fullbright",
         Callback = function(bool)
-            if bool == true then
-                game.Players.LocalPlayer.Character.scripts.killed:Destroy()
-
-                local NotificationHolder =
-                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
-                local Notification =
-                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
-                Notification:Notify(
-                    {Title = "Fullbright Enabled", Description = "The Game Is Now Brighter."},
-                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
-                )
-            elseif bool == false then
-                local NotificationHolder =
-                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
-                local Notification =
-                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
-                Notification:Notify(
-                    {Title = "Fullbright Disabled", Description = "The Game Is No Longer Brighter."},
-                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
-                )
-            end
-
             if not _G.FullBrightExecuted then
                 _G.FullBrightEnabled = false
 
@@ -1069,6 +1047,28 @@ getgenv().Section2:Toggle(
 
             _G.FullBrightExecuted = true
             _G.FullBrightEnabled = not _G.FullBrightEnabled
+
+            if bool == true then
+                game.Players.LocalPlayer.Character.scripts.killed:Destroy()
+
+                local NotificationHolder =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Fullbright Enabled", Description = "The Game Is Now Brighter."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
+                )
+            elseif bool == false then
+                local NotificationHolder =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Fullbright Disabled", Description = "The Game Is No Longer Brighter."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
+                )
+            end
         end
     }
 )

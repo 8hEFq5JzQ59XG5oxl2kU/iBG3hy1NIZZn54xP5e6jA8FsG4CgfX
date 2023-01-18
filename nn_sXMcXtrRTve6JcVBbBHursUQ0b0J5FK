@@ -161,46 +161,26 @@ getgenv().DoWalkSpeed = false
 getgenv().DoJumpPower = false
 getgenv().DoGravity = false
 
+local speedstring = tostring(game.Players.LocalPlayer.Character.Humanoid.WalkSpeed):sub(1, 4)
+local walkspeed = tonumber(speedstring)
+
 getgenv().Section:Slider(
     {
         Text = "Walkspeed",
-        Default = 22.5,
+        Default = walkspeed,
         Minimum = 1,
         Maximum = 200,
         Callback = function(Value)
-            local Services =
-                setmetatable(
-                {},
-                {
-                    __index = function(Self, Index)
-                        local NewService = game.GetService(game, Index)
-                        if NewService then
-                            Self[Index] = NewService
-                        end
-                        return NewService
+            spawn(function()
+                while getgenv().DoWalkSpeed == true do
+                    task.wait()
+                    if getgenv().DoWalkSpeed == true then
+                        local currentVelocity = game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity
+                        local newVelocity = Vector3.new(game.Players.LocalPlayer.Character.Humanoid.MoveDirection.X * Value, currentVelocity.Y, game.Players.LocalPlayer.Character.Humanoid.MoveDirection.Z * Value)
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = newVelocity
                     end
-                }
-            )
-
-            local RunningSpeed = Value
-
-            local function SetWalkspeed(Speed)
-                pcall(
-                    function()
-                        if getgenv().DoWalkSpeed == true then
-                            Services.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").WalkSpeed = Speed
-                        end
-                    end
-                )
-            end
-
-            Services.RunService:BindToRenderStep(
-                "LoopSpeed",
-                Enum.RenderPriority.Character.Value + 1,
-                function()
-                    SetWalkspeed(RunningSpeed)
                 end
-            )
+            end)
         end
     }
 )
@@ -220,23 +200,45 @@ getgenv().Section:Toggle(
 
 local jumpstring = tostring(game.Players.LocalPlayer.Character.Humanoid.JumpPower):sub(1, 4)
 local jumppower = tonumber(jumpstring)
-local oldjump = tonumber(game.Players.LocalPlayer.Character.Humanoid.JumpPower)
+
+getgenv().thejumppower = jumppower
+
+getgenv().newwstate = Enum.HumanoidStateType.Landed
+
+getgenv().MakeJump = true
+
+local player = game.Players.LocalPlayer
+
+player.Character.Humanoid.StateChanged:Connect(function(oldState, newState)
+    getgenv().newwstate = newState
+
+    if newState == Enum.HumanoidStateType.Freefall then
+        getgenv().MakeJump = false
+    else
+        getgenv().MakeJump = true
+    end
+end)
+
+
+local userInputService = game:GetService("UserInputService")
+
+game:GetService("UserInputService").InputBegan:Connect(function(inputObject)
+    if inputObject.KeyCode == Enum.KeyCode.Space then
+        if getgenv().DoJumpPower and getgenv().MakeJump == true then
+            task.wait(0.01)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity.X, getgenv().thejumppower, game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity.Z)   
+        end
+    end
+end)
 
 getgenv().Section:Slider(
     {
         Text = "JumpPower",
         Default = jumpstring,
-        Minimum = 0,
+        Minimum = 1,
         Maximum = 500,
         Callback = function(Value)
-            game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
-
-            while getgenv().DoJumpPower == true do
-                game:GetService("RunService").RenderStepped:Wait()
-                if game.Players.LocalPlayer.Character.Humanoid.JumpPower ~= Value then
-                    game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
-                end
-            end
+            getgenv().thejumppower = Value
         end
     }
 )
@@ -249,18 +251,20 @@ getgenv().Section:Toggle(
                 getgenv().DoJumpPower = true
             else
                 getgenv().DoJumpPower = false
-                game.Players.LocalPlayer.Character.Humanoid.JumpPower = oldjump
+                getgenv().thejumppower = jumppower
             end
         end
     }
 )
 
+local gravitystring = tostring(game.Workspace.Gravity):sub(1, 4)
+local gravity = tonumber(gravitystring)
 local oldgravity = tonumber(game.Workspace.Gravity)
 
 getgenv().Section:Slider(
     {
         Text = "Gravity",
-        Default = game.Workspace.Gravity,
+        Default = gravity,
         Minimum = 0,
         Maximum = 540,
         Callback = function(Value)
@@ -448,20 +452,52 @@ getgenv().Section:Toggle(
                 getgenv().InfiniteJumpEnabled = false
             end
 
-            game:GetService("UserInputService").JumpRequest:connect(
-                function()
+            local userInputService = game:GetService("UserInputService")
+
+            game:GetService("UserInputService").InputBegan:Connect(function(inputObject)
+                if inputObject.KeyCode == Enum.KeyCode.Space then
                     if getgenv().InfiniteJumpEnabled == true then
-                        game:GetService "Players".LocalPlayer.Character:FindFirstChildOfClass "Humanoid":ChangeState(
-                            "Jumping"
-                        )
+                        task.wait(0.01)
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity.X, getgenv().thejumppower, game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity.Z)   
                     end
                 end
-            )
+            end)
         end
     }
 )
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/nn_godmode"))()
+loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/nn_godmode"))()
+
+getgenv().Section:Toggle(
+    {
+        Text = "Invisibility",
+        Callback = function(bool)
+            if bool == true then
+                local player = game.Players.LocalPlayer
+                local character = player.Character
+                local oldpos = character.HumanoidRootPart.Position
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(321.9046630859375, 9.848121643066406, -1291.5767822265625)
+                task.wait(0.25)
+
+                local descendants = character:GetChildren()
+                for _, descendant in pairs(descendants) do
+                    if descendant:IsA("MeshPart") or descendant:IsA("Part") then
+                        descendant.CanCollide = true
+
+                        if descendant.Name == "LowerTorso" then
+                            descendant:Destroy()
+                        end
+                    end
+                end
+
+                task.wait(12)
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(oldpos + Vector3.new(0,2,0))
+            else
+                game:GetService("ReplicatedStorage").events.player.char.respawnchar:FireServer()
+            end
+        end
+    }
+)
 
 getgenv().Section:Button(
     {
@@ -871,6 +907,168 @@ Section2:Toggle(
                     end
                 end
             end
+        end
+    }
+)
+
+getgenv().Section2:Toggle(
+    {
+        Text = "Fullbright",
+        Callback = function(bool)
+            if bool == true then
+                game.Players.LocalPlayer.Character.scripts.killed:Destroy()
+
+                local NotificationHolder =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Fullbright Enabled", Description = "The Game Is Now Brighter."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
+                )
+            elseif bool == false then
+                local NotificationHolder =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Fullbright Disabled", Description = "The Game Is No Longer Brighter."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
+                )
+            end
+
+            if not _G.FullBrightExecuted then
+                _G.FullBrightEnabled = false
+
+                _G.NormalLightingSettings = {
+                    Brightness = game:GetService("Lighting").Brightness,
+                    ClockTime = game:GetService("Lighting").ClockTime,
+                    FogEnd = game:GetService("Lighting").FogEnd,
+                    GlobalShadows = game:GetService("Lighting").GlobalShadows,
+                    Ambient = game:GetService("Lighting").Ambient
+                }
+
+                game:GetService("Lighting"):GetPropertyChangedSignal("Brightness"):Connect(
+                    function()
+                        if
+                            game:GetService("Lighting").Brightness ~= 1 and
+                                game:GetService("Lighting").Brightness ~= _G.NormalLightingSettings.Brightness
+                         then
+                            _G.NormalLightingSettings.Brightness = game:GetService("Lighting").Brightness
+                            if not _G.FullBrightEnabled then
+                                repeat
+                                    wait()
+                                until _G.FullBrightEnabled
+                            end
+                            game:GetService("Lighting").Brightness = 1
+                        end
+                    end
+                )
+
+                game:GetService("Lighting"):GetPropertyChangedSignal("ClockTime"):Connect(
+                    function()
+                        if
+                            game:GetService("Lighting").ClockTime ~= 12 and
+                                game:GetService("Lighting").ClockTime ~= _G.NormalLightingSettings.ClockTime
+                         then
+                            _G.NormalLightingSettings.ClockTime = game:GetService("Lighting").ClockTime
+                            if not _G.FullBrightEnabled then
+                                repeat
+                                    wait()
+                                until _G.FullBrightEnabled
+                            end
+                            game:GetService("Lighting").ClockTime = 12
+                        end
+                    end
+                )
+
+                game:GetService("Lighting"):GetPropertyChangedSignal("FogEnd"):Connect(
+                    function()
+                        if
+                            game:GetService("Lighting").FogEnd ~= 786543 and
+                                game:GetService("Lighting").FogEnd ~= _G.NormalLightingSettings.FogEnd
+                         then
+                            _G.NormalLightingSettings.FogEnd = game:GetService("Lighting").FogEnd
+                            if not _G.FullBrightEnabled then
+                                repeat
+                                    wait()
+                                until _G.FullBrightEnabled
+                            end
+                            game:GetService("Lighting").FogEnd = 786543
+                        end
+                    end
+                )
+
+                game:GetService("Lighting"):GetPropertyChangedSignal("GlobalShadows"):Connect(
+                    function()
+                        if
+                            game:GetService("Lighting").GlobalShadows ~= false and
+                                game:GetService("Lighting").GlobalShadows ~= _G.NormalLightingSettings.GlobalShadows
+                         then
+                            _G.NormalLightingSettings.GlobalShadows = game:GetService("Lighting").GlobalShadows
+                            if not _G.FullBrightEnabled then
+                                repeat
+                                    wait()
+                                until _G.FullBrightEnabled
+                            end
+                            game:GetService("Lighting").GlobalShadows = false
+                        end
+                    end
+                )
+
+                game:GetService("Lighting"):GetPropertyChangedSignal("Ambient"):Connect(
+                    function()
+                        if
+                            game:GetService("Lighting").Ambient ~= Color3.fromRGB(178, 178, 178) and
+                                game:GetService("Lighting").Ambient ~= _G.NormalLightingSettings.Ambient
+                         then
+                            _G.NormalLightingSettings.Ambient = game:GetService("Lighting").Ambient
+                            if not _G.FullBrightEnabled then
+                                repeat
+                                    wait()
+                                until _G.FullBrightEnabled
+                            end
+                            game:GetService("Lighting").Ambient = Color3.fromRGB(178, 178, 178)
+                        end
+                    end
+                )
+
+                game:GetService("Lighting").Brightness = 1
+                game:GetService("Lighting").ClockTime = 12
+                game:GetService("Lighting").FogEnd = 786543
+                game:GetService("Lighting").GlobalShadows = false
+                game:GetService("Lighting").Ambient = Color3.fromRGB(178, 178, 178)
+
+                local LatestValue = true
+                spawn(
+                    function()
+                        repeat
+                            wait()
+                        until _G.FullBrightEnabled
+                        while wait() do
+                            if _G.FullBrightEnabled ~= LatestValue then
+                                if not _G.FullBrightEnabled then
+                                    game:GetService("Lighting").Brightness = _G.NormalLightingSettings.Brightness
+                                    game:GetService("Lighting").ClockTime = _G.NormalLightingSettings.ClockTime
+                                    game:GetService("Lighting").FogEnd = _G.NormalLightingSettings.FogEnd
+                                    game:GetService("Lighting").GlobalShadows = _G.NormalLightingSettings.GlobalShadows
+                                    game:GetService("Lighting").Ambient = _G.NormalLightingSettings.Ambient
+                                else
+                                    game:GetService("Lighting").Brightness = 1
+                                    game:GetService("Lighting").ClockTime = 12
+                                    game:GetService("Lighting").FogEnd = 786543
+                                    game:GetService("Lighting").GlobalShadows = false
+                                    game:GetService("Lighting").Ambient = Color3.fromRGB(178, 178, 178)
+                                end
+                                LatestValue = not LatestValue
+                            end
+                        end
+                    end
+                )
+            end
+
+            _G.FullBrightExecuted = true
+            _G.FullBrightEnabled = not _G.FullBrightEnabled
         end
     }
 )
@@ -1391,147 +1589,7 @@ getgenv().Section4:Toggle(
     }
 )
 
-getgenv().Section4:Toggle(
-    {
-        Text = "Fullbright",
-        Callback = function(bool)
-            if not _G.FullBrightExecuted then
-                _G.FullBrightEnabled = false
-
-                _G.NormalLightingSettings = {
-                    Brightness = game:GetService("Lighting").Brightness,
-                    ClockTime = game:GetService("Lighting").ClockTime,
-                    FogEnd = game:GetService("Lighting").FogEnd,
-                    GlobalShadows = game:GetService("Lighting").GlobalShadows,
-                    Ambient = game:GetService("Lighting").Ambient
-                }
-
-                game:GetService("Lighting"):GetPropertyChangedSignal("Brightness"):Connect(
-                    function()
-                        if
-                            game:GetService("Lighting").Brightness ~= 1 and
-                                game:GetService("Lighting").Brightness ~= _G.NormalLightingSettings.Brightness
-                         then
-                            _G.NormalLightingSettings.Brightness = game:GetService("Lighting").Brightness
-                            if not _G.FullBrightEnabled then
-                                repeat
-                                    wait()
-                                until _G.FullBrightEnabled
-                            end
-                            game:GetService("Lighting").Brightness = 1
-                        end
-                    end
-                )
-
-                game:GetService("Lighting"):GetPropertyChangedSignal("ClockTime"):Connect(
-                    function()
-                        if
-                            game:GetService("Lighting").ClockTime ~= 12 and
-                                game:GetService("Lighting").ClockTime ~= _G.NormalLightingSettings.ClockTime
-                         then
-                            _G.NormalLightingSettings.ClockTime = game:GetService("Lighting").ClockTime
-                            if not _G.FullBrightEnabled then
-                                repeat
-                                    wait()
-                                until _G.FullBrightEnabled
-                            end
-                            game:GetService("Lighting").ClockTime = 12
-                        end
-                    end
-                )
-
-                game:GetService("Lighting"):GetPropertyChangedSignal("FogEnd"):Connect(
-                    function()
-                        if
-                            game:GetService("Lighting").FogEnd ~= 786543 and
-                                game:GetService("Lighting").FogEnd ~= _G.NormalLightingSettings.FogEnd
-                         then
-                            _G.NormalLightingSettings.FogEnd = game:GetService("Lighting").FogEnd
-                            if not _G.FullBrightEnabled then
-                                repeat
-                                    wait()
-                                until _G.FullBrightEnabled
-                            end
-                            game:GetService("Lighting").FogEnd = 786543
-                        end
-                    end
-                )
-
-                game:GetService("Lighting"):GetPropertyChangedSignal("GlobalShadows"):Connect(
-                    function()
-                        if
-                            game:GetService("Lighting").GlobalShadows ~= false and
-                                game:GetService("Lighting").GlobalShadows ~= _G.NormalLightingSettings.GlobalShadows
-                         then
-                            _G.NormalLightingSettings.GlobalShadows = game:GetService("Lighting").GlobalShadows
-                            if not _G.FullBrightEnabled then
-                                repeat
-                                    wait()
-                                until _G.FullBrightEnabled
-                            end
-                            game:GetService("Lighting").GlobalShadows = false
-                        end
-                    end
-                )
-
-                game:GetService("Lighting"):GetPropertyChangedSignal("Ambient"):Connect(
-                    function()
-                        if
-                            game:GetService("Lighting").Ambient ~= Color3.fromRGB(178, 178, 178) and
-                                game:GetService("Lighting").Ambient ~= _G.NormalLightingSettings.Ambient
-                         then
-                            _G.NormalLightingSettings.Ambient = game:GetService("Lighting").Ambient
-                            if not _G.FullBrightEnabled then
-                                repeat
-                                    wait()
-                                until _G.FullBrightEnabled
-                            end
-                            game:GetService("Lighting").Ambient = Color3.fromRGB(178, 178, 178)
-                        end
-                    end
-                )
-
-                game:GetService("Lighting").Brightness = 1
-                game:GetService("Lighting").ClockTime = 12
-                game:GetService("Lighting").FogEnd = 786543
-                game:GetService("Lighting").GlobalShadows = false
-                game:GetService("Lighting").Ambient = Color3.fromRGB(178, 178, 178)
-
-                local LatestValue = true
-                spawn(
-                    function()
-                        repeat
-                            wait()
-                        until _G.FullBrightEnabled
-                        while wait() do
-                            if _G.FullBrightEnabled ~= LatestValue then
-                                if not _G.FullBrightEnabled then
-                                    game:GetService("Lighting").Brightness = _G.NormalLightingSettings.Brightness
-                                    game:GetService("Lighting").ClockTime = _G.NormalLightingSettings.ClockTime
-                                    game:GetService("Lighting").FogEnd = _G.NormalLightingSettings.FogEnd
-                                    game:GetService("Lighting").GlobalShadows = _G.NormalLightingSettings.GlobalShadows
-                                    game:GetService("Lighting").Ambient = _G.NormalLightingSettings.Ambient
-                                else
-                                    game:GetService("Lighting").Brightness = 1
-                                    game:GetService("Lighting").ClockTime = 12
-                                    game:GetService("Lighting").FogEnd = 786543
-                                    game:GetService("Lighting").GlobalShadows = false
-                                    game:GetService("Lighting").Ambient = Color3.fromRGB(178, 178, 178)
-                                end
-                                LatestValue = not LatestValue
-                            end
-                        end
-                    end
-                )
-            end
-
-            _G.FullBrightExecuted = true
-            _G.FullBrightEnabled = not _G.FullBrightEnabled
-        end
-    }
-)
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/nn_b-aks-ak"))()
+loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/nn_b-aks-ak"))()
 
 getgenv().Section5:Button(
     {
@@ -1687,7 +1745,7 @@ getgenv().Section5_3:Button(
     {
         Text = "nn_bigmaze",
         Callback = function()
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-506.384735, 145.763321, 38.3121796)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-402.9969482421875, 198.71923828125, 396.6959228515625)
         end
     }
 )
@@ -1904,44 +1962,7 @@ getgenv().Section6:Keybind(
     }
 )
 
-if getgenv().xw0DLBPTqZkzEWOXx6qCScoNKSoBhGh or getgenv().UtlpHuOwhroliTt4DRSwzv4qdQYuK9M == true then
-    getgenv().Section6:Keybind(
-        {
-            Text = "GodMode Keybind",
-            Default = Enum.KeyCode.Clear,
-            Callback = function()
-                if getgenv().KeybindGodmode == 0 then
-                    getgenv().KeybindGodmode = getgenv().KeybindGodmode + 1
-                elseif getgenv().KeybindGodmode == 1 then
-                    getgenv().KeybindGodmode = getgenv().KeybindGodmode - 1
-                end
-                if getgenv().KeybindGodmode == 1 then
-                    game.Players.LocalPlayer.Character.scripts.killed.kill:Destroy()
-
-                    local NotificationHolder =
-                        loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
-                    local Notification =
-                        loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
-                    Notification:Notify(
-                        {Title = "GodMode Enabled", Description = "You Wont Die From The Bots."},
-                        {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
-                    )
-                else
-                    game:GetService("ReplicatedStorage").events.player.char.respawnchar:FireServer()
-
-                    local NotificationHolder =
-                        loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
-                    local Notification =
-                        loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
-                    Notification:Notify(
-                        {Title = "GodMode Disabled", Description = "You Will Now Die From The Bots."},
-                        {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
-                    )
-                end
-            end
-        }
-    )
-end
+loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/nn_godmodekeybind"))()
 
 getgenv().Section6_1:Keybind(
     {
@@ -2485,7 +2506,7 @@ getgenv().Section6_2:Keybind(
     }
 )
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/nn_b-akkeybind"))()
+loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/nn_b-akkeybind"))()
 
 if game.PlaceId ~= 10118559731 then
     local drop =

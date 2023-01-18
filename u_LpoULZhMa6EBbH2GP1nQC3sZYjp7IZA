@@ -130,75 +130,134 @@ getgenv().Section6 =
 
 -- Sliders
 
+getgenv().DoWalkSpeed = false
+getgenv().DoJumpPower = false
+getgenv().DoGravity = false
+
+local speedstring = tostring(game.Players.LocalPlayer.Character.Humanoid.WalkSpeed):sub(1, 4)
+local walkspeed = tonumber(speedstring)
+
 getgenv().Section:Slider(
     {
         Text = "Walkspeed",
-        Default = sped,
+        Default = walkspeed,
         Minimum = 1,
         Maximum = 500,
         Callback = function(Value)
-            local Services =
-                setmetatable(
-                {},
-                {
-                    __index = function(Self, Index)
-                        local NewService = game.GetService(game, Index)
-                        if NewService then
-                            Self[Index] = NewService
-                        end
-                        return NewService
+            spawn(function()
+                while getgenv().DoWalkSpeed == true do
+                    task.wait()
+                    if getgenv().DoWalkSpeed == true then
+                        local currentVelocity = game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity
+                        local newVelocity = Vector3.new(game.Players.LocalPlayer.Character.Humanoid.MoveDirection.X * Value, currentVelocity.Y, game.Players.LocalPlayer.Character.Humanoid.MoveDirection.Z * Value)
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = newVelocity
                     end
-                }
-            )
-
-            local RunningSpeed = Value
-
-            local function SetWalkspeed(Speed)
-                pcall(
-                    function()
-                        Services.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").WalkSpeed = Speed
-                    end
-                )
-            end
-
-            Services.RunService:BindToRenderStep(
-                "LoopSpeed",
-                Enum.RenderPriority.Character.Value + 1,
-                function()
-                    SetWalkspeed(RunningSpeed)
                 end
-            )
+            end)
         end
     }
 )
+
+getgenv().Section:Toggle(
+    {
+        Text = "Walkspeed Toggle",
+        Callback = function(bool)
+            if bool == true then
+                getgenv().DoWalkSpeed = true
+            else
+                getgenv().DoWalkSpeed = false
+            end
+        end
+    }
+)
+
+local jumpstring = tostring(game.Players.LocalPlayer.Character.Humanoid.JumpPower):sub(1, 4)
+local jumppower = tonumber(jumpstring)
+
+getgenv().thejumppower = jumppower
+
+getgenv().newwstate = Enum.HumanoidStateType.Landed
+
+getgenv().MakeJump = true
+
+local player = game.Players.LocalPlayer
+
+player.Character.Humanoid.StateChanged:Connect(function(oldState, newState)
+    getgenv().newwstate = newState
+
+    if newState == Enum.HumanoidStateType.Freefall then
+        getgenv().MakeJump = false
+    else
+        getgenv().MakeJump = true
+    end
+end)
+
+
+local userInputService = game:GetService("UserInputService")
+
+game:GetService("UserInputService").InputBegan:Connect(function(inputObject)
+    if inputObject.KeyCode == Enum.KeyCode.Space then
+        if getgenv().DoJumpPower and getgenv().MakeJump == true then
+            task.wait(0.01)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity.X, getgenv().thejumppower, game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity.Z)   
+        end
+    end
+end)
 
 getgenv().Section:Slider(
     {
         Text = "JumpPower",
-        Default = game.Players.LocalPlayer.Character.Humanoid.JumpPower,
-        Minimum = 0,
+        Default = jumpstring,
+        Minimum = 1,
         Maximum = 500,
         Callback = function(Value)
-            game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+            getgenv().thejumppower = Value
+        end
+    }
+)
 
-            while true do
-                game:GetService("RunService").RenderStepped:Wait()
-                if game.Players.LocalPlayer.Character.Humanoid.JumpPower ~= Value then
-                    game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
-                end
+getgenv().Section:Toggle(
+    {
+        Text = "JumpPower Toggle",
+        Callback = function(bool)
+            if bool == true then
+                getgenv().DoJumpPower = true
+            else
+                getgenv().DoJumpPower = false
+                getgenv().thejumppower = jumppower
             end
         end
     }
 )
 
+local gravitystring = tostring(game.Workspace.Gravity):sub(1, 4)
+local gravity = tonumber(gravitystring)
+local oldgravity = tonumber(game.Workspace.Gravity)
+
 getgenv().Section:Slider(
     {
         Text = "Gravity",
-        Default = game.Workspace.Gravity,
+        Default = gravity,
         Minimum = 0,
-        Maximum = 720,
+        Maximum = 540,
         Callback = function(Value)
-            game.Workspace.Gravity = Value
+            if getgenv().DoGravity == true then
+                game.Workspace.Gravity = Value
+            end
+        end
+    }
+)
+
+getgenv().Section:Toggle(
+    {
+        Text = "Gravity Toggle",
+        Callback = function(bool)
+            if bool == true then
+                getgenv().DoGravity = true
+            else
+                getgenv().DoGravity = false
+                game.Workspace.Gravity = oldgravity
+            end
         end
     }
 )
@@ -412,15 +471,16 @@ getgenv().Section:Toggle(
                 getgenv().InfiniteJumpEnabled = false
             end
 
-            game:GetService("UserInputService").JumpRequest:connect(
-                function()
+            local userInputService = game:GetService("UserInputService")
+
+            game:GetService("UserInputService").InputBegan:Connect(function(inputObject)
+                if inputObject.KeyCode == Enum.KeyCode.Space then
                     if getgenv().InfiniteJumpEnabled == true then
-                        game:GetService "Players".LocalPlayer.Character:FindFirstChildOfClass "Humanoid":ChangeState(
-                            "Jumping"
-                        )
+                        task.wait(0.01)
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity.X, getgenv().thejumppower, game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity.Z)   
                     end
                 end
-            )
+            end)
         end
     }
 )

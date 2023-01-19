@@ -161,8 +161,21 @@ getgenv().DoWalkSpeed = false
 getgenv().DoJumpPower = false
 getgenv().DoGravity = false
 
-local speedstring = tostring(game.Players.LocalPlayer.Character.Humanoid.WalkSpeed):sub(1, 4)
-local walkspeed = tonumber(speedstring)
+local tostringLocalPlayerName = tostring(game:GetService("Players").LocalPlayer.name)
+
+spawn(function()
+    while not game.workspace:WaitForChild(tostringLocalPlayerName) do
+        task.wait()
+    end
+    local speedstring = tostring(game.Players.LocalPlayer.Character:FindFirstChild("Humanoid").WalkSpeed):sub(1, 4)
+    local walkspeed = tonumber(speedstring)
+end)
+
+if walkspeed then
+
+else
+    walkspeed = 10
+end
 
 getgenv().Section:Slider(
     {
@@ -198,27 +211,36 @@ getgenv().Section:Toggle(
     }
 )
 
-local jumpstring = tostring(game.Players.LocalPlayer.Character.Humanoid.JumpPower):sub(1, 4)
+spawn(function()
+    while not game.workspace:WaitForChild(tostringLocalPlayerName) do
+        task.wait()
+    end
+local jumpstring = tostring(game.Players.LocalPlayer.Character:FindFirstChild("Humanoid").JumpPower):sub(1, 4)
 local jumppower = tonumber(jumpstring)
-
 getgenv().thejumppower = jumppower
+end)
+
+if jumpstring then
+    
+else
+    jumpstring = 28.3
+end
 
 getgenv().newwstate = Enum.HumanoidStateType.Landed
 
 getgenv().MakeJump = true
 
-local player = game.Players.LocalPlayer
+spawn(function()
+    game.workspace:WaitForChild(tostringLocalPlayerName).Humanoid.StateChanged:Connect(function(oldState, newState)
+        getgenv().newwstate = newState
 
-player.Character.Humanoid.StateChanged:Connect(function(oldState, newState)
-    getgenv().newwstate = newState
-
-    if newState == Enum.HumanoidStateType.Freefall then
-        getgenv().MakeJump = false
-    else
-        getgenv().MakeJump = true
-    end
+        if newState == Enum.HumanoidStateType.Freefall then
+            getgenv().MakeJump = false
+        else
+            getgenv().MakeJump = true
+        end
+    end)
 end)
-
 
 local userInputService = game:GetService("UserInputService")
 

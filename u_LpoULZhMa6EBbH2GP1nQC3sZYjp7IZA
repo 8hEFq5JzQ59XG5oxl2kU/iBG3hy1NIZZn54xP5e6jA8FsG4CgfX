@@ -746,6 +746,100 @@ getgenv().Section2:Toggle(
     }
 )
 
+getgenv().Section2:Toggle(
+    {
+        Text = "Nametags",
+        Callback = function(bool)
+            getgenv().IsOn = bool
+            if bool == false then
+                for i, v in pairs(game:GetDescendants()) do
+                    if v.Name == "slowpihax-Nametag" then
+                        v:Destroy()
+                    end
+                end
+            end
+
+            local players = game:GetService("Players")
+            local function checkPlayers()
+                for _, player in pairs(players:GetPlayers()) do
+                    local character = player.Character
+                    if character then
+                        local humanoid = character:FindFirstChild("HumanoidRootPart")
+                        if humanoid then
+                            if character.Name ~= game.Players.LocalPlayer.Character.Name then
+                                local torsoColor = character:WaitForChild("Body Colors").TorsoColor
+                                if torsoColor then
+                                    local tag = humanoid:FindFirstChild("slowpihax-Nametag")
+                                    if not tag then
+                                        local billboard = Instance.new("BillboardGui")
+                                        local textLabel = Instance.new("TextLabel")
+                                        
+                                        if getgenv().TCStatus == true then
+                                            getgenv().NametagColor = player.TeamColor
+                                        else
+                                            getgenv().NametagColor = character["Body Colors"].TorsoColor
+                                        end
+
+                                        print(r,g,b)
+                                        local r, g, b = NametagColor.r * 255, NametagColor.g * 255, NametagColor.b * 255
+
+                                        billboard.Parent = humanoid
+                                        billboard.Size = UDim2.new(5, 0, 5, 0)
+                                        billboard.AlwaysOnTop = true
+                                        billboard.Name = "slowpihax-Nametag"
+
+                                        textLabel.Parent = billboard
+                                        textLabel.Text = player.DisplayName
+                                        textLabel.Size = UDim2.new(1, 0, 1, 0)
+                                        textLabel.BackgroundTransparency = 1
+                                        textLabel.TextColor3 =
+                                            Color3.fromRGB(NametagColor.r * 255, NametagColor.g * 255, NametagColor.b * 255)
+                                        textLabel.TextStrokeTransparency = 0
+                                        textLabel.TextStrokeColor3 =
+                                            Color3.fromRGB(NametagColor.r * 142, NametagColor.g * 128, NametagColor.b * 128)
+                                        textLabel.TextSize = 8.25
+                                        textLabel.Position = UDim2.new(0, 0, -0.7, 0)
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+
+            local NameTagLoop =
+                coroutine.wrap(
+                function()
+                    while getgenv().IsOn == true do
+                        task.wait()
+                        if getgenv().IsOn == true then
+                            checkPlayers()
+                        end
+                    end
+                end
+            )
+
+            NameTagLoop()
+
+            spawn(
+                function()
+                    while task.wait() do
+                        for i, v in pairs(players:GetPlayers()) do
+                            if getgenv().IsOn then
+                                v.NameDisplayDistance = 0
+                                v.HealthDisplayDistance = 0
+                            elseif not getgenv().IsOn then
+                                v.NameDisplayDistance = 100
+                                v.HealthDisplayDistance = 100
+                            end
+                        end
+                    end
+                end
+            )
+        end
+    }
+)
+
 -- Section 3
 
 getgenv().Section3:Toggle(

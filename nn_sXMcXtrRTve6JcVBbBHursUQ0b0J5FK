@@ -1,10 +1,6 @@
 loadstring(game:HttpGet("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/nn_title"))()
 
--- Values
-
 getgenv().FlySpeed = 50
-
--- Tabs
 
 getgenv().Tab =
     getgenv().Window:Tab(
@@ -61,8 +57,6 @@ getgenv().Tab8 =
         Text = "Credits"
     }
 )
-
--- Sections
 
 getgenv().Section =
     getgenv().Tab:Section(
@@ -488,6 +482,30 @@ loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM
 
 getgenv().Section:Toggle(
     {
+        Text = "Noclip",
+        Callback = function(bool)
+            local humanoid = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
+            local savedPosition = Vector3.new(humanoid.Position.X, humanoid.Position.Y, humanoid.Position.Z)
+
+            while bool == true do
+                local humanoid = game.Players.LocalPlayer.Character.HumanoidRootPart
+                local savedPosition = Vector3.new(humanoid.Position.X, humanoid.Position.Y, humanoid.Position.Z)
+                game.Players.LocalPlayer.Character.collisionPart.CanCollide = false
+                game.Players.LocalPlayer.Character.collisionPart.Anchored = true
+                game.Players.LocalPlayer.Character.HumanoidRootPart.collisionWeld.Enabled = false
+                task.wait()
+            end
+            if bool == false then
+                game:GetService("ReplicatedStorage").events.player.char.respawnchar:FireServer()
+                task.wait(1.75)
+                game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(savedPosition)
+            end
+        end
+    }
+)
+
+getgenv().Section:Toggle(
+    {
         Text = "Invisibility",
         Callback = function(bool)
             for _, descendant in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
@@ -509,15 +527,6 @@ getgenv().Section:Toggle(
     }
 )
 
-getgenv().Section:Button(
-    {
-        Text = "Force Reset",
-        Callback = function()
-            game.Players.LocalPlayer.Character.Humanoid.Health = 0
-        end
-    }
-)
-
 getgenv().TCStatus = true
 
 local drop =
@@ -535,9 +544,33 @@ local drop =
     }
 )
 
+getgenv().PlayerBoxEsp = false
+getgenv().PlayerTracerEsp = false
+getgenv().PlayerChamsEsp = false
+getgenv().PlayerNametagEsp = false
+
+local dropPlayerEspSettings =
+    getgenv().Section2:Dropdown(
+    {
+        Text = "Player ESP Settings",
+        List = {"Toggle Box ESP", "Toggle Tracer ESP", "Toggle Chams ESP", "Toggle Nametags ESP"},
+        Callback = function(bool)
+            if bool == ("Toggle Box ESP") then
+                getgenv().PlayerBoxEsp = not getgenv().PlayerBoxEsp
+            elseif bool == ("Toggle Tracer ESP") then
+                getgenv().PlayerTracerEsp = not getgenv().PlayerTracerEsp
+            elseif bool == ("Toggle Chams ESP") then
+                getgenv().PlayerChamsEsp = not getgenv().PlayerChamsEsp
+            elseif bool == ("Toggle Nametags ESP") then
+                getgenv().PlayerNametagEsp = not getgenv().PlayerNametagEsp
+            end
+        end
+    }
+)
+
 getgenv().Section2:Toggle(
     {
-        Text = "Box Esp",
+        Text = "Player ESP",
         Callback = function(bool)
             if bool == true then
                 local NotificationHolder =
@@ -545,263 +578,103 @@ getgenv().Section2:Toggle(
                 local Notification =
                     loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
                 Notification:Notify(
-                    {Title = "Box Esp Enabled", Description = "You Can Now See Boxes On Other Players."},
+                    {Title = "Player ESP Enabled", Description = "You Can Now See ESP On Other Players."},
                     {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2.5, Type = "default"}
                 )
 
                 getgenv().BoxESP = loadstring(game:HttpGet("https://kiriot22.com/releases/ESP.lua"))()
 
-                getgenv().BoxESP.Tracers = false
-                getgenv().BoxESP.Names = false
-                getgenv().BoxESP.Boxes = true
+                getgenv().BoxESP.Tracers = getgenv().PlayerTracerEsp
+                getgenv().BoxESP.Names = getgenv().PlayerNametagEsp
+                getgenv().BoxESP.Boxes = getgenv().PlayerBoxEsp
                 getgenv().BoxESP.Temporary = true
                 getgenv().BoxESP.Color = Color3.new(0, 255, 0)
                 getgenv().BoxESP.TeamColor = getgenv().TCStatus
                 getgenv().BoxESP.FaceCamera = true
 
                 getgenv().BoxESP:Toggle(true)
+
+                if getgenv().PlayerChamsEsp == true then
+                    getgenv().espLib =
+                        loadstring(
+                        game:HttpGet(
+                            ("https://raw.githubusercontent.com/shlexware/Sirius/request/library/esp/esp.lua"),
+                            true
+                        )
+                    )()
+
+                    getgenv().espLib.options.enabled = true
+                    getgenv().espLib.options.minScaleFactorX = 1
+                    getgenv().espLib.options.maxScaleFactorX = 10
+                    getgenv().espLib.options.minScaleFactorY = 1
+                    getgenv().espLib.options.maxScaleFactorY = 10
+                    getgenv().espLib.options.boundingBox = false
+                    getgenv().espLib.options.boundingBoxDescending = true
+                    getgenv().espLib.options.font = 2
+                    getgenv().espLib.options.fontSize = 13
+                    getgenv().espLib.options.limitDistance = false
+                    getgenv().espLib.options.maxDistance = 99999
+                    getgenv().espLib.options.visibleOnly = false
+                    getgenv().espLib.options.teamCheck = false
+                    getgenv().espLib.options.teamColor = getgenv().TCStatus
+                    getgenv().espLib.options.fillColor = nil
+                    getgenv().espLib.options.whitelistColor = Color3.new(1, 0, 0)
+                    getgenv().espLib.options.outOfViewArrows = false
+                    getgenv().espLib.options.outOfViewArrowsFilled = false
+                    getgenv().espLib.options.outOfViewArrowsSize = 25
+                    getgenv().espLib.options.outOfViewArrowsRadius = 100
+                    getgenv().espLib.options.outOfViewArrowsColor = Color3.new(1, 1, 1)
+                    getgenv().espLib.options.outOfViewArrowsTransparency = 0.5
+                    getgenv().espLib.options.outOfViewArrowsOutline = false
+                    getgenv().espLib.options.outOfViewArrowsOutlineFilled = false
+                    getgenv().espLib.options.outOfViewArrowsOutlineColor = Color3.new(1, 1, 1)
+                    getgenv().espLib.options.outOfViewArrowsOutlineTransparency = 1
+                    getgenv().espLib.options.names = false
+                    getgenv().espLib.options.nameTransparency = 1
+                    getgenv().espLib.options.nameColor = Color3.new(1, 1, 1)
+                    getgenv().espLib.options.boxes = false
+                    getgenv().espLib.options.boxesTransparency = 1
+                    getgenv().espLib.options.boxesColor = Color3.new(1, 0, 0)
+                    getgenv().espLib.options.boxFill = false
+                    getgenv().espLib.options.boxFillTransparency = 0.5
+                    getgenv().espLib.options.boxFillColor = Color3.new(1, 0, 0)
+                    getgenv().espLib.options.healthBars = false
+                    getgenv().espLib.options.healthBarsSize = 1
+                    getgenv().espLib.options.healthBarsTransparency = 1
+                    getgenv().espLib.options.healthBarsColor = Color3.new(0, 1, 0)
+                    getgenv().espLib.options.healthText = false
+                    getgenv().espLib.options.healthTextTransparency = 1
+                    getgenv().espLib.options.healthTextSuffix = "%"
+                    getgenv().espLib.options.healthTextColor = Color3.new(1, 1, 1)
+                    getgenv().espLib.options.distance = false
+                    getgenv().espLib.options.distanceTransparency = 1
+                    getgenv().espLib.options.distanceSuffix = " Studs"
+                    getgenv().espLib.options.distanceColor = Color3.new(1, 1, 1)
+                    getgenv().espLib.options.tracers = false
+                    getgenv().espLib.options.tracerTransparency = 1
+                    getgenv().espLib.options.tracerColor = Color3.new(1, 1, 1)
+                    getgenv().espLib.options.tracerOrigin = "Bottom"
+                    getgenv().espLib.options.chams = true
+                    getgenv().espLib.options.chamsFillColor = Color3.new(0, 255, 0)
+                    getgenv().espLib.options.chamsFillTransparency = 0.45
+                    getgenv().espLib.options.chamsOutlineColor = Color3.new()
+                    getgenv().espLib.options.chamsOutlineTransparency = 0.05
+
+                    getgenv().espLib:Load()
+                end
             else
                 local NotificationHolder =
                     loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
                 local Notification =
                     loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
                 Notification:Notify(
-                    {Title = "Box Esp Disabled", Description = "You Can No Longer See Boxes On Other Players."},
+                    {Title = "Player ESP Disabled", Description = "You Can No Longer See ESP On Other Players."},
                     {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2.5, Type = "default"}
                 )
 
                 getgenv().BoxESP:Toggle(false)
-            end
-        end
-    }
-)
-
-getgenv().Section2:Toggle(
-    {
-        Text = "Tracer Esp",
-        Callback = function(bool)
-            if bool == true then
-                local NotificationHolder =
-                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
-                local Notification =
-                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
-                Notification:Notify(
-                    {Title = "Tracer Esp Enabled", Description = "You Can Now See Tracers To Other Players."},
-                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2.5, Type = "default"}
-                )
-
-                getgenv().TracerESP = loadstring(game:HttpGet("https://kiriot22.com/releases/ESP.lua"))()
-
-                getgenv().TracerESP.Tracers = true
-                getgenv().TracerESP.Names = false
-                getgenv().TracerESP.Boxes = false
-                getgenv().TracerESP.Temporary = true
-                getgenv().TracerESP.Color = Color3.new(0, 255, 0)
-                getgenv().TracerESP.TeamColor = getgenv().TCStatus
-
-                getgenv().TracerESP:Toggle(true)
-            else
-                local NotificationHolder =
-                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
-                local Notification =
-                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
-                Notification:Notify(
-                    {Title = "Tracer Esp Disabled", Description = "You Can No Longer See Tracers To Other Players."},
-                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2.5, Type = "default"}
-                )
-
-                getgenv().TracerESP:Toggle(false)
-            end
-        end
-    }
-)
-
-getgenv().Section2:Toggle(
-    {
-        Text = "Chams Esp",
-        Callback = function(bool)
-            if bool == true then
-                local NotificationHolder =
-                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
-                local Notification =
-                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
-                Notification:Notify(
-                    {Title = "Chams Esp Enabled", Description = "You Can Now See Players Through Walls."},
-                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
-                )
-
-                getgenv().espLib =
-                    loadstring(
-                    game:HttpGet(
-                        ("https://raw.githubusercontent.com/shlexware/Sirius/request/library/esp/esp.lua"),
-                        true
-                    )
-                )()
-
-                getgenv().espLib.options.enabled = true
-                getgenv().espLib.options.minScaleFactorX = 1
-                getgenv().espLib.options.maxScaleFactorX = 10
-                getgenv().espLib.options.minScaleFactorY = 1
-                getgenv().espLib.options.maxScaleFactorY = 10
-                getgenv().espLib.options.boundingBox = false
-                getgenv().espLib.options.boundingBoxDescending = true
-                getgenv().espLib.options.font = 2
-                getgenv().espLib.options.fontSize = 13
-                getgenv().espLib.options.limitDistance = false
-                getgenv().espLib.options.maxDistance = 99999
-                getgenv().espLib.options.visibleOnly = false
-                getgenv().espLib.options.teamCheck = false
-                getgenv().espLib.options.teamColor = getgenv().TCStatus
-                getgenv().espLib.options.fillColor = nil
-                getgenv().espLib.options.whitelistColor = Color3.new(1, 0, 0)
-                getgenv().espLib.options.outOfViewArrows = false
-                getgenv().espLib.options.outOfViewArrowsFilled = false
-                getgenv().espLib.options.outOfViewArrowsSize = 25
-                getgenv().espLib.options.outOfViewArrowsRadius = 100
-                getgenv().espLib.options.outOfViewArrowsColor = Color3.new(1, 1, 1)
-                getgenv().espLib.options.outOfViewArrowsTransparency = 0.5
-                getgenv().espLib.options.outOfViewArrowsOutline = false
-                getgenv().espLib.options.outOfViewArrowsOutlineFilled = false
-                getgenv().espLib.options.outOfViewArrowsOutlineColor = Color3.new(1, 1, 1)
-                getgenv().espLib.options.outOfViewArrowsOutlineTransparency = 1
-                getgenv().espLib.options.names = false
-                getgenv().espLib.options.nameTransparency = 1
-                getgenv().espLib.options.nameColor = Color3.new(1, 1, 1)
-                getgenv().espLib.options.boxes = false
-                getgenv().espLib.options.boxesTransparency = 1
-                getgenv().espLib.options.boxesColor = Color3.new(1, 0, 0)
-                getgenv().espLib.options.boxFill = false
-                getgenv().espLib.options.boxFillTransparency = 0.5
-                getgenv().espLib.options.boxFillColor = Color3.new(1, 0, 0)
-                getgenv().espLib.options.healthBars = false
-                getgenv().espLib.options.healthBarsSize = 1
-                getgenv().espLib.options.healthBarsTransparency = 1
-                getgenv().espLib.options.healthBarsColor = Color3.new(0, 1, 0)
-                getgenv().espLib.options.healthText = false
-                getgenv().espLib.options.healthTextTransparency = 1
-                getgenv().espLib.options.healthTextSuffix = "%"
-                getgenv().espLib.options.healthTextColor = Color3.new(1, 1, 1)
-                getgenv().espLib.options.distance = false
-                getgenv().espLib.options.distanceTransparency = 1
-                getgenv().espLib.options.distanceSuffix = " Studs"
-                getgenv().espLib.options.distanceColor = Color3.new(1, 1, 1)
-                getgenv().espLib.options.tracers = false
-                getgenv().espLib.options.tracerTransparency = 1
-                getgenv().espLib.options.tracerColor = Color3.new(1, 1, 1)
-                getgenv().espLib.options.tracerOrigin = "Bottom"
-                getgenv().espLib.options.chams = true
-                getgenv().espLib.options.chamsFillColor = Color3.new(0, 255, 0)
-                getgenv().espLib.options.chamsFillTransparency = 0.45
-                getgenv().espLib.options.chamsOutlineColor = Color3.new()
-                getgenv().espLib.options.chamsOutlineTransparency = 0.05
-
-                getgenv().espLib:Load()
-            else
-                local NotificationHolder =
-                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
-                local Notification =
-                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
-                Notification:Notify(
-                    {Title = "Chams Disabled", Description = "You Can No Longer See Players Through Walls."},
-                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
-                )
-
                 getgenv().espLib:Unload()
             end
-        end
-    }
-)
-
-getgenv().Section2:Toggle(
-    {
-        Text = "Nametags",
-        Callback = function(bool)
-            getgenv().IsOn = bool
-            if bool == false then
-                for i, v in pairs(game:GetDescendants()) do
-                    if v.Name == "slowpihax-Nametag" then
-                        v:Destroy()
-                    end
-                end
-            end
-
-            local players = game:GetService("Players")
-            local function checkPlayers()
-                for _, player in pairs(players:GetPlayers()) do
-                    local character = player.Character
-                    if character then
-                        local humanoid = character:FindFirstChild("HumanoidRootPart")
-                        if humanoid then
-                            if character.Name ~= game.Players.LocalPlayer.Character.Name then
-                                local torsoColor = character:WaitForChild("Body Colors").TorsoColor
-                                if torsoColor then
-                                    local tag = humanoid:FindFirstChild("slowpihax-Nametag")
-                                    if not tag then
-                                        local billboard = Instance.new("BillboardGui")
-                                        local textLabel = Instance.new("TextLabel")
-                                        
-                                        if getgenv().TCStatus == true then
-                                            getgenv().NametagColor = player.TeamColor
-                                        else
-                                            getgenv().NametagColor = character["Body Colors"].TorsoColor
-                                        end
-
-                                        print(r,g,b)
-                                        local r, g, b = NametagColor.r * 255, NametagColor.g * 255, NametagColor.b * 255
-
-                                        billboard.Parent = humanoid
-                                        billboard.Size = UDim2.new(5, 0, 5, 0)
-                                        billboard.AlwaysOnTop = true
-                                        billboard.Name = "slowpihax-Nametag"
-
-                                        textLabel.Parent = billboard
-                                        textLabel.Text = player.DisplayName
-                                        textLabel.Size = UDim2.new(1, 0, 1, 0)
-                                        textLabel.BackgroundTransparency = 1
-                                        textLabel.TextColor3 =
-                                            Color3.fromRGB(NametagColor.r * 255, NametagColor.g * 255, NametagColor.b * 255)
-                                        textLabel.TextStrokeTransparency = 0
-                                        textLabel.TextStrokeColor3 =
-                                            Color3.fromRGB(NametagColor.r * 142, NametagColor.g * 128, NametagColor.b * 128)
-                                        textLabel.TextSize = 8.25
-                                        textLabel.Position = UDim2.new(0, 0, -0.7, 0)
-                                    end
-                                end
-                            end
-                        end
-                    end
-                end
-            end
-
-            local NameTagLoop =
-                coroutine.wrap(
-                function()
-                    while getgenv().IsOn == true do
-                        task.wait()
-                        if getgenv().IsOn == true then
-                            checkPlayers()
-                        end
-                    end
-                end
-            )
-
-            NameTagLoop()
-
-            spawn(
-                function()
-                    while task.wait() do
-                        for i, v in pairs(players:GetPlayers()) do
-                            if getgenv().IsOn then
-                                v.NameDisplayDistance = 0
-                                v.HealthDisplayDistance = 0
-                            elseif not getgenv().IsOn then
-                                v.NameDisplayDistance = 100
-                                v.HealthDisplayDistance = 100
-                            end
-                        end
-                    end
-                end
-            )
         end
     }
 )
@@ -1192,6 +1065,31 @@ getgenv().Section2:Toggle(
     }
 )
 
+getgenv().Section2:Toggle(
+    {
+        Text = "Disable Scary",
+        Callback = function(bool)
+            if bool == true then
+                game:GetService("Players")["slowpi_OnTop"].PlayerGui.scary:Destroy()
+            end
+
+            local humanoid = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
+            local savedPosition = Vector3.new(humanoid.Position.X, humanoid.Position.Y, humanoid.Position.Z)
+
+            while bool == true do
+                humanoid = game.Players.LocalPlayer.Character.HumanoidRootPart
+                savedPosition = Vector3.new(humanoid.Position.X, humanoid.Position.Y, humanoid.Position.Z)
+                task.wait()
+            end
+            if bool == false then
+                game:GetService("ReplicatedStorage").events.player.char.respawnchar:FireServer()
+                task.wait(1.75)
+                game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(savedPosition)
+            end
+        end
+    }
+)
+
 getgenv().Section3:Toggle(
     {
         Text = "Autofarm",
@@ -1206,7 +1104,27 @@ getgenv().Section3:Toggle(
                     {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
                 )
 
-                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1136.214599609375, 131.4921417236328, 119.8402099609375)
+                local player = game.Players.LocalPlayer
+                local part = Instance.new("Part")
+                part.Anchored = true
+                part.BottomSurface = Enum.SurfaceType.Smooth
+                part.TopSurface = Enum.SurfaceType.Smooth
+                part.Color = Color3.fromRGB(255, 0, 0)
+                part.Material = Enum.Material.Plastic
+                part.Size = Vector3.new(3000,25, 3000)
+                part.Parent = workspace
+                
+                part.CFrame = CFrame.new(90000, 10000, 90000)
+                part.Name = "slowpihax-da-autofarm"
+
+                local vu = game:GetService("VirtualUser")
+                game:GetService("Players").LocalPlayer.Idled:connect(function()
+                vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+                wait(1)
+                vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+                end)
+                
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(90000, 10100, 90000)                
 
                 autofarm = true
                 autofarmreturn = true
@@ -1233,7 +1151,7 @@ getgenv().Section3:Toggle(
                         local character = game.Players.LocalPlayer.Character
                         local humanoid = character:WaitForChild("Humanoid")
                         local startCFrame = character.HumanoidRootPart.CFrame
-                        local endCFrame = CFrame.new(Vector3.new(237.068024, 145.547531, -433.277161))
+                        local endCFrame = CFrame.new(Vector3.new(90000, 10015.4951171875, 90000))
                         local duration = 0.15
                         local startTime = tick()
 
@@ -1269,7 +1187,7 @@ getgenv().Section3:Toggle(
                             if bool == true then
                                 task.wait()
                                 part.CFrame =
-                                    CFrame.new(player.Character.HumanoidRootPart.Position - Vector3.new(0, 3.348115, 0))
+                                    CFrame.new(player.Character.HumanoidRootPart.Position - Vector3.new(88997.09375, 10220.072265625, 90992.796875))
                             elseif bool == false then
                                 task.wait()
                                 dopartloop = false
@@ -1286,7 +1204,7 @@ getgenv().Section3:Toggle(
                         local character = game.Players.LocalPlayer.Character
                         local humanoid = character:WaitForChild("Humanoid")
                         local startCFrame = character.HumanoidRootPart.CFrame
-                        local endCFrame = CFrame.new(Vector3.new(-1183.853759765625, 1126.2196044921875, 397.1861267089844))
+                        local endCFrame = CFrame.new(Vector3.new(90884.2890625, 11246.1171875, 89093.8125))
                         local duration = 2
                         local startTime = tick()
 
@@ -1302,7 +1220,7 @@ getgenv().Section3:Toggle(
                             local character = game.Players.LocalPlayer.Character
                             local humanoid = character:WaitForChild("Humanoid")
                             local startCFrame = character.HumanoidRootPart.CFrame
-                            local endCFrame = CFrame.new(Vector3.new(-857.7637939453125, 1420.974365234375, 68.16397857666016))
+                            local endCFrame = CFrame.new(Vector3.new(88983.3984375, 10015.4951171875, 90007.3828125))
                             local duration = 2
                             local startTime = tick()
 
@@ -1317,7 +1235,7 @@ getgenv().Section3:Toggle(
                             local character = game.Players.LocalPlayer.Character
                             local humanoid = character:WaitForChild("Humanoid")
                             local startCFrame = character.HumanoidRootPart.CFrame
-                            local endCFrame = CFrame.new(Vector3.new(-1157.2713623046875, 76.7693862915039, -334.5257873535156))
+                            local endCFrame = CFrame.new(Vector3.new(91013.9453125, 10015.4951171875, 91014.859375))
                             local duration = 1
                             local startTime = tick()
 
@@ -1332,7 +1250,7 @@ getgenv().Section3:Toggle(
                             local character = game.Players.LocalPlayer.Character
                             local humanoid = character:WaitForChild("Humanoid")
                             local startCFrame = character.HumanoidRootPart.CFrame
-                            local endCFrame = CFrame.new(Vector3.new(-1289.0880126953125, 68.34263610839844, 368.17205810546875))
+                            local endCFrame = CFrame.new(Vector3.new(90000, 10100, 90000))
                             local duration = 1
                             local startTime = tick()
 
@@ -1450,6 +1368,135 @@ getgenv().Section4:Toggle(
                     setfpscap(60)
                 end
             end
+        end
+    }
+)
+
+getgenv().Section4:Toggle(
+{
+   Text = "Auto Leave",
+   Callback = function(bool)
+        local groupId = 9511731
+        local players = game:GetService("Players")
+        local player = players.LocalPlayer
+
+        local blacklistedRoles = {
+        "nico",
+        "devs",
+        "crew",
+        "testers",
+        }
+
+        for _, v in pairs(players:GetPlayers()) do
+            local playerRole = v:GetRoleInGroup(groupId)
+            if table.find(blacklistedRoles, playerRole) then
+                if bool == true then
+                    player:Kick(string.format("The [%s] %s has joined the game.", playerRole, v.Name))
+                end
+            end
+        end
+
+        players.PlayerAdded:Connect(function(v)
+        local playerRole = v:GetRoleInGroup(groupId)
+        if table.find(blacklistedRoles, playerRole) then
+            if bool == true then
+                player:Kick(string.format("The [%s] %s has joined the game.", playerRole, v.Name))
+            end
+        end
+    end)
+end
+}
+)
+
+getgenv().Section4:Toggle(
+{
+   Text = "Anti Void",
+   Callback = function(bool)
+    getgenv().yuhh = bool
+
+        local player = game.Players.LocalPlayer
+        local lastGroundPosition = Vector3.new()
+        local lastUpdateTime = tick()
+
+        spawn(function()
+            game.workspace:WaitForChild(tostringLocalPlayerName).Humanoid.StateChanged:Connect(function(oldState, newState)
+                getgenv().AntiVoidState = newState
+            end)
+        end)
+                
+        spawn(function()
+                game:GetService("Workspace").nn_mall[".zones"]:WaitForChild("teleport"):Destroy()
+                game:GetService("Workspace")["nn_russia"]:WaitForChild("bounds"):Destroy()
+            end)
+
+
+            local AntiVoidLoop = coroutine.create(function()
+                while getgenv().yuhh == true do
+                    if getgenv().yuhh == true then
+                    task.wait()
+                        if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+                            local humanoidRootPart = player.Character.HumanoidRootPart
+                            local currentTime = tick()
+                            if humanoidRootPart.Position.Y < -450 then
+                                humanoidRootPart.Velocity = Vector3.new(0,0,0)
+                                humanoidRootPart.CFrame = CFrame.new(lastGroundPosition)
+                                humanoidRootPart.Velocity = Vector3.new(0,0,0)
+                            elseif currentTime - lastUpdateTime >= 1 and getgenv().AntiVoidState ~= Enum.HumanoidStateType.Freefall then
+                                lastGroundPosition = humanoidRootPart.Position
+                                lastUpdateTime = currentTime
+                            end
+                        end
+                    end
+                end
+            end)
+            if getgenv().yuhh == true then
+                coroutine.resume(AntiVoidLoop)
+            else
+                coroutine.yield(AntiVoidLoop)
+            end
+        end
+    }
+)
+
+loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/nn_breakbots"))()
+
+getgenv().BuyAmount = 1
+
+local drop = Section4:Dropdown({
+    Text = "Buy Gear",
+    List = {"Snownall", "Firework", "Bloxy Cola", "Possessor"},
+    Callback = function(v)
+        local ChosenGear = "Snowball"
+            if v == "Snowball" then
+                ChosenGear = "Snowball"
+            elseif v == "Firework" then
+                ChosenGear = "Firework"
+            elseif v == "Bloxy Cola" then
+                ChosenGear = "BloxyCola"
+            elseif v == "Possessor" then
+                ChosenGear = "Possessor"
+            end
+
+            task.wait(0.05)
+            
+                local args = {
+                    [1] = ChosenGear,
+                    [2] = "Gear",
+                    [3] = getgenv().BuyAmount
+                }
+                
+                game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("game"):WaitForChild("global"):WaitForChild("shoppurchasebux"):InvokeServer(unpack(args))
+    end
+})
+
+getgenv().Section4:Slider(
+    {
+        Text = "Buy Amount",
+        Default = 1,
+        Minimum = 1,
+        Maximum = 1000,
+        Callback = function(Value)
+            getgenv().BuyAmount = Value
         end
     }
 )
@@ -1598,19 +1645,20 @@ getgenv().Section5_2:Button(
 
 getgenv().Section5_3:Button(
     {
-        Text = "nn_dreammaze",
+        Text = "nn_playground",
         Callback = function()
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                CFrame.new(-1139.48999, 110.402229, -1246.37402)
+                CFrame.new(-3085.5, -315.5020751953125, -1064.5)
         end
     }
 )
 
 getgenv().Section5_3:Button(
     {
-        Text = "nn_bigmaze",
+        Text = "no texture platform(?)",
         Callback = function()
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-402.9969482421875, 198.71923828125, 396.6959228515625)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                CFrame.new(634.00244140625, 10.9980247020721436, 138.18975830078125)
         end
     }
 )
@@ -1647,11 +1695,10 @@ getgenv().Section5_3:Button(
 getgenv().KeybindFly = 0
 getgenv().KeybindInfJumps = 0
 getgenv().KeybindGodmode = 0
-getgenv().KeybindBoxEsp = 0
-getgenv().KeybindTracerEsp = 0
-getgenv().KeybindChamsEsp = 0
+getgenv().KeybindNoclip = 0
+getgenv().KeybindInvisibility = 0
+getgenv().KeybindPlayerEsp = 0
 getgenv().KeybindBotEsp = 0
-getgenv().KeybindBoxEsp = 0
 getgenv().KeybindGetBtools = 0
 getgenv().KeybindFPSBoost = 0
 getgenv().KeybindAutoKill = 0
@@ -1828,199 +1875,217 @@ getgenv().Section6:Keybind(
     }
 )
 
-loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/nn_godmodekeybind"))()
+if getgenv().xw0DLBPTqZkzEWOXx6qCScoNKSoBhGh or getgenv().UtlpHuOwhroliTt4DRSwzv4qdQYuK9M == true then
+    getgenv().Section6:Keybind(
+        {
+            Text = "GodMode Keybind",
+            Default = Enum.KeyCode.Clear,
+            Callback = function()
+                if getgenv().KeybindGodmode == 0 then
+                    getgenv().KeybindGodmode = getgenv().KeybindGodmode + 1
+                elseif getgenv().KeybindGodmode == 1 then
+                    getgenv().KeybindGodmode = getgenv().KeybindGodmode - 1
+                end
+                if getgenv().KeybindGodmode == 1 then
+                    game.Players.LocalPlayer.Character.scripts.killed:Destroy()
+
+                    local NotificationHolder =
+                        loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                    local Notification =
+                        loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                    Notification:Notify(
+                        {Title = "GodMode Enabled", Description = "You Wont Die From The Bots.            Any kind of respawn will disable this, such as autofarm."},
+                        {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 4.25, Type = "default"}
+                    )
+                else
+                    game:GetService("ReplicatedStorage").events.player.char.respawnchar:FireServer()
+
+                    local NotificationHolder =
+                        loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                    local Notification =
+                        loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                    Notification:Notify(
+                        {Title = "GodMode Disabled", Description = "You Will Now Die From The Bots."},
+                        {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
+                    )
+                end
+            end
+        }
+    )
+end
+
+getgenv().Section6:Keybind(
+    {
+        Text = "Noclip Keybind",
+        Default = Enum.KeyCode.Clear,
+        Callback = function()
+            if getgenv().KeybindNoclip == 0 then
+                getgenv().KeybindNoclip = getgenv().KeybindNoclip + 1
+            elseif getgenv().KeybindNoclip == 1 then
+                getgenv().KeybindNoclip = getgenv().KeybindNoclip - 1
+            end
+            local humanoid = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
+            local savedPosition = Vector3.new(humanoid.Position.X, humanoid.Position.Y, humanoid.Position.Z)
+
+            while getgenv().KeybindNoclip == 1 do
+                local humanoid = game.Players.LocalPlayer.Character.HumanoidRootPart
+                local savedPosition = Vector3.new(humanoid.Position.X, humanoid.Position.Y, humanoid.Position.Z)
+                game.Players.LocalPlayer.Character.collisionPart.CanCollide = false
+                game.Players.LocalPlayer.Character.collisionPart.Anchored = true
+                game.Players.LocalPlayer.Character.HumanoidRootPart.collisionWeld.Enabled = false
+                task.wait()
+            end
+            if getgenv().KeybindNoclip == 0 then
+                game:GetService("ReplicatedStorage").events.player.char.respawnchar:FireServer()
+                task.wait(1.75)
+                game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(savedPosition)
+            end
+        end
+    }
+)
+
+getgenv().Section6:Keybind(
+    {
+        Text = "Noclip Keybind",
+        Default = Enum.KeyCode.Clear,
+        Callback = function()
+            if getgenv().KeybindInvisibility == 0 then
+                getgenv().KeybindInvisibility = getgenv().KeybindInvisibility + 1
+            elseif getgenv().KeybindInvisibility == 1 then
+                getgenv().KeybindInvisibility = getgenv().KeybindInvisibility - 1
+            end
+            for _, descendant in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+                if descendant:IsA("MeshPart") or descendant:IsA("Part") and descendant.Name ~= "collisionPart" then
+                    descendant.CanCollide = bool
+                end
+            end
+
+            if getgenv().KeybindInvisibility == 1 then
+                game.Players.LocalPlayer.Character.LowerTorso.Name = "slowpihax-Invisibility"
+                    task.wait(0.25)
+                game.Players.LocalPlayer.Character["slowpihax-Invisibility"].Parent = game:GetService("Workspace")
+                    task.wait(0.25)
+                game:GetService("Workspace")["slowpihax-Invisibility"].Position = game:GetService("Workspace")["slowpihax-Invisibility"].Position + Vector3.new(0, 987, 0)
+            elseif getgenv().KeybindInvisibility == 0 then
+                game:GetService("ReplicatedStorage").events.player.char.respawnchar:FireServer()
+            end
+        end
+    }
+)
+
 
 getgenv().Section6_1:Keybind(
     {
-        Text = "Box Esp Keybind",
+        Text = "Player ESP Keybind",
         Default = Enum.KeyCode.Clear,
         Callback = function()
-            if getgenv().KeybindBoxEsp == 0 then
-                getgenv().KeybindBoxEsp = getgenv().KeybindBoxEsp + 1
-            elseif getgenv().KeybindBoxEsp == 1 then
-                getgenv().KeybindBoxEsp = getgenv().KeybindBoxEsp - 1
+            if getgenv().KeybindPlayerEsp == 0 then
+                getgenv().KeybindPlayerEsp = getgenv().KeybindPlayerEsp + 1
+            elseif getgenv().KeybindPlayerEsp == 1 then
+                getgenv().KeybindPlayerEsp = getgenv().KeybindPlayerEsp - 1
             end
 
-            if getgenv().KeybindBoxEsp == 1 then
+            if getgenv().KeybindPlayerEsp == 1 then
                 local NotificationHolder =
                     loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
                 local Notification =
                     loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
                 Notification:Notify(
-                    {Title = "Box Esp Enabled", Description = "You Can Now See Boxes On Other Players."},
+                    {Title = "Player ESP Enabled", Description = "You Can Now See ESP On Other Players."},
                     {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2.5, Type = "default"}
                 )
 
                 getgenv().BoxESP = loadstring(game:HttpGet("https://kiriot22.com/releases/ESP.lua"))()
 
-                getgenv().BoxESP.Tracers = false
-                getgenv().BoxESP.Names = false
-                getgenv().BoxESP.Boxes = true
+                getgenv().BoxESP.Tracers = getgenv().PlayerTracerEsp
+                getgenv().BoxESP.Names = getgenv().PlayerNametagEsp
+                getgenv().BoxESP.Boxes = getgenv().PlayerBoxEsp
                 getgenv().BoxESP.Temporary = true
                 getgenv().BoxESP.Color = Color3.new(0, 255, 0)
-                getgenv().BoxESP.TeamColor = true
+                getgenv().BoxESP.TeamColor = getgenv().TCStatus
                 getgenv().BoxESP.FaceCamera = true
 
                 getgenv().BoxESP:Toggle(true)
+
+                if getgenv().PlayerChamsEsp == true then
+                    getgenv().espLib =
+                        loadstring(
+                        game:HttpGet(
+                            ("https://raw.githubusercontent.com/shlexware/Sirius/request/library/esp/esp.lua"),
+                            true
+                        )
+                    )()
+
+                    getgenv().espLib.options.enabled = true
+                    getgenv().espLib.options.minScaleFactorX = 1
+                    getgenv().espLib.options.maxScaleFactorX = 10
+                    getgenv().espLib.options.minScaleFactorY = 1
+                    getgenv().espLib.options.maxScaleFactorY = 10
+                    getgenv().espLib.options.boundingBox = false
+                    getgenv().espLib.options.boundingBoxDescending = true
+                    getgenv().espLib.options.font = 2
+                    getgenv().espLib.options.fontSize = 13
+                    getgenv().espLib.options.limitDistance = false
+                    getgenv().espLib.options.maxDistance = 99999
+                    getgenv().espLib.options.visibleOnly = false
+                    getgenv().espLib.options.teamCheck = false
+                    getgenv().espLib.options.teamColor = getgenv().TCStatus
+                    getgenv().espLib.options.fillColor = nil
+                    getgenv().espLib.options.whitelistColor = Color3.new(1, 0, 0)
+                    getgenv().espLib.options.outOfViewArrows = false
+                    getgenv().espLib.options.outOfViewArrowsFilled = false
+                    getgenv().espLib.options.outOfViewArrowsSize = 25
+                    getgenv().espLib.options.outOfViewArrowsRadius = 100
+                    getgenv().espLib.options.outOfViewArrowsColor = Color3.new(1, 1, 1)
+                    getgenv().espLib.options.outOfViewArrowsTransparency = 0.5
+                    getgenv().espLib.options.outOfViewArrowsOutline = false
+                    getgenv().espLib.options.outOfViewArrowsOutlineFilled = false
+                    getgenv().espLib.options.outOfViewArrowsOutlineColor = Color3.new(1, 1, 1)
+                    getgenv().espLib.options.outOfViewArrowsOutlineTransparency = 1
+                    getgenv().espLib.options.names = false
+                    getgenv().espLib.options.nameTransparency = 1
+                    getgenv().espLib.options.nameColor = Color3.new(1, 1, 1)
+                    getgenv().espLib.options.boxes = false
+                    getgenv().espLib.options.boxesTransparency = 1
+                    getgenv().espLib.options.boxesColor = Color3.new(1, 0, 0)
+                    getgenv().espLib.options.boxFill = false
+                    getgenv().espLib.options.boxFillTransparency = 0.5
+                    getgenv().espLib.options.boxFillColor = Color3.new(1, 0, 0)
+                    getgenv().espLib.options.healthBars = false
+                    getgenv().espLib.options.healthBarsSize = 1
+                    getgenv().espLib.options.healthBarsTransparency = 1
+                    getgenv().espLib.options.healthBarsColor = Color3.new(0, 1, 0)
+                    getgenv().espLib.options.healthText = false
+                    getgenv().espLib.options.healthTextTransparency = 1
+                    getgenv().espLib.options.healthTextSuffix = "%"
+                    getgenv().espLib.options.healthTextColor = Color3.new(1, 1, 1)
+                    getgenv().espLib.options.distance = false
+                    getgenv().espLib.options.distanceTransparency = 1
+                    getgenv().espLib.options.distanceSuffix = " Studs"
+                    getgenv().espLib.options.distanceColor = Color3.new(1, 1, 1)
+                    getgenv().espLib.options.tracers = false
+                    getgenv().espLib.options.tracerTransparency = 1
+                    getgenv().espLib.options.tracerColor = Color3.new(1, 1, 1)
+                    getgenv().espLib.options.tracerOrigin = "Bottom"
+                    getgenv().espLib.options.chams = true
+                    getgenv().espLib.options.chamsFillColor = Color3.new(0, 255, 0)
+                    getgenv().espLib.options.chamsFillTransparency = 0.45
+                    getgenv().espLib.options.chamsOutlineColor = Color3.new()
+                    getgenv().espLib.options.chamsOutlineTransparency = 0.05
+
+                    getgenv().espLib:Load()
+                end
             else
                 local NotificationHolder =
                     loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
                 local Notification =
                     loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
                 Notification:Notify(
-                    {Title = "Box Esp Disabled", Description = "You Can No Longer See Boxes On Other Players."},
+                    {Title = "Player ESP Disabled", Description = "You Can No Longer See ESP On Other Players."},
                     {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2.5, Type = "default"}
                 )
 
                 getgenv().BoxESP:Toggle(false)
-            end
-        end
-    }
-)
-
-getgenv().Section6_1:Keybind(
-    {
-        Text = "Tracer Esp Keybind",
-        Default = Enum.KeyCode.Clear,
-        Callback = function()
-            if getgenv().KeybindTracerEsp == 0 then
-                getgenv().KeybindTracerEsp = getgenv().KeybindTracerEsp + 1
-            elseif getgenv().KeybindTracerEsp == 1 then
-                getgenv().KeybindTracerEsp = getgenv().KeybindTracerEsp - 1
-            end
-
-            if getgenv().KeybindTracerEsp == 1 then
-                local NotificationHolder =
-                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
-                local Notification =
-                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
-                Notification:Notify(
-                    {Title = "Tracer Esp Enabled", Description = "You Can Now See Tracers To Other Players."},
-                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2.5, Type = "default"}
-                )
-
-                getgenv().TracerESP = loadstring(game:HttpGet("https://kiriot22.com/releases/ESP.lua"))()
-
-                getgenv().TracerESP.Tracers = true
-                getgenv().TracerESP.Names = false
-                getgenv().TracerESP.Boxes = false
-                getgenv().TracerESP.Temporary = true
-                getgenv().TracerESP.Color = Color3.new(0, 255, 0)
-                getgenv().TracerESP.TeamColor = true
-
-                getgenv().TracerESP:Toggle(true)
-            else
-                local NotificationHolder =
-                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
-                local Notification =
-                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
-                Notification:Notify(
-                    {Title = "Tracer Esp Disabled", Description = "You Can No Longer See Tracers To Other Players."},
-                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2.5, Type = "default"}
-                )
-                getgenv().TracerESP:Toggle(false)
-            end
-        end
-    }
-)
-
-getgenv().Section6_1:Keybind(
-    {
-        Text = "Chams Esp Keybind",
-        Default = Enum.KeyCode.Clear,
-        Callback = function()
-            if getgenv().KeybindChamsEsp == 0 then
-                getgenv().KeybindChamsEsp = getgenv().KeybindChamsEsp + 1
-            elseif getgenv().KeybindChamsEsp == 1 then
-                getgenv().KeybindChamsEsp = getgenv().KeybindChamsEsp - 1
-            end
-
-            if getgenv().KeybindChamsEsp == 1 then
-                local NotificationHolder =
-                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
-                local Notification =
-                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
-                Notification:Notify(
-                    {Title = "Chams Esp Enabled", Description = "You Can Now See Players Through Walls."},
-                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
-                )
-
-                getgenv().espLib =
-                    loadstring(
-                    game:HttpGet(
-                        ("https://raw.githubusercontent.com/shlexware/Sirius/request/library/esp/esp.lua"),
-                        true
-                    )
-                )()
-
-                getgenv().espLib.options.enabled = true
-                getgenv().espLib.options.minScaleFactorX = 1
-                getgenv().espLib.options.maxScaleFactorX = 10
-                getgenv().espLib.options.minScaleFactorY = 1
-                getgenv().espLib.options.maxScaleFactorY = 10
-                getgenv().espLib.options.boundingBox = false -- WARNING | Significant Performance Decrease when true
-                getgenv().espLib.options.boundingBoxDescending = true
-                getgenv().espLib.options.font = 2
-                getgenv().espLib.options.fontSize = 13
-                getgenv().espLib.options.limitDistance = false
-                getgenv().espLib.options.maxDistance = 99999
-                getgenv().espLib.options.visibleOnly = false
-                getgenv().espLib.options.teamCheck = false
-                getgenv().espLib.options.teamColor = true
-                getgenv().espLib.options.fillColor = nil
-                getgenv().espLib.options.whitelistColor = Color3.new(1, 0, 0)
-                getgenv().espLib.options.outOfViewArrows = false
-                getgenv().espLib.options.outOfViewArrowsFilled = false
-                getgenv().espLib.options.outOfViewArrowsSize = 25
-                getgenv().espLib.options.outOfViewArrowsRadius = 100
-                getgenv().espLib.options.outOfViewArrowsColor = Color3.new(1, 1, 1)
-                getgenv().espLib.options.outOfViewArrowsTransparency = 0.5
-                getgenv().espLib.options.outOfViewArrowsOutline = false
-                getgenv().espLib.options.outOfViewArrowsOutlineFilled = false
-                getgenv().espLib.options.outOfViewArrowsOutlineColor = Color3.new(1, 1, 1)
-                getgenv().espLib.options.outOfViewArrowsOutlineTransparency = 1
-                getgenv().espLib.options.names = false
-                getgenv().espLib.options.nameTransparency = 1
-                getgenv().espLib.options.nameColor = Color3.new(1, 1, 1)
-                getgenv().espLib.options.boxes = false
-                getgenv().espLib.options.boxesTransparency = 1
-                getgenv().espLib.options.boxesColor = Color3.new(1, 0, 0)
-                getgenv().espLib.options.boxFill = false
-                getgenv().espLib.options.boxFillTransparency = 0.5
-                getgenv().espLib.options.boxFillColor = Color3.new(1, 0, 0)
-                getgenv().espLib.options.healthBars = false
-                getgenv().espLib.options.healthBarsSize = 1
-                getgenv().espLib.options.healthBarsTransparency = 1
-                getgenv().espLib.options.healthBarsColor = Color3.new(0, 1, 0)
-                getgenv().espLib.options.healthText = false
-                getgenv().espLib.options.healthTextTransparency = 1
-                getgenv().espLib.options.healthTextSuffix = "%"
-                getgenv().espLib.options.healthTextColor = Color3.new(1, 1, 1)
-                getgenv().espLib.options.distance = false
-                getgenv().espLib.options.distanceTransparency = 1
-                getgenv().espLib.options.distanceSuffix = " Studs"
-                getgenv().espLib.options.distanceColor = Color3.new(1, 1, 1)
-                getgenv().espLib.options.tracers = false
-                getgenv().espLib.options.tracerTransparency = 1
-                getgenv().espLib.options.tracerColor = Color3.new(1, 1, 1)
-                getgenv().espLib.options.tracerOrigin = "Bottom" -- Available [Mouse, Top, Bottom]
-                getgenv().espLib.options.chams = true
-                getgenv().espLib.options.chamsFillColor = Color3.new(0, 255, 0)
-                getgenv().espLib.options.chamsFillTransparency = 0.45
-                getgenv().espLib.options.chamsOutlineColor = Color3.new()
-                getgenv().espLib.options.chamsOutlineTransparency = 0.05
-
-                getgenv().espLib:Load()
-            else
-                local NotificationHolder =
-                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
-                local Notification =
-                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
-                Notification:Notify(
-                    {Title = "Chams Disabled", Description = "You Can No Longer See Players Through Walls."},
-                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
-                )
-
                 getgenv().espLib:Unload()
             end
         end
@@ -2142,7 +2207,7 @@ getgenv().Section6_1:Keybind(
             end
             if getgenv().KeybindboxEsp == 1 then
                 for i, v in pairs(game:GetService("Workspace")["nn_russia"][".powerboxes"]:GetDescendants()) do
-                    if v.Name == "PowerInteract" and v.Parent.Name == "PowerBox" then -- i am just wondering that the part u wanna esp have these properties u can change them if it doesnt work
+                    if v.Name == "PowerInteract" and v.Parent.Name == "PowerBox" then
                         local BillboardGui = Instance.new("BillboardGui")
                         local TextLabel = Instance.new("TextLabel")
                         local botName = v.Parent.Name
@@ -2169,7 +2234,7 @@ getgenv().Section6_1:Keybind(
             function doPowerBoxEsp_mall()
                 if getgenv().KeybindboxEsp == 1 then
                     for i, v in pairs(game:GetService("Workspace")["nn_mall"][".powerboxes"]:GetDescendants()) do
-                        if v.Name == "PowerInteract" and v.Parent.Name == "PowerBox" then -- i am just wondering that the part u wanna esp have these properties u can change them if it doesnt work
+                        if v.Name == "PowerInteract" and v.Parent.Name == "PowerBox" then
                             local BillboardGui = Instance.new("BillboardGui")
                             local TextLabel = Instance.new("TextLabel")
 
@@ -2196,7 +2261,7 @@ getgenv().Section6_1:Keybind(
             function doPowerBoxEsp_russia()
                 if getgenv().KeybindboxEsp == 1 then
                     for i, v in pairs(game:GetService("Workspace")["nn_russia"][".powerboxes"]:GetDescendants()) do
-                        if v.Name == "PowerInteract" and v.Parent.Name == "PowerBox" then -- i am just wondering that the part u wanna esp have these properties u can change them if it doesnt work
+                        if v.Name == "PowerInteract" and v.Parent.Name == "PowerBox" then
                             local BillboardGui = Instance.new("BillboardGui")
                             local TextLabel = Instance.new("TextLabel")
 
@@ -2372,7 +2437,107 @@ getgenv().Section6_2:Keybind(
     }
 )
 
-loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/nn_b-akkeybind"))()
+if getgenv().xw0DLBPTqZkzEWOXx6qCScoNKSoBhGh or getgenv().UtlpHuOwhroliTt4DRSwzv4qdQYuK9M == true then
+    getgenv().Section6_2:Keybind(
+        {
+            Text = "Auto Kill Keybind",
+            Default = Enum.KeyCode.Clear,
+            Callback = function()
+                if getgenv().KeybindAutoKill == 0 then
+                    getgenv().KeybindAutoKill = getgenv().KeybindAutoKill + 1
+                elseif getgenv().KeybindAutoKill == 1 then
+                    getgenv().KeybindAutoKill = getgenv().KeybindAutoKill - 1
+                end
+                local AutoKillingCo = coroutine.create(function()
+                    while getgenv().KeybindAutoKill == 1 do
+                    task.wait()
+                    local radius = 3
+                    local yOffset = math.random(-75, 130)/100
+                    local angle = math.random(0, 2*math.pi)
+                    local offset = Vector3.new(math.cos(angle)*radius, yOffset, math.sin(angle)*radius)
+                    local Directionmulti = Vector3.new(math.random(80, 160)/100, math.random(20, 175)/100, math.random(80, 160)/100)
+                    local players = game:GetService("Players"):GetPlayers()
+                    local notFoundPlayers = {}
+
+                    local teleportStartTime = tick()
+                    local teleportCurrentTime = tick()
+
+                    if teleportCurrentTime - teleportStartTime >= 5 then
+                        for i = 1, 3 do
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-107.0163345336914, 85.84809875488281, -805.146484375)
+                                task.wait(0.25)
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1110.2471923828125, 89.2927017211914, -92.7923355102539)
+                        end
+                        teleportStartTime = teleportCurrentTime
+                    else
+                        task.wait()
+                    end
+                    
+
+                    for _, player in pairs(players) do
+                        if player.Character then
+                            local humanoid = player.Character:FindFirstChild("HumanoidRootPart")
+                            if humanoid then
+                                if player.Character.scripts.values.safe.Value == false then
+                                    if player.Character.scripts.values.botpossessed.Value == "" then
+                                        table.insert(notFoundPlayers, player)
+                                    end
+                                end
+                            end
+                        end
+                    end
+
+                    local players = notFoundPlayers
+                    local closestPlayer = nil
+                    local closestDistance = math.huge
+
+                    closestPlayer = nil
+                    closestDistance = math.huge
+                    for _, player in pairs(players) do
+                        if
+                            player.Character and player.Character:FindFirstChild("HumanoidRootPart") and
+                                player ~= game.Players.LocalPlayer and
+                                player.Character.Humanoid.Health ~= 0
+                        then
+                            local distance =
+                                (player.Character.HumanoidRootPart.Position -
+                                game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude
+                            if distance < closestDistance then
+                                closestPlayer = player
+                                closestDistance = distance
+                            end
+                        end
+                    end
+                    if closestPlayer and _G.DoTeleports then
+                        local distance = (closestPlayer.Character.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude
+                        if distance <= getgenv().TPAuraRange then
+                            local x = closestPlayer.Character.Head.CFrame.lookVector.X
+                            local z = closestPlayer.Character.Head.CFrame.lookVector.Z
+                            local newVector = Vector3.new(x, 0, z)
+
+                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(closestPlayer.Character.HumanoidRootPart.Position + offset) + (newVector * math.random(135, 250)/100)
+                        end
+                    end
+                    notFoundPlayers = {}
+                    gcinfo("count")
+                    gcinfo("collect")
+                end
+            end)
+                
+            if getgenv().KeybindAutoKill == 1 then
+                _G.DoTeleports = true
+                coroutine.resume(AutoKillingCo)
+            else
+                _G.DoTeleports = false
+                coroutine.yield(AutoKillingCo)
+                notFoundPlayers = {}
+                lastPos = currentPos
+                gcinfo("count")
+                gcinfo("collect")
+            end
+        end
+    })
+end
 
 if game.PlaceId ~= 10118559731 then
     local drop =
@@ -2381,7 +2546,7 @@ if game.PlaceId ~= 10118559731 then
             Text = "Nico's Nextbots | Working",
             List = {"Teleport"},
             Callback = function(v)
-                local placeid = 10118559731 -- Enter your place ID
+                local placeid = 10118559731
 
                 for i, v in pairs(game:FindFirstChildOfClass("Players"):GetPlayers()) do
                     if v ~= game.Players.LocalPlayer then
@@ -2408,7 +2573,7 @@ local drop =
         Text = "Doors | Working",
         List = {"Teleport"},
         Callback = function(v)
-            local placeid = 6516141723 -- Enter your place ID
+            local placeid = 6516141723
 
             for i, v in pairs(game:FindFirstChildOfClass("Players"):GetPlayers()) do
                 if v ~= game.Players.LocalPlayer then
@@ -2418,7 +2583,7 @@ local drop =
             task.wait(0.5)
             local NotificationBindable = Instance.new("BindableFunction")
             NotificationBindable.OnInvoke = callback
-            --
+
             game.StarterGui:SetCore(
                 "SendNotification",
                 {

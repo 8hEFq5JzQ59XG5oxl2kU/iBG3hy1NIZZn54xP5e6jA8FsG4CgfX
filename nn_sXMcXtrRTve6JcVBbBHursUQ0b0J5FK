@@ -1070,7 +1070,7 @@ getgenv().Section2:Toggle(
         Text = "Disable Scary",
         Callback = function(bool)
             if bool == true then
-                game:GetService("Players")["slowpi_OnTop"].PlayerGui.scary:Destroy()
+                game.Players.LocalPlayer.PlayerGui.scary:Destroy()
             end
 
             local humanoid = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")

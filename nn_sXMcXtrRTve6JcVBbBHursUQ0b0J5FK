@@ -1946,7 +1946,7 @@ getgenv().Section6:Keybind(
 
 getgenv().Section6:Keybind(
     {
-        Text = "Noclip Keybind",
+        Text = "Invisibility Keybind",
         Default = Enum.KeyCode.Clear,
         Callback = function()
             if getgenv().KeybindInvisibility == 0 then

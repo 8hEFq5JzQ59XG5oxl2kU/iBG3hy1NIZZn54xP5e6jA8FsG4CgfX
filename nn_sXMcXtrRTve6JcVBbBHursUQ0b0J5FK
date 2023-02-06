@@ -153,7 +153,7 @@ getgenv().DoWalkSpeed = false
 getgenv().DoJumpPower = false
 getgenv().DoGravity = false
 
-local tostringLocalPlayerName = tostring(game:GetService("Players").LocalPlayer.name)
+local tostringLocalPlayerName = tostring(game:GetService("Players").LocalPlayer.Name)
 
 spawn(function()
     while not game.workspace:WaitForChild(tostringLocalPlayerName) do
@@ -169,23 +169,41 @@ else
     walkspeed = 10
 end
 
+getgenv().walking = false
+
+game:GetService("UserInputService").InputBegan:Connect(
+    function(inputObject, gameProcessedEvent)
+        if
+            inputObject.KeyCode == Enum.KeyCode.W or inputObject.KeyCode == Enum.KeyCode.A or
+                inputObject.KeyCode == Enum.KeyCode.S or
+                inputObject.KeyCode == Enum.KeyCode.D
+         then
+            getgenv().walking = true
+        end
+    end
+)
+
+game:GetService("UserInputService").InputEnded:Connect(
+    function(inputObject, gameProcessedEvent)
+        if
+            not (game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.W) or
+                game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.A) or
+                game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.S) or
+                game:GetService("UserInputService"):IsKeyDown(Enum.KeyCode.D))
+         then
+            getgenv().walking = false
+        end
+    end
+)
+
 getgenv().Section:Slider(
     {
         Text = "Walkspeed",
         Default = walkspeed,
         Minimum = 1,
-        Maximum = 200,
+        Maximum = 250,
         Callback = function(Value)
-            spawn(function()
-                while getgenv().DoWalkSpeed == true do
-                    task.wait()
-                    if getgenv().DoWalkSpeed == true then
-                        local currentVelocity = game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity
-                        local newVelocity = Vector3.new(game.Players.LocalPlayer.Character.Humanoid.MoveDirection.X * Value, currentVelocity.Y, game.Players.LocalPlayer.Character.Humanoid.MoveDirection.Z * Value)
-                        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = newVelocity
-                    end
-                end
-            end)
+            getgenv().WalkSpeedValue = Value
         end
     }
 )
@@ -199,6 +217,20 @@ getgenv().Section:Toggle(
             else
                 getgenv().DoWalkSpeed = false
             end
+
+            spawn(function()
+                while getgenv().DoWalkSpeed == true do
+                    task.wait()
+                    if getgenv().walking == true then
+                        local currentVelocity = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity
+                        local newVelocity = Vector3.new(game.Players.LocalPlayer.Character.Humanoid.MoveDirection.X * getgenv().WalkSpeedValue, currentVelocity.Y, game.Players.LocalPlayer.Character.Humanoid.MoveDirection.Z * getgenv().WalkSpeedValue)
+                        game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = newVelocity
+                    else
+                        game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = Vector3.new(0, game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity.Y ,0)
+                    end
+                end
+            end)
+
         end
     }
 )
@@ -240,7 +272,7 @@ game:GetService("UserInputService").InputBegan:Connect(function(inputObject)
     if inputObject.KeyCode == Enum.KeyCode.Space then
         if getgenv().DoJumpPower and getgenv().MakeJump == true then
             task.wait(0.01)
-            game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity.X, getgenv().thejumppower, game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity.Z)   
+            game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = Vector3.new(game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity.X, getgenv().thejumppower, game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity.Z)   
         end
     end
 end)
@@ -470,7 +502,7 @@ getgenv().Section:Toggle(
                 if inputObject.KeyCode == Enum.KeyCode.Space then
                     if getgenv().InfiniteJumpEnabled == true then
                         task.wait(0.01)
-                        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity.X, getgenv().thejumppower, game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity.Z)   
+                        game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = Vector3.new(game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity.X, getgenv().thejumppower, game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity.Z)   
                     end
                 end
             end)
@@ -484,21 +516,29 @@ getgenv().Section:Toggle(
     {
         Text = "Noclip",
         Callback = function(bool)
+            getgenv().DoTheNoclip = bool
             local humanoid = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
             local savedPosition = Vector3.new(humanoid.Position.X, humanoid.Position.Y, humanoid.Position.Z)
 
-            while bool == true do
-                local humanoid = game.Players.LocalPlayer.Character.HumanoidRootPart
-                local savedPosition = Vector3.new(humanoid.Position.X, humanoid.Position.Y, humanoid.Position.Z)
-                game.Players.LocalPlayer.Character.collisionPart.CanCollide = false
-                game.Players.LocalPlayer.Character.collisionPart.Anchored = true
-                game.Players.LocalPlayer.Character.HumanoidRootPart.collisionWeld.Enabled = false
-                task.wait()
+        spawn(function()
+            while getgenv().DoTheNoclip == true do
+                if getgenv().DoTheNoclip ~= false then
+                    local humanoid = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
+                    local savedPosition = Vector3.new(humanoid.Position.X, humanoid.Position.Y, humanoid.Position.Z)
+                    game.Players.LocalPlayer.Character.collisionPart.CanCollide = false
+                    game.Players.LocalPlayer.Character.collisionPart.Anchored = true
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.collisionWeld.Enabled = false
+                    task.wait()
+                end
             end
+        end)
             if bool == false then
                 game:GetService("ReplicatedStorage").events.player.char.respawnchar:FireServer()
                 task.wait(1.75)
                 game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(savedPosition)
+                game.Players.LocalPlayer.Character.collisionPart.CanCollide = true
+                game.Players.LocalPlayer.Character.collisionPart.Anchored = false
+                game.Players.LocalPlayer.Character.HumanoidRootPart.collisionWeld.Enabled = true
             end
         end
     }
@@ -508,52 +548,85 @@ getgenv().Section:Toggle(
     {
         Text = "Invisibility",
         Callback = function(bool)
-            for _, descendant in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
-                if descendant:IsA("MeshPart") or descendant:IsA("Part") and descendant.Name ~= "collisionPart" then
-                    descendant.CanCollide = bool
-                end
-            end
-            
+            local invis_on = false
+            local humanoid = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
+            local savedPosition = Vector3.new(humanoid.Position.X, humanoid.Position.Y, humanoid.Position.Z)
+
             if bool == true then
-                game.Players.LocalPlayer.Character.LowerTorso.Name = "slowpihax-Invisibility"
-                    task.wait(0.25)
-                game.Players.LocalPlayer.Character["slowpihax-Invisibility"].Parent = game:GetService("Workspace")
-                    task.wait(0.25)
-                game:GetService("Workspace")["slowpihax-Invisibility"].Position = game:GetService("Workspace")["slowpihax-Invisibility"].Position + Vector3.new(0, 987, 0)
-            elseif bool == false then
-                game:GetService("ReplicatedStorage").events.player.char.respawnchar:FireServer()
-            end
-        end
-    }
-)
-
-getgenv().TCStatus = true
-
-local drop =
-    getgenv().Section2:Dropdown(
-    {
-        Text = "Team Colors",
-        List = {"Enable Team Colors", "Disable Team Colors"},
-        Callback = function(bool)
-            if bool == ("Enable Team Colors") then
-                getgenv().TCStatus = true
+                invis_on = true
+                local NotificationHolder =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Invisibility Enabled", Description = "You Are Now Invisible."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
+                )
             else
-                getgenv().TCStatus = false
+                invis_on = false
+                workspace:FindFirstChild("invischair"):Remove()
+                local NotificationHolder =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
+                local Notification =
+                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
+                Notification:Notify(
+                    {Title = "Invisibility Disabled", Description = "You Are No Longer Invisible."},
+                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
+                )
             end
+
+            if bool == true then
+                invis_on = true
+                if invis_on == true then
+                    local savedpos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+                    wait()
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(0, 2000, 0)
+                    wait(.15)
+                    local Seat = Instance.new("Seat", game.Workspace)
+                    Seat.Anchored = false
+                    Seat.CanCollide = false
+                    Seat.Name = "invischair"
+                    Seat.Transparency = 1
+                    Seat.Position = Vector3.new(0, 2000, 0)
+                    local Weld = Instance.new("Weld", Seat)
+                    Weld.Part0 = Seat
+                    Weld.Part1 =
+                        game.Players.LocalPlayer.Character:FindFirstChild("Torso") or
+                        game.Players.LocalPlayer.Character.UpperTorso
+                    wait()
+                    Seat.CFrame = savedpos
+                end
+            else
+                invis_on = false
+                game:GetService("ReplicatedStorage").events.player.char.respawnchar:FireServer()
+                task.wait(1.75)
+                game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(savedPosition)
+            end
+
+            spawn(function()
+                while bool == true do
+                    local humanoid = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
+                    local savedPosition = Vector3.new(humanoid.Position.X, humanoid.Position.Y, humanoid.Position.Z)
+                    task.wait()
+                end
+            end)
+
         end
     }
 )
+
 
 getgenv().PlayerBoxEsp = false
 getgenv().PlayerTracerEsp = false
 getgenv().PlayerChamsEsp = false
 getgenv().PlayerNametagEsp = false
+getgenv().TCStatus = true
 
 local dropPlayerEspSettings =
     getgenv().Section2:Dropdown(
     {
         Text = "Player ESP Settings",
-        List = {"Toggle Box ESP", "Toggle Tracer ESP", "Toggle Chams ESP", "Toggle Nametags ESP"},
+        List = {"Toggle Box ESP", "Toggle Tracer ESP", "Toggle Chams ESP", "Toggle Nametags ESP", "Toggle Team Colors"},
         Callback = function(bool)
             if bool == ("Toggle Box ESP") then
                 getgenv().PlayerBoxEsp = not getgenv().PlayerBoxEsp
@@ -563,6 +636,8 @@ local dropPlayerEspSettings =
                 getgenv().PlayerChamsEsp = not getgenv().PlayerChamsEsp
             elseif bool == ("Toggle Nametags ESP") then
                 getgenv().PlayerNametagEsp = not getgenv().PlayerNametagEsp
+            elseif bool == ("Toggle Team Colors") then
+                getgenv().TCStatus = not getgenv().TCStatus
             end
         end
     }
@@ -780,124 +855,121 @@ Section2:Toggle(
     {
         Text = "Power Box ESP",
         Callback = function(bool)
-            function doPowerBoxEsp_russia()
-                if bool == true then
-                    for i, v in pairs(game:GetService("Workspace")["nn_russia"][".powerboxes"]:GetDescendants()) do
-                        if v.Name == "PowerInteract" and v.Parent.Name == "PowerBox" then
-                            local BillboardGui = Instance.new("BillboardGui")
-                            local TextLabel = Instance.new("TextLabel")
-                            local botName = v.Parent.Name
-
-                            BillboardGui.Name = "BoxEsp_slowpihax"
-                            BillboardGui.Parent = v.Parent
-                            BillboardGui.AlwaysOnTop = true
-                            BillboardGui.LightInfluence = 1
-                            BillboardGui.Size = UDim2.new(0, 50, 0, 50)
-                            BillboardGui.StudsOffset = Vector3.new(0, 2, 0)
-
-                            TextLabel.Parent = BillboardGui
-                            TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
-                            TextLabel.BackgroundTransparency = 1
-                            TextLabel.Size = UDim2.new(1.25, 0, 1.25, 0)
-                            TextLabel.Text = botName
-                            TextLabel.TextColor3 = Color3.new(0, 255, 0)
-                            TextLabel.TextScaled = false
-                        end
-                    end
-                elseif bool == false then
-                end
-            end
-
-            function doPowerBoxEsp_mall()
-                if bool == true then
-                    for i, v in pairs(game:GetService("Workspace")["nn_mall"][".powerboxes"]:GetDescendants()) do
-                        if v.Name == "PowerInteract" and v.Parent.Name == "PowerBox" then
-                            local BillboardGui = Instance.new("BillboardGui")
-                            local TextLabel = Instance.new("TextLabel")
-
-                            BillboardGui.Name = "BoxEsp_slowpihax"
-                            BillboardGui.Parent = v.Parent
-                            BillboardGui.AlwaysOnTop = true
-                            BillboardGui.LightInfluence = 1
-                            BillboardGui.Size = UDim2.new(0, 50, 0, 50)
-                            BillboardGui.StudsOffset = Vector3.new(0, 1, 0)
-
-                            TextLabel.Parent = BillboardGui
-                            TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
-                            TextLabel.BackgroundTransparency = 1
-                            TextLabel.Size = UDim2.new(1.25, 0, 1.25, 0)
-                            TextLabel.Text = "Power Box"
-                            TextLabel.TextColor3 = Color3.new(0, 255, 0)
-                            TextLabel.TextScaled = false
-                        end
-                    end
-                elseif bool == false then
-                end
-            end
-
-            function doPowerBoxEsp_russia()
-                if bool == true then
-                    for i, v in pairs(game:GetService("Workspace")["nn_russia"][".powerboxes"]:GetDescendants()) do
-                        if v.Name == "PowerInteract" and v.Parent.Name == "PowerBox" then
-                            local BillboardGui = Instance.new("BillboardGui")
-                            local TextLabel = Instance.new("TextLabel")
-
-                            BillboardGui.Name = "BoxEsp_slowpihax"
-                            BillboardGui.Parent = v.Parent
-                            BillboardGui.AlwaysOnTop = true
-                            BillboardGui.LightInfluence = 1
-                            BillboardGui.Size = UDim2.new(0, 50, 0, 50)
-                            BillboardGui.StudsOffset = Vector3.new(0, 1, 0)
-
-                            TextLabel.Parent = BillboardGui
-                            TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
-                            TextLabel.BackgroundTransparency = 1
-                            TextLabel.Size = UDim2.new(1.25, 0, 1.25, 0)
-                            TextLabel.Text = "Power Box"
-                            TextLabel.TextColor3 = Color3.new(0, 255, 0)
-                            TextLabel.TextScaled = false
-                        end
-                    end
-                elseif bool == false then
-                end
-            end
-
             if bool == true then
-                local NotificationHolder =
-                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
-                local Notification =
-                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
-                Notification:Notify(
-                    {Title = "Power Box Enabled", Description = "You Can Now See All The Boxes."},
-                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
+                getgenv().PowerBoxESP = loadstring(game:HttpGet("https://kiriot22.com/releases/ESP.lua"))()
+
+                getgenv().PowerBoxESP.Tracers = true
+                getgenv().PowerBoxESP.Names = true
+                getgenv().PowerBoxESP.Boxes = true
+                getgenv().PowerBoxESP.Players = false
+                getgenv().PowerBoxESP.FaceCamera = true
+
+                spawn(function()
+                    while bool == true do
+                        for i,v in pairs(game:GetService("Workspace")["nn_mall"][".powerboxes"]:GetDescendants()) do
+                            if v.Name == "PowerInteract" and v.Parent.Name == "PowerBox" then
+                                if not v.Parent:FindFirstChild("slowpihax-PowerBoxEsp") then
+                                    local a = Instance.new("Part")
+                                    a.Parent = v.Parent
+                                    a.Name = "slowpihax-PowerBoxEsp"
+                                    a.Anchored = true
+                                    a.Transparency = 1
+                                    a.CanCollide = false
+                                    a.CFrame = CFrame.new(v.Parent.Position + Vector3.new(0, 1.5, 0))
+                                elseif v.Parent:FindFirstChild("slowpihax-PowerBoxEsp") and not v.Parent:FindFirstChild("PowerInteract") then
+                                    v.Parent:FindFirstChild("slowpihax-PowerBoxEsp"):Destroy()
+                                end
+                            elseif v.Name == "PowerBox" then
+                                if not v:FindFirstChild("PowerInteract") and v:FindFirstChild("slowpihax-PowerBoxEsp") then
+                                    v:FindFirstChild("slowpihax-PowerBoxEsp"):Destroy()
+                                end
+                            end
+                        end
+
+                        for i,v in pairs(game:GetService("Workspace")["nn_russia"][".powerboxes"]:GetDescendants()) do
+                            if v.Name == "PowerInteract" and v.Parent.Name == "PowerBox" then
+                                if not v.Parent:FindFirstChild("slowpihax-PowerBoxEsp") then
+                                    local a = Instance.new("Part")
+                                    a.Parent = v.Parent
+                                    a.Name = "slowpihax-PowerBoxEsp"
+                                    a.Anchored = true
+                                    a.Transparency = 1
+                                    a.CanCollide = false
+                                    a.CFrame = CFrame.new(v.Parent.Position + Vector3.new(0, 1.5, 0))
+                                elseif v.Parent:FindFirstChild("slowpihax-PowerBoxEsp") and not v.Parent:FindFirstChild("PowerInteract") then
+                                    v.Parent:FindFirstChild("slowpihax-PowerBoxEsp"):Destroy()
+                                end
+                            elseif v.Name == "PowerBox" then
+                                if not v:FindFirstChild("PowerInteract") and v:FindFirstChild("slowpihax-PowerBoxEsp") then
+                                    v:FindFirstChild("slowpihax-PowerBoxEsp"):Destroy()
+                                end
+                            end
+                        end
+                        task.wait(0.05)
+                    end
+                end)
+
+                getgenv().PowerBoxESP:AddObjectListener(
+                    game:GetService("Workspace")["nn_mall"][".powerboxes"],
+                    {
+                        Recursive = true,
+                        Name = "slowpihax-PowerBoxEsp",
+                        CustomName = "Power Box",
+                        Color = Color3.fromRGB(0, 255, 0),
+                        IsEnabled = "PowerESP"
+                    }
                 )
 
-                doPowerBoxEsp_mall()
-                task.wait(0.25)
-                doPowerBoxEsp_mall()
-
-                if game:GetService("Workspace"):FindFirstChild("PowerInteract") == "nil" then
-                    for i, v in pairs(game:GetService("Workspace"):GetDescendants()) do
-                        if v.ClassName == "BillboardGui" and v.Name == "BoxEsp_slowpihax" then
-                            v:Destroy()
+                game:GetService("Workspace")["nn_mall"][".powerboxes"].DescendantAdded:Connect(
+                    function(Descendant)
+                        if Descendant:IsA("Part") then
+                            getgenv().PowerBoxESP:AddObjectListener(
+                                game:GetService("Workspace")["nn_mall"][".powerboxes"],
+                                {
+                                    Recursive = true,
+                                    Name = "slowpihax-PowerBoxEsp",
+                                    CustomName = "Power Box",
+                                    Color = Color3.fromRGB(0, 255, 0),
+                                    IsEnabled = "PowerESP"
+                                }
+                            )
                         end
                     end
-                end
-            elseif bool == false then
-                local NotificationHolder =
-                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
-                local Notification =
-                    loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
-                Notification:Notify(
-                    {Title = "Power Box Disabled", Description = "You Can No Longer See All The Boxes."},
-                    {OutlineColor = Color3.fromRGB(80, 80, 80), Time = 2, Type = "default"}
                 )
 
-                for i, v in pairs(game:GetService("Workspace"):GetDescendants()) do
-                    if v.ClassName == "BillboardGui" and v.Name == "BoxEsp_slowpihax" then
-                        v:Destroy()
+                getgenv().PowerBoxESP:AddObjectListener(
+                    game:GetService("Workspace")["nn_russia"][".powerboxes"],
+                    {
+                        Recursive = true,
+                        Name = "slowpihax-PowerBoxEsp",
+                        CustomName = "Power Box",
+                        Color = Color3.fromRGB(0, 255, 0),
+                        IsEnabled = "PowerESP"
+                    }
+                )
+
+                game:GetService("Workspace")["nn_russia"][".powerboxes"].DescendantAdded:Connect(
+                    function(Descendant)
+                        if Descendant:IsA("Part") then
+                            getgenv().PowerBoxESP:AddObjectListener(
+                                game:GetService("Workspace")["nn_russia"][".powerboxes"],
+                                {
+                                    Recursive = true,
+                                    Name = "slowpihax-PowerBoxEsp",
+                                    CustomName = "Power Box",
+                                    Color = Color3.fromRGB(0, 255, 0),
+                                    IsEnabled = "PowerESP"
+                                }
+                            )
+                        end
                     end
-                end
+                )
+
+                getgenv().PowerBoxESP.PowerESP = true
+                getgenv().PowerBoxESP:Toggle(true)
+            else
+                getgenv().PowerBoxESP.PowerESP = false
+                getgenv().PowerBoxESP:Toggle(false)
             end
         end
     }
@@ -1269,6 +1341,13 @@ getgenv().Section3:Toggle(
 
             partloop()
             autofarmloop()
+
+            spawn(function()
+                while bool == true do
+                    task.wait()
+                    game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("player"):WaitForChild("local"):WaitForChild("punch"):FireServer()
+                end
+            end)
         end
     }
 )
@@ -1389,6 +1468,7 @@ getgenv().Section4:Toggle(
 
         for _, v in pairs(players:GetPlayers()) do
             local playerRole = v:GetRoleInGroup(groupId)
+            task.wait(2.05)
             if table.find(blacklistedRoles, playerRole) then
                 if bool == true then
                     player:Kick(string.format("The [%s] %s has joined the game.", playerRole, v.Name))
@@ -1397,6 +1477,7 @@ getgenv().Section4:Toggle(
         end
 
         players.PlayerAdded:Connect(function(v)
+        task.wait(2.05)
         local playerRole = v:GetRoleInGroup(groupId)
         if table.find(blacklistedRoles, playerRole) then
             if bool == true then
@@ -1432,12 +1513,13 @@ getgenv().Section4:Toggle(
 
             local AntiVoidLoop = coroutine.create(function()
                 while getgenv().yuhh == true do
+                    task.wait()
                     if getgenv().yuhh == true then
                     task.wait()
                         if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
                             local humanoidRootPart = player.Character.HumanoidRootPart
                             local currentTime = tick()
-                            if humanoidRootPart.Position.Y < -450 then
+                            if humanoidRootPart.Position.Y < -437 then
                                 humanoidRootPart.Velocity = Vector3.new(0,0,0)
                                 humanoidRootPart.CFrame = CFrame.new(lastGroundPosition)
                                 humanoidRootPart.Velocity = Vector3.new(0,0,0)
@@ -1454,49 +1536,6 @@ getgenv().Section4:Toggle(
             else
                 coroutine.yield(AntiVoidLoop)
             end
-        end
-    }
-)
-
-loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/nn_breakbots"))()
-
-getgenv().BuyAmount = 1
-
-local drop = Section4:Dropdown({
-    Text = "Buy Gear",
-    List = {"Snownall", "Firework", "Bloxy Cola", "Possessor"},
-    Callback = function(v)
-        local ChosenGear = "Snowball"
-            if v == "Snowball" then
-                ChosenGear = "Snowball"
-            elseif v == "Firework" then
-                ChosenGear = "Firework"
-            elseif v == "Bloxy Cola" then
-                ChosenGear = "BloxyCola"
-            elseif v == "Possessor" then
-                ChosenGear = "Possessor"
-            end
-
-            task.wait(0.05)
-            
-                local args = {
-                    [1] = ChosenGear,
-                    [2] = "Gear",
-                    [3] = getgenv().BuyAmount
-                }
-                
-                game:GetService("ReplicatedStorage"):WaitForChild("events"):WaitForChild("game"):WaitForChild("global"):WaitForChild("shoppurchasebux"):InvokeServer(unpack(args))
-    end
-})
-
-getgenv().Section4:Slider(
-    {
-        Text = "Buy Amount",
-        Default = 1,
-        Minimum = 1,
-        Maximum = 1000,
-        Callback = function(Value)
-            getgenv().BuyAmount = Value
         end
     }
 )
@@ -1558,7 +1597,7 @@ getgenv().Section5_1:Button(
         Text = "Safezone 1",
         Callback = function()
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                CFrame.new(-1373.6168212890625, -210.00192260742188, 109.6145248413086)
+                CFrame.new(-1577.9761962890625, -86.09324645996094, 466.0253601074219)
         end
     }
 )
@@ -1568,7 +1607,7 @@ getgenv().Section5_1:Button(
         Text = "Safezone 2",
         Callback = function()
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                CFrame.new(-1390.869140625, -210.00192260742188, 96.177490234375)
+                CFrame.new(-1324.193359375, -86.26140594482422, 88.25579833984375)
         end
     }
 )
@@ -1578,7 +1617,7 @@ getgenv().Section5_1:Button(
         Text = "Safezone 3",
         Callback = function()
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                CFrame.new(-1939.1170654296875, -210.00192260742188, 56.25541687011719)
+                CFrame.new(-1879.9508056640625, -85.56594848632812, 51.14085006713867)
         end
     }
 )
@@ -1648,7 +1687,7 @@ getgenv().Section5_3:Button(
         Text = "nn_playground",
         Callback = function()
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
-                CFrame.new(-3085.5, -315.5020751953125, -1064.5)
+                CFrame.new(-3085.52587890625, -261.9003601074219, -1073.654296875)
         end
     }
 )
@@ -1972,7 +2011,6 @@ getgenv().Section6:Keybind(
         end
     }
 )
-
 
 getgenv().Section6_1:Keybind(
     {
@@ -2437,107 +2475,7 @@ getgenv().Section6_2:Keybind(
     }
 )
 
-if getgenv().xw0DLBPTqZkzEWOXx6qCScoNKSoBhGh or getgenv().UtlpHuOwhroliTt4DRSwzv4qdQYuK9M == true then
-    getgenv().Section6_2:Keybind(
-        {
-            Text = "Auto Kill Keybind",
-            Default = Enum.KeyCode.Clear,
-            Callback = function()
-                if getgenv().KeybindAutoKill == 0 then
-                    getgenv().KeybindAutoKill = getgenv().KeybindAutoKill + 1
-                elseif getgenv().KeybindAutoKill == 1 then
-                    getgenv().KeybindAutoKill = getgenv().KeybindAutoKill - 1
-                end
-                local AutoKillingCo = coroutine.create(function()
-                    while getgenv().KeybindAutoKill == 1 do
-                    task.wait()
-                    local radius = 3
-                    local yOffset = math.random(-75, 130)/100
-                    local angle = math.random(0, 2*math.pi)
-                    local offset = Vector3.new(math.cos(angle)*radius, yOffset, math.sin(angle)*radius)
-                    local Directionmulti = Vector3.new(math.random(80, 160)/100, math.random(20, 175)/100, math.random(80, 160)/100)
-                    local players = game:GetService("Players"):GetPlayers()
-                    local notFoundPlayers = {}
-
-                    local teleportStartTime = tick()
-                    local teleportCurrentTime = tick()
-
-                    if teleportCurrentTime - teleportStartTime >= 5 then
-                        for i = 1, 3 do
-                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-107.0163345336914, 85.84809875488281, -805.146484375)
-                                task.wait(0.25)
-                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1110.2471923828125, 89.2927017211914, -92.7923355102539)
-                        end
-                        teleportStartTime = teleportCurrentTime
-                    else
-                        task.wait()
-                    end
-                    
-
-                    for _, player in pairs(players) do
-                        if player.Character then
-                            local humanoid = player.Character:FindFirstChild("HumanoidRootPart")
-                            if humanoid then
-                                if player.Character.scripts.values.safe.Value == false then
-                                    if player.Character.scripts.values.botpossessed.Value == "" then
-                                        table.insert(notFoundPlayers, player)
-                                    end
-                                end
-                            end
-                        end
-                    end
-
-                    local players = notFoundPlayers
-                    local closestPlayer = nil
-                    local closestDistance = math.huge
-
-                    closestPlayer = nil
-                    closestDistance = math.huge
-                    for _, player in pairs(players) do
-                        if
-                            player.Character and player.Character:FindFirstChild("HumanoidRootPart") and
-                                player ~= game.Players.LocalPlayer and
-                                player.Character.Humanoid.Health ~= 0
-                        then
-                            local distance =
-                                (player.Character.HumanoidRootPart.Position -
-                                game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude
-                            if distance < closestDistance then
-                                closestPlayer = player
-                                closestDistance = distance
-                            end
-                        end
-                    end
-                    if closestPlayer and _G.DoTeleports then
-                        local distance = (closestPlayer.Character.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude
-                        if distance <= getgenv().TPAuraRange then
-                            local x = closestPlayer.Character.Head.CFrame.lookVector.X
-                            local z = closestPlayer.Character.Head.CFrame.lookVector.Z
-                            local newVector = Vector3.new(x, 0, z)
-
-                            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(closestPlayer.Character.HumanoidRootPart.Position + offset) + (newVector * math.random(135, 250)/100)
-                        end
-                    end
-                    notFoundPlayers = {}
-                    gcinfo("count")
-                    gcinfo("collect")
-                end
-            end)
-                
-            if getgenv().KeybindAutoKill == 1 then
-                _G.DoTeleports = true
-                coroutine.resume(AutoKillingCo)
-            else
-                _G.DoTeleports = false
-                coroutine.yield(AutoKillingCo)
-                notFoundPlayers = {}
-                lastPos = currentPos
-                gcinfo("count")
-                gcinfo("collect")
-            end
-        end
-    })
-end
+loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/0KUNh1t5jCWeTAFM/8mqsGtYULMu9MfI8/main/nn_b-akkeybind"))()
 
 if game.PlaceId ~= 10118559731 then
     local drop =

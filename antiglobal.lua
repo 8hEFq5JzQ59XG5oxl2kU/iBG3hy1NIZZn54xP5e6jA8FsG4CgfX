@@ -1,5 +1,5 @@
 spawn(function()
-local totalG = 5000
+local totalG = 40
   local gPerSecond = totalG / 10
   local gCount = 0
   local names = {}
@@ -52,7 +52,7 @@ local totalG = 5000
 
   task.wait(11)
 
-  local totalG = 5000
+  local totalG = 15
   local gPerSecond = totalG / 10
   local gCount = 0
   local names = {}
